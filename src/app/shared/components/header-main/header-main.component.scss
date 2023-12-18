@@ -3,3 +3,13 @@ img {
     padding-right: 4px;
     border-radius: 10px;
 }
+
+.btn-iniciar-sesion {
+  margin-right: 1em;
+}
+
+@media (max-width: 769px) {
+    ion-label {
+      display: none;
+    }
+}
