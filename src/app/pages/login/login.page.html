@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="home" mode="md" text=""></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" mode="ios">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              <div class="card-title">
+                <ion-img src="../../../assets/img/logo2.webp"></ion-img>
+                <ion-text color="primary" class="ion-text-center"> <h1>Iniciar sesión</h1> </ion-text>
+              </div>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-input label="Correo" labelPlacement="floating" type="email" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input label="Contraseña" labelPlacement="floating" type="password" required></ion-input>
+            </ion-item>
+            <ion-button expand="block" color="primary" [routerLink]="['/home']">Iniciar sesión</ion-button>
+            <ion-button expand="block" color="secondary" [routerLink]="['/register']">Registrarse</ion-button>
+            <div class="ion-text-right">
+              <ion-button fill="clear" shape="round" [routerLink]="['/restore-pass']"> Olvidé mi contraseña
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

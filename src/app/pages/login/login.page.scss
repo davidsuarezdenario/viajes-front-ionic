@@ -1,0 +1,29 @@
+.center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-col{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-card{
+    border-radius: 10px;
+    width: 500px;
+}
+
+.card-title {
+    width: 100%;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+ion-img {
+    height: 100px;
+    width: auto;
+}

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonCard, IonText } from '@ionic/angular/standalone';
-import { HeaderMainComponent } from "../shared/components/header-main/header-main.component";
-import { SearchMainComponent } from "../shared/components/search-main/search-main.component";
+import { HeaderMainComponent } from "../../shared/components/header-main/header-main.component";
+import { SearchMainComponent } from "../../shared/components/search-main/search-main.component";
 
 @Component({
   selector: 'app-home',
