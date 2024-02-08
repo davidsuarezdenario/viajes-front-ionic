@@ -1,10 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar mode="ios">
-    <ion-buttons slot="start">
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="home" mode="md" text=""></ion-back-button>
-      </ion-buttons>
-    </ion-buttons>
+    <ion-grid fixed class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12">
+          <ion-toolbar mode="ios">
+            <ion-buttons slot="start">
+              <ion-buttons slot="start">
+                <ion-back-button defaultHref="home" mode="ios" text="atrás"></ion-back-button>
+              </ion-buttons>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
@@ -16,8 +24,10 @@
           <ion-card-header>
             <ion-card-title>
               <div class="card-title">
-                <ion-img src="../../../assets/img/logo2.webp"></ion-img>
-                <ion-text color="primary" class="ion-text-center"> <h1>Iniciar sesión</h1> </ion-text>
+                <ion-img src="assets/img/logo2.webp"></ion-img>
+                <ion-text color="primary" class="ion-text-center">
+                  <h1>Iniciar sesión</h1>
+                </ion-text>
               </div>
             </ion-card-title>
           </ion-card-header>
