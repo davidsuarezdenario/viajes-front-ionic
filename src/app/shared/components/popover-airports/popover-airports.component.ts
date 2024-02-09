@@ -86,11 +86,11 @@ export class PopoverAirportsComponent  implements OnInit {
   selectAirport(airport: any) {
     if (this.field == 'from') {
       this.glbService.selectAirportFrom = airport;
-      this.glbService.searchFrom = `${airport.city.name}, ${airport.city.country.name}`;
+      this.glbService.searchFrom = `${airport.city.name}-${airport.code}`;
     }
     else if (this.field == 'to') {
       this.glbService.selectAirportTo = airport;
-      this.glbService.searchTo = `${airport.city.name}, ${airport.city.country.name}`;
+      this.glbService.searchTo = `${airport.city.name}-${airport.code}`;
     }
     this.dismissPopover();
     console.log('airport: ', airport);
