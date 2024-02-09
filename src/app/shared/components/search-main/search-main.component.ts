@@ -15,8 +15,10 @@ import { ApiService } from "../../services/api/api.service";
   imports: [CommonModule, FormsModule, IonicModule],
 })
 export class SearchMainComponent implements OnInit {
+  @ViewChild('popover') popover: any;
 
-  searchBussy: boolean = false;
+  searchBusy: boolean = false;
+  isOpen: boolean = false;
 
   constructor(
     public glbService: GlbService,
@@ -27,36 +29,57 @@ export class SearchMainComponent implements OnInit {
 
   ngOnInit() { }
 
-  firstSearch() {
-    console.log('firstSearch: ', this.glbService.searchTo);
-    /* manejo de control de formulario */
-    if (this.searchBussy) return;
-    if (this.glbService.searchTo.length < 3) { this.glbService.airports = []; return; }
-    this.searchApi(this.glbService.searchTo);
+  presentPopover(e: Event) {
+    this.popover.event = e;
+    this.isOpen = true;
+  }
+  dismissPopover() {
+    this.isOpen = false;
+  }
+
+  firstSearch(ev: any = null) {
+    this.presentPopover(ev);
+    if (this.canSearch()) {
+      this.searchApi(this.glbService.searchTo);
+    }
+  }
+
+  canSearch(): boolean {
+    if (this.searchBusy) return false;
+    if (this.glbService.searchTo.length < 3) {
+      this.resetSearch();
+      return false;
+    }
+    return true;
+  }
+
+  resetSearch() {
+    this.searchBusy = false;
+    this.glbService.airports = [];
+    this.dismissPopover();
   }
 
   async searchApi(searchTo: string) {
-    console.log('searchApi: ', searchTo);
-    this.searchBussy = true;
-    const body = {
-      search: searchTo,
-    };
+    this.searchBusy = true;
+    const body = { search: searchTo };
     try {
       const response: any = await this.apiService.post('/travel/search_airport', body);
-      console.log('searchApi response: ', response);
       if (!response.error) this.handleResponse(response.data);
     } catch (error) {
-      console.error('searchApi error: ', error);
+      this.handleError(error);
     } finally {
-      this.searchBussy = false;
+      this.searchBusy = false;
       if (searchTo != this.glbService.searchTo) this.firstSearch();
     }
   }
 
+  handleError(error: any) {
+    // Handle error here
+  }
+
   handleResponse(data: any) {
-    console.log('handleResponse data: ', data);
     this.glbService.airports = data.locations;
-    console.log('handleResponse airports: ', this.glbService.airports);
+    if (this.glbService.airports.length == 0) this.dismissPopover();
   }
 
 }

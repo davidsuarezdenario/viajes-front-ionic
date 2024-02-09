@@ -1,23 +1,8 @@
-<!-- <ion-list>
-  <ion-item lines="none" class="ion-text-center">
-    <ion-input type="text" placeholder="origen" [(ngModel)]="glbService.searchFrom" (keyup.enter)="firstSearch()"></ion-input>
-    <ion-button slot="end" fill="clear" shape="round" (click)="firstSearch()">
-      <ion-icon slot="icon-only" size="large" name="search"></ion-icon>
-    </ion-button>
-  </ion-item>
-  <ion-item lines="none" class="ion-text-center">
-    <ion-input type="text" placeholder="¿a dónde quieres ir?" [(ngModel)]="glbService.searchTo" (keyup.enter)="firstSearch()"></ion-input>
-    <ion-button slot="end" fill="clear" shape="round" (click)="firstSearch()">
-      <ion-icon slot="icon-only" size="large" name="search"></ion-icon>
-    </ion-button>
-  </ion-item>
-</ion-list> -->
-
 <ion-grid>
   <ion-row>
     <ion-col>
       <ion-item lines="none">
-        <ion-select value="idaVuelta" placeholder="Selecciona">
+        <ion-select value="idaVuelta" placeholder="Selecciona" interface="popover" mode="ios">
           <ion-select-option value="idaVuelta">Ida y vuelta</ion-select-option>
           <ion-select-option value="soloIda">Solo ida</ion-select-option>
           <ion-select-option value="multiplesDestinos">Multiples destinos</ion-select-option>
@@ -27,7 +12,7 @@
     </ion-col>
     <ion-col>
       <ion-item lines="none">
-        <ion-select value="1" placeholder="Selecciona">
+        <ion-select value="1" placeholder="Selecciona" interface="popover" mode="ios">
           <ion-select-option value="1">1 pasajero</ion-select-option>
           <ion-select-option value="2">2 pasajeros</ion-select-option>
           <ion-select-option value="3">3 pasajeros</ion-select-option>
@@ -38,23 +23,26 @@
     </ion-col>
     <ion-col>
       <ion-item lines="none" class="ion-text-center">
-        <ion-input type="text" placeholder="origen" [(ngModel)]="glbService.searchFrom" debounce="10" (ionChange)="firstSearch()"></ion-input>
+        <ion-input type="text" placeholder="origen" [(ngModel)]="glbService.searchFrom" debounce="10" (ionChange)="firstSearch($event)"></ion-input>
       </ion-item>
     </ion-col>
     <ion-col>
       <ion-item lines="none" class="ion-text-center">
-        <ion-input type="text" placeholder="destino" [(ngModel)]="glbService.searchTo" debounce="200" (ionInput)="firstSearch()"></ion-input>
+        <ion-input type="text" placeholder="destino" [(ngModel)]="glbService.searchTo" debounce="200" (ionInput)="firstSearch($event)"></ion-input>
       </ion-item>
-      <div *ngIf="glbService.airports.length>0">
-        <ion-list>
-          <div *ngFor="let airport of glbService.airports">
-            <p>
+      <ion-popover #popover [isOpen]="isOpen" (didDismiss)="dismissPopover()" mode="ios" keyboardClose="false" style="--min-width: 300px;">
+        <ng-template>
+          <div class="ion-text-center" *ngIf="glbService.airports.length==0">
+            <ion-spinner name="bubbles" color="primary"></ion-spinner>
+          </div>
+          <div *ngFor="let airport of glbService.airports" class="item-modal">
+            <p class="p-modal">
               {{airport.city.name}}, {{airport.city.country.name}}<br>
               <small>{{airport.name}}</small>
             </p>
           </div>
-        </ion-list>
-      </div>
+        </ng-template>
+      </ion-popover>
     </ion-col>
     <ion-col class="ion-no-padding">
       <ion-button fill="outline" shape="round" mode="ios">
