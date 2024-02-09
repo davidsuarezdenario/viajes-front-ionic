@@ -88,6 +88,7 @@ export class LoginPage implements OnInit {
     );
     this.loginForm.reset();
     this.router.navigate(['/home']);
+    window.location.reload();
   }
 
   handleError(error: any) {
