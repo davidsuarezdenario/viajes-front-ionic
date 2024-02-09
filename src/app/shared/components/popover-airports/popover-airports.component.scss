@@ -1,0 +1,14 @@
+.item-popover {
+    cursor: pointer;
+    border-bottom: 1px solid var(--ion-color-primary);
+
+    :hover {
+        background: var(--ion-color-primary);
+        color: var(--ion-color-light);
+    }
+}
+
+.p-popover {
+    margin: 0;
+    padding: 5px;
+}

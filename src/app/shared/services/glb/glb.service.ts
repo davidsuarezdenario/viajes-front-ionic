@@ -11,6 +11,8 @@ export class GlbService {
 
   searchFrom: string = "";
   searchTo: string = "";
+  selectAirportFrom: any = {};
+  selectAirportTo: any = {};
   airports: any = [];
 
   constructor() { }
