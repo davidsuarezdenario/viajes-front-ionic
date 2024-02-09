@@ -1,9 +1,10 @@
 ion-item {
+    min-width: 127px;
     border: 1px solid var(--ion-color-primary);
     border-radius: 10px;
 }
 
-ion-button {
+/* ion-button {
     margin-right: -16px;
     border-left: 1px solid var(--ion-color-primary);
-}
+} */

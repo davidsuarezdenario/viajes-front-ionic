@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from "@angular/common";
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonCard, IonText } from '@ionic/angular/standalone';
 import { HeaderMainComponent } from "../../shared/components/header-main/header-main.component";
 import { SearchMainComponent } from "../../shared/components/search-main/search-main.component";
 import { ApiService } from "../../shared/services/api/api.service";
@@ -12,7 +13,7 @@ import { AlertMainComponent } from "../../shared/components/alert-main/alert-mai
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, HeaderMainComponent, SearchMainComponent, IonGrid, IonRow, IonCol, IonCard, IonText, AlertMainComponent],
+  imports: [CommonModule, FormsModule, IonicModule, HeaderMainComponent, SearchMainComponent, AlertMainComponent],
 })
 export class HomePage implements OnInit {
 
@@ -25,7 +26,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private glbService: GlbService
+    public glbService: GlbService
   ) {
     this.lettersBanner1 = this.mainBanner1.split("");
     this.lettersBanner2 = this.mainBanner2.split("");

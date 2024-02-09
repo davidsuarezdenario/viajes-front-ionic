@@ -9,5 +9,9 @@ export class GlbService {
   idCliente: string = "";
   userData: any = {};
 
+  searchFrom: string = "";
+  searchTo: string = "";
+  airports: any = [];
+
   constructor() { }
 }

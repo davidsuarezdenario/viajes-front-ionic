@@ -18,7 +18,7 @@ ion-card {
   /* max-width: 450px; */
 }
 
-.banner{
+.banner {
   width: 100%;
   padding: 20px;
   text-align: center;
@@ -41,7 +41,8 @@ ion-card {
 }
 
 @keyframes matrixEffect {
-  0%, 50% {
+  0%,
+  50% {
     color: #fff;
     opacity: 1;
   }
@@ -57,14 +58,15 @@ ion-card {
     color: #fff;
     opacity: 0.55;
   }
-  70%, 100% {
+  70%,
+  100% {
     color: #fff;
     opacity: 0.3;
   }
 }
 
 .matrix-text {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 1.5em;
   font-weight: bolder;
   line-height: 1em;
@@ -85,4 +87,9 @@ ion-card {
       animation-delay: 1.5s; // Retrasar la animación cada 4 elementos
     }
   }
+}
+
+.card-airports {
+  height: 100%;
+  width: 100%;
 }
