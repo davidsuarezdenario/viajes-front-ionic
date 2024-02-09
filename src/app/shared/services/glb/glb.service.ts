@@ -15,5 +15,17 @@ export class GlbService {
   selectAirportTo: any = {};
   airports: any = [];
 
+  passengers: any = {
+    adult: 1,
+    child: 0,
+    infant: 0
+  }
+  get totalPassengers() { return this.passengers.adult + this.passengers.child + this.passengers.infant; }
+  bags: any = {
+    hand: 0,
+    hold: 0
+  }
+  get totalBags() { return this.bags.hand + this.bags.hold; }
+
   constructor() { }
 }

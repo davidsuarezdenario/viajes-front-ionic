@@ -1,0 +1,57 @@
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item lines="full">
+          <ion-label>
+            <ion-icon name="person-outline"></ion-icon>
+            Adultos
+            <p>Más de 11</p>
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button (click)="decrement('adult')">
+              <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+            </ion-button>
+            <ion-note>{{ glbService.passengers.adult }}</ion-note>
+            <ion-button (click)="increment('adult')">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label>
+            <ion-icon name="happy-outline"></ion-icon>
+            Niños
+            <p>2 - 11</p>
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button (click)="decrement('child')">
+              <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+            </ion-button>
+            <ion-note>{{ glbService.passengers.child }}</ion-note>
+            <ion-button (click)="increment('child')">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label>
+            <ion-icon name="happy-outline"></ion-icon>
+            Bebés
+            <p>Menos de 2</p>
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button (click)="decrement('infant')">
+              <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+            </ion-button>
+            <ion-note>{{ glbService.passengers.infant }}</ion-note>
+            <ion-button (click)="increment('infant')">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-list>
+    
+    </ion-content>
+  </ng-template>
+</ion-popover>

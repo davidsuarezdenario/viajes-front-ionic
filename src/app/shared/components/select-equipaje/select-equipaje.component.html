@@ -1,0 +1,38 @@
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item lines="full">
+          <ion-label>
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            Piezas de equipaje de mano
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button (click)="decrement('hand')">
+              <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+            </ion-button>
+            <ion-note>{{ glbService.bags.hand }}</ion-note>
+            <ion-button (click)="increment('hand')">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label>
+            <ion-icon name="bag-check-outline"></ion-icon>
+            Piezas de equipaje facturado
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button (click)="decrement('hold')">
+              <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+            </ion-button>
+            <ion-note>{{ glbService.bags.hold }}</ion-note>
+            <ion-button (click)="increment('hold')">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>

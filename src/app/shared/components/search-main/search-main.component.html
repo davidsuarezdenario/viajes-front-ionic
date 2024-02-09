@@ -1,8 +1,8 @@
-<ion-grid>
+<ion-grid mode="ios">
   <ion-row>
     <ion-col>
       <ion-item lines="none">
-        <ion-select value="idaVuelta" placeholder="Selecciona" interface="popover" mode="ios">
+        <ion-select value="idaVuelta" placeholder="Selecciona" interface="popover">
           <ion-select-option value="idaVuelta">Ida y vuelta</ion-select-option>
           <ion-select-option value="soloIda">Solo ida</ion-select-option>
           <ion-select-option value="multiplesDestinos">Multiples destinos</ion-select-option>
@@ -12,23 +12,44 @@
     </ion-col>
     <ion-col>
       <ion-item lines="none">
-        <ion-select value="1" placeholder="Selecciona" interface="popover" mode="ios">
-          <ion-select-option value="1">1 pasajero</ion-select-option>
-          <ion-select-option value="2">2 pasajeros</ion-select-option>
-          <ion-select-option value="3">3 pasajeros</ion-select-option>
-          <ion-select-option value="4">4 pasajeros</ion-select-option>
-          <ion-select-option value="5">5 pasajeros</ion-select-option>
+        <ion-select value="economica" placeholder="Clase" interface="popover">
+          <ion-select-option value="economica">Clase económica</ion-select-option>
+          <ion-select-option value="premium">Clase premium</ion-select-option>
+          <ion-select-option value="business">Business</ion-select-option>
+          <ion-select-option value="primera">Primera clase</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-col>
     <ion-col>
+      <ion-item lines="none" (click)="selectPasajerosComponent.presentPopover($event)">
+        <ion-text class="flex-item">
+          {{glbService.totalPassengers}} pasajero(s)
+          <ion-icon name="chevron-expand"></ion-icon>
+        </ion-text>
+      </ion-item>
+      <app-select-pasajeros></app-select-pasajeros>
+    </ion-col>
+    <ion-col>
+      <ion-item lines="none" (click)="selectEquipajeComponent.presentPopover($event)">
+        <ion-text class="flex-item">
+          {{glbService.totalBags}} maleta(s)
+          <ion-icon name="chevron-expand"></ion-icon>
+        </ion-text>
+      </ion-item>
+      <app-select-equipaje></app-select-equipaje>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
       <ion-item lines="none" class="ion-text-center">
-        <ion-input type="text" placeholder="origen" debounce="100" [(ngModel)]="glbService.searchFrom" (ionInput)="popoverAirportsComponent.airportSearch($event,'from')"></ion-input>
+        <ion-input type="text" placeholder="origen" debounce="100" [(ngModel)]="glbService.searchFrom"
+          (ionInput)="popoverAirportsComponent.airportSearch($event,'from')"></ion-input>
       </ion-item>
     </ion-col>
     <ion-col>
       <ion-item lines="none" class="ion-text-center">
-        <ion-input type="text" placeholder="destino" debounce="100" [(ngModel)]="glbService.searchTo" (ionInput)="popoverAirportsComponent.airportSearch($event,'to')"></ion-input>
+        <ion-input type="text" placeholder="destino" debounce="100" [(ngModel)]="glbService.searchTo"
+          (ionInput)="popoverAirportsComponent.airportSearch($event,'to')"></ion-input>
       </ion-item>
     </ion-col>
     <ion-col class="ion-no-padding">
