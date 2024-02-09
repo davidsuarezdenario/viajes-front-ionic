@@ -32,21 +32,43 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-item>
-              <ion-input label="Correo" labelPlacement="floating" type="email" required></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input label="Contraseña" labelPlacement="floating" type="password" required></ion-input>
-            </ion-item>
-            <ion-button expand="block" color="primary" [routerLink]="['/home']">Iniciar sesión</ion-button>
+            <form [formGroup]="loginForm">
+              <ion-item lines="none">
+                <ion-input 
+                  formControlName="email" 
+                  label="Correo" 
+                  labelPlacement="floating" 
+                  type="email" 
+                  fill="solid"
+                  errorText={{loginFormErrors.email}}
+                  required="true"
+                  ></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-input 
+                  formControlName="password" 
+                  label="Contraseña" 
+                  labelPlacement="floating"
+                  type="password"
+                  errorText={{loginFormErrors.password}}
+                  required="true"
+                  ></ion-input>
+              </ion-item>
+              <ion-button expand="block" color="primary" (click)="login()" [disabled]="enSpinner">
+                Iniciar sesión
+                <ion-spinner name="dots" *ngIf="enSpinner"></ion-spinner>
+              </ion-button>
+            </form>
             <ion-button expand="block" color="secondary" [routerLink]="['/register']">Registrarse</ion-button>
             <div class="ion-text-right">
-              <ion-button fill="clear" shape="round" [routerLink]="['/restore-pass']"> Olvidé mi contraseña
-              </ion-button>
+              <ion-button fill="clear" shape="round" [routerLink]="['/restore-pass']"> Olvidé mi contraseña </ion-button>
             </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <app-alert-main></app-alert-main>
+
 </ion-content>
