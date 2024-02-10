@@ -4,6 +4,7 @@
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
       <ion-datetime [id]="ref" presentation="date"></ion-datetime>
+      <ion-button (click)="modalController.dismiss()">Aceptar</ion-button>
     </ng-template>
   </ion-modal>
 </div>
