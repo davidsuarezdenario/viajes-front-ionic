@@ -1,0 +1,9 @@
+<div *ngIf="ref">
+  <ion-label class="label-floating-date">{{label}}</ion-label>
+  <ion-datetime-button [datetime]="ref"></ion-datetime-button>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime [id]="ref" presentation="date"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+</div>

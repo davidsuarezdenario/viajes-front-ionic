@@ -40,16 +40,28 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col>
+    <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input type="text" placeholder="origen" debounce="100" [(ngModel)]="glbService.searchFrom"
+        <ion-input label="Origen" labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
+          [(ngModel)]="glbService.searchFrom"
           (ionInput)="popoverAirportsComponent.airportSearch($event,'from')"></ion-input>
       </ion-item>
     </ion-col>
-    <ion-col>
+    <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input type="text" placeholder="destino" debounce="100" [(ngModel)]="glbService.searchTo"
+        <ion-input label="Destino" labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
+          [(ngModel)]="glbService.searchTo"
           (ionInput)="popoverAirportsComponent.airportSearch($event,'to')"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <ion-item class="min-width-ion-item">
+        <app-date-select label="Salida" ref="datetime1"></app-date-select>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <ion-item class="min-width-ion-item">
+        <app-date-select label="Regreso" ref="datetime2"></app-date-select>
       </ion-item>
     </ion-col>
     <ion-col class="ion-no-padding">

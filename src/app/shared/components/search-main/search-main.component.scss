@@ -1,7 +1,10 @@
 ion-item {
-    min-width: 150px;
     border: 1px solid var(--ion-color-primary);
     border-radius: 10px;
+}
+
+.min-width-ion-item {
+    min-width: 210px;
 }
 
 .flex-item {
@@ -9,4 +12,4 @@ ion-item {
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
-  }
+}
