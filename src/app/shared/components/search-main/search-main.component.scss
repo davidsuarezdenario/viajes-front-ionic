@@ -1,6 +1,20 @@
+ion-col {
+    padding: 3px;
+}
+
 ion-item {
     border: 1px solid var(--ion-color-primary);
     border-radius: 10px;
+}
+
+ion-select {
+    font-weight: bold;
+    color: #000;
+}
+
+ion-input {
+    font-weight: bold;
+    color: #000;
 }
 
 .min-width-ion-item2 {
@@ -12,8 +26,31 @@ ion-item {
 }
 
 .flex-item {
+    cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: nowrap;
+}
+
+.flex-item2 {
+    min-width: 127px;
+    cursor: pointer;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    font-weight: bold;
+    color: #000;
+}
+
+.space-items {
+    margin-left: 10px;
+}
+
+@media (max-width: 570px) {
+    .flex-item {
+        flex-wrap: wrap;
+    }
 }

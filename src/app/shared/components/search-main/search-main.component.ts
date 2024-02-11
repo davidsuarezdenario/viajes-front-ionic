@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { IonGrid, IonRow, IonCol, IonItem, IonSelect, IonSelectOption, IonButton, IonInput, IonText, IonIcon, IonLabel, IonDatetime, IonDatetimeButton, IonModal } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { chevronExpand } from "ionicons/icons";
+import { chevronExpand, people, bag } from "ionicons/icons";
 import { GlbService } from "../../services/glb/glb.service";
 /* import { ApiService } from "../../services/api/api.service"; */
 import { PopoverAirportsComponent } from "../popover-airports/popover-airports.component";
@@ -27,7 +27,7 @@ export class SearchMainComponent implements OnInit {
     public glbService: GlbService,
     /* private apiService: ApiService */
   ) {
-    addIcons({ chevronExpand });
+    addIcons({ chevronExpand, people, bag });
   }
 
   ngOnInit() { }

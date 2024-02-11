@@ -1,57 +1,55 @@
 <ion-grid mode="ios">
   <ion-row>
-    <ion-col>
-      <ion-item lines="none">
-        <ion-select value="idaVuelta" placeholder="Selecciona" interface="popover">
-          <ion-select-option value="idaVuelta">Ida y vuelta</ion-select-option>
-          <ion-select-option value="soloIda">Solo ida</ion-select-option>
-          <ion-select-option value="multiplesDestinos">Multiples destinos</ion-select-option>
-          <ion-select-option value="nomad">Nomad</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-col>
-    <ion-col>
-      <ion-item lines="none">
-        <ion-select value="economica" placeholder="Clase" interface="popover">
-          <ion-select-option value="economica">Clase económica</ion-select-option>
-          <ion-select-option value="premium">Clase premium</ion-select-option>
-          <ion-select-option value="business">Business</ion-select-option>
-          <ion-select-option value="primera">Primera clase</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-col>
-    <ion-col>
-      <ion-item lines="none" (click)="selectPasajerosComponent.presentPopover($event)" class="min-width-ion-item2">
-        <ion-text class="flex-item">
-          {{glbService.totalPassengers}} pasajero(s)
-          <ion-icon name="chevron-expand"></ion-icon>
-        </ion-text>
-      </ion-item>
-      <app-select-pasajeros></app-select-pasajeros>
-    </ion-col>
-    <ion-col>
-      <ion-item lines="none" (click)="selectEquipajeComponent.presentPopover($event)">
-        <ion-text class="flex-item">
-          {{glbService.totalBags}} maleta(s)
-          <ion-icon name="chevron-expand"></ion-icon>
-        </ion-text>
-      </ion-item>
-      <app-select-equipaje></app-select-equipaje>
+    <ion-col size="12">
+      <div class="flex-item">
+        <div class="space-items">
+          <ion-select value="idaVuelta" placeholder="Selecciona" interface="popover">
+            <ion-select-option value="idaVuelta">Ida y vuelta</ion-select-option>
+            <ion-select-option value="soloIda">Solo ida</ion-select-option>
+            <ion-select-option value="multiplesDestinos">Multiples destinos</ion-select-option>
+            <ion-select-option value="nomad">Nomad</ion-select-option>
+          </ion-select>
+        </div>
+        <div class="space-items">
+          <ion-select value="economica" placeholder="Clase" interface="popover">
+            <ion-select-option value="economica">Clase económica</ion-select-option>
+            <ion-select-option value="premium">Clase premium</ion-select-option>
+            <ion-select-option value="business">Business</ion-select-option>
+            <ion-select-option value="primera">Primera clase</ion-select-option>
+          </ion-select>
+        </div>
+        <div (click)="selectPasajerosComponent.presentPopover($event)" class="flex-item2 space-items">
+          <ion-icon slot="start" name="people" color="dark" size="small" style="margin-right: 5px;"></ion-icon>
+          <ion-text> {{glbService.totalPassengers}} pasajero(s) </ion-text>
+          <ion-icon name="chevron-expand" size="small" color="dark"></ion-icon>
+          <app-select-pasajeros></app-select-pasajeros>
+        </div>
+        <div (click)="selectEquipajeComponent.presentPopover($event)" class="flex-item2 space-items">
+          <ion-icon slot="start" name="bag" color="dark" size="small" style="margin-right: 5px;"></ion-icon>
+          <ion-text> {{glbService.totalBags}} maleta(s) </ion-text>
+          <ion-icon name="chevron-expand" size="small" color="dark"></ion-icon>
+          <app-select-equipaje></app-select-equipaje>
+        </div>
+      </div>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input label="Origen" labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
+        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
           [(ngModel)]="glbService.searchFrom"
-          (ionInput)="popoverAirportsComponent.airportSearch($event,'from')"></ion-input>
+          (ionInput)="popoverAirportsComponent.airportSearch($event,'from')">
+          <div slot="label" style="font-weight: lighter;">Origen</div>
+        </ion-input>
       </ion-item>
     </ion-col>
     <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input label="Destino" labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
+        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
           [(ngModel)]="glbService.searchTo"
-          (ionInput)="popoverAirportsComponent.airportSearch($event,'to')"></ion-input>
+          (ionInput)="popoverAirportsComponent.airportSearch($event,'to')">
+          <div slot="label" style="font-weight: lighter;">Destino</div>
+        </ion-input>
       </ion-item>
     </ion-col>
     <ion-col>
@@ -64,7 +62,7 @@
         <app-date-select label="Regreso" ref="datetime2"></app-date-select>
       </ion-item>
     </ion-col>
-    <ion-col class="ion-no-padding">
+    <ion-col>
       <ion-button fill="outline" shape="round" mode="ios" (click)="explorar()">
         Explorar
       </ion-button>
