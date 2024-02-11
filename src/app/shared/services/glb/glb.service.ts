@@ -29,6 +29,13 @@ export class GlbService {
     hold: 0
   }
   get totalBags() { return this.bags.hand + this.bags.hold; }
+  trips: string = "idaVuelta";
+  clase: string = "M";
+  dateFrom: string = "";
+  dateTo: string = "";
+
+  bookingloading: boolean = false;
+  bookingResults: any = [];
 
   constructor() { 
     this.initCityFrom();

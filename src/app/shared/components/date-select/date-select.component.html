@@ -5,8 +5,8 @@
   </div>
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
-      <ion-datetime [id]="ref" presentation="date"></ion-datetime>
-      <ion-button (click)="modalController.dismiss()">Aceptar</ion-button>
+      <ion-datetime [id]="ref" presentation="date" [(ngModel)]="date" (ionChange)="accept()"></ion-datetime>
+      <!-- <ion-button (click)="accept()">Aceptar</ion-button> -->
     </ng-template>
   </ion-modal>
 </div>

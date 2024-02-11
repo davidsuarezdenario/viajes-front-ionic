@@ -3,7 +3,7 @@
     <ion-col size="12">
       <div class="flex-item">
         <div class="space-items">
-          <ion-select value="idaVuelta" placeholder="Selecciona" interface="popover">
+          <ion-select [(ngModel)]="glbService.trips" placeholder="Selecciona" interface="popover">
             <ion-select-option value="idaVuelta">Ida y vuelta</ion-select-option>
             <ion-select-option value="soloIda">Solo ida</ion-select-option>
             <ion-select-option value="multiplesDestinos">Multiples destinos</ion-select-option>
@@ -11,11 +11,11 @@
           </ion-select>
         </div>
         <div class="space-items">
-          <ion-select value="economica" placeholder="Clase" interface="popover">
-            <ion-select-option value="economica">Clase económica</ion-select-option>
-            <ion-select-option value="premium">Clase premium</ion-select-option>
-            <ion-select-option value="business">Business</ion-select-option>
-            <ion-select-option value="primera">Primera clase</ion-select-option>
+          <ion-select [(ngModel)]="glbService.clase" placeholder="Clase" interface="popover">
+            <ion-select-option value="M">Clase económica</ion-select-option>
+            <ion-select-option value="W">Clase premium</ion-select-option>
+            <ion-select-option value="C">Business</ion-select-option>
+            <ion-select-option value="F">Primera clase</ion-select-option>
           </ion-select>
         </div>
         <div (click)="selectPasajerosComponent.presentPopover($event)" class="flex-item2 space-items">
@@ -54,12 +54,12 @@
     </ion-col>
     <ion-col>
       <ion-item class="min-width-ion-item">
-        <app-date-select label="Salida" ref="datetime1"></app-date-select>
+        <app-date-select label="Salida" ref="datetime1" (dateSelected)="glbService.dateFrom = $event"></app-date-select>
       </ion-item>
     </ion-col>
     <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
       <ion-item class="min-width-ion-item">
-        <app-date-select label="Regreso" ref="datetime2"></app-date-select>
+        <app-date-select label="Regreso" ref="datetime2" (dateSelected)="glbService.dateTo = $event"></app-date-select>
       </ion-item>
     </ion-col>
     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="2,4"> 
