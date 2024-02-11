@@ -43,7 +43,7 @@
         </ion-input>
       </ion-item>
     </ion-col>
-    <ion-col class="min-width-ion-item">
+    <ion-col class="min-width-ion-item" size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
       <ion-item lines="none" class="ion-text-center">
         <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
           [(ngModel)]="glbService.searchTo"
@@ -57,14 +57,14 @@
         <app-date-select label="Salida" ref="datetime1"></app-date-select>
       </ion-item>
     </ion-col>
-    <ion-col>
+    <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
       <ion-item class="min-width-ion-item">
         <app-date-select label="Regreso" ref="datetime2"></app-date-select>
       </ion-item>
     </ion-col>
-    <ion-col> 
-      <ion-button fill="outline" shape="round" mode="ios" (click)="explorar()">
-        Explorar
+    <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="2,4"> 
+      <ion-button fill="solid" shape="round" mode="ios" (click)="explorar()" expand="block">
+        Buscar
       </ion-button>
     </ion-col>
     <app-popover-airports></app-popover-airports>
