@@ -2,3 +2,11 @@
     font-size: smaller;
     margin: 7px 0px 0px 0px;
 }
+
+.center-content {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important; 
+    margin-top: -3px;
+    margin-bottom: 3px;
+}
