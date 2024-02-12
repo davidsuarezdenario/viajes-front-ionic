@@ -7,13 +7,14 @@ import { SearchMainComponent } from "../../shared/components/search-main/search-
 import { ApiService } from "../../shared/services/api/api.service";
 import { GlbService } from "../../shared/services/glb/glb.service";
 import { AlertMainComponent } from "../../shared/components/alert-main/alert-main.component";
+import { BookingComponent } from "../../shared/components/booking/booking.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, HeaderMainComponent, SearchMainComponent, AlertMainComponent],
+  imports: [CommonModule, FormsModule, IonicModule, HeaderMainComponent, SearchMainComponent, AlertMainComponent, BookingComponent],
 })
 export class HomePage implements OnInit {
 

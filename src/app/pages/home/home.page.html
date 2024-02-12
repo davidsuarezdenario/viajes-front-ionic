@@ -1,6 +1,22 @@
-<app-header-main></app-header-main>
+<ion-header>
+    <app-header-main></app-header-main>
+</ion-header>
+<ion-header mode="ios" *ngIf="glbService.bookingResults.length>0">
+    <ion-toolbar class="ion-no-padding">
+        <ion-grid fixed class="ion-no-padding">
+            <ion-row>
+                <ion-col size="12">
+                    <ion-toolbar style="margin-top: -20px;">
+                        <app-search-main></app-search-main>
+                    </ion-toolbar>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-progress-bar type="indeterminate" *ngIf="glbService.bookingloading" style="z-index: 1000;"></ion-progress-bar>
+    </ion-toolbar>
+</ion-header>
 <ion-content>
-    <div class="banner">
+    <div class="banner" *ngIf="glbService.bookingResults.length==0">
         <ion-grid fixed class="ion-no-padding">
             <ion-row>
                 <ion-col size="12">
@@ -14,24 +30,19 @@
                         <app-search-main></app-search-main>
                     </ion-card>
                 </ion-col>
-                <ion-col size="12" *ngIf="glbService.bookingResults.length==0">
-                    <ion-text> <h4><b>Todos los vuelos en una única búsqueda</b></h4> </ion-text>
+                <ion-col size="12">
+                    <ion-text>
+                        <h4><b>Todos los vuelos en una única búsqueda</b></h4>
+                    </ion-text>
                 </ion-col>
             </ion-row>
         </ion-grid>
+        <ion-progress-bar type="indeterminate" *ngIf="glbService.bookingloading"></ion-progress-bar>
     </div>
-    <ion-grid fixed>
+    <ion-grid fixed *ngIf="glbService.bookingResults.length>0">
         <ion-row>
-            <ion-col size="12" *ngIf="glbService.bookingloading">
-                <ion-item lines="none" style="--background: transparent; font-weight: bold;">
-                    <ion-text slot="start"> <h4><b>Buscando los mejores resultados para ti</b></h4> </ion-text>
-                    <ion-spinner name="bubbles" slot="end" color="primary"></ion-spinner>
-                </ion-item>
-            </ion-col>
-            <ion-col size="12" *ngIf="glbService.bookingResults.length>0">
-                <ion-text color="primary">
-                    {{glbService.bookingResults}}
-                </ion-text>
+            <ion-col size="12" *ngFor="let booking of glbService.bookingResults">
+                <app-booking [booking]="booking"></app-booking>
             </ion-col>
         </ion-row>
     </ion-grid>

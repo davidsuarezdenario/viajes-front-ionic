@@ -12,7 +12,7 @@ import { ApiService } from "../../services/api/api.service";
   standalone: true,
   imports: [CommonModule, FormsModule, IonicModule],
 })
-export class PopoverAirportsComponent  implements OnInit {
+export class PopoverAirportsComponent implements OnInit {
   @ViewChild('popover') popover: any;
 
   isOpen: boolean = false;
@@ -25,10 +25,17 @@ export class PopoverAirportsComponent  implements OnInit {
     private apiService: ApiService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   dismissPopover() {
     this.isOpen = false;
+    const airport = this.field === 'from' ? this.glbService.selectAirportFrom : this.glbService.selectAirportTo;
+    const searchField = this.field === 'from' ? 'searchFrom' : 'searchTo';
+    if (!airport.code) {
+      this.glbService[searchField] = "";
+    } else {
+      this.glbService[searchField] = `${airport.city.name}-${airport.code}`;
+    }
   }
 
   presentPopover(e: Event) {
@@ -57,12 +64,14 @@ export class PopoverAirportsComponent  implements OnInit {
   resetSearch() {
     this.searchBusy = false;
     this.glbService.airports = [];
-    this.dismissPopover();
+    /* this.dismissPopover(); */
   }
 
   async searchApi(search: string) {
     this.searchBusy = true;
-    const body = { search: search };
+    const normalizedSearch = this.glbService.normalizeString(search);
+    console.log('normalizedSearch: ', normalizedSearch);
+    const body = { search: normalizedSearch };
     try {
       const response: any = await this.apiService.post('/travel/search_airport', body);
       if (!response.error) this.handleResponse(response.data);
@@ -70,7 +79,7 @@ export class PopoverAirportsComponent  implements OnInit {
       this.handleError(error);
     } finally {
       this.searchBusy = false;
-      if(body.search != this.search) this.searchApi(this.search);
+      if (body.search != this.glbService.normalizeString(this.search)) this.searchApi(this.search);
     }
   }
 
@@ -80,7 +89,7 @@ export class PopoverAirportsComponent  implements OnInit {
 
   handleResponse(data: any) {
     this.glbService.airports = data.locations;
-    if (this.glbService.airports.length == 0) this.dismissPopover();
+    /* if (this.glbService.airports.length == 0) this.dismissPopover(); */
   }
 
   selectAirport(airport: any) {
@@ -94,6 +103,7 @@ export class PopoverAirportsComponent  implements OnInit {
     }
     this.dismissPopover();
     console.log('airport: ', airport);
+
   }
 
 }

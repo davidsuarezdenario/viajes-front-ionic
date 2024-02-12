@@ -27,7 +27,7 @@ export class AlertMainComponent  implements OnInit {
     }
   }
 
-  setOpen(isOpen: boolean, header: string='', subHeader: string='', message: string='', buttons: string[]=['ok']) {
+  setOpen(isOpen: boolean, header: string='', subHeader: string='', message: string='', buttons: any=['ok']) {
     console.log('alert-main setOpen: ', isOpen);
     this.header = header;
     this.subHeader = subHeader;

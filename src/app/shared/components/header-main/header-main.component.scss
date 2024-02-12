@@ -9,6 +9,10 @@ img {
   margin-right: 1em;
 }
 
+img {
+  cursor: pointer;
+}
+
 @media (max-width: 769px) {
     ion-label {
       display: none;

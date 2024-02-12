@@ -33,7 +33,29 @@
       </div>
     </ion-col>
   </ion-row>
-  <ion-row>
+  <ion-row *ngIf="glbService.bookingResults.length>0">
+    <ion-col size="12" class="ion-no-padding ion-text-center">
+      <div class="flex-item1-3">
+        <div class="flex-item3">
+          <ion-input type="text" placeholder="Ciudad" debounce="100"
+            [(ngModel)]="glbService.searchFrom"
+            (ionInput)="popoverAirportsComponent.airportSearch($event,'from')">
+          </ion-input>
+          <strong *ngIf="glbService.trips=='idaVuelta'"><ion-icon name="repeat-outline" size="large" color="primary"></ion-icon></strong>
+          <strong *ngIf="glbService.trips=='soloIda'"><ion-icon name="return-up-forward-outline" size="large" color="primary"></ion-icon></strong>
+          <ion-input type="text" placeholder="Ciudad" debounce="100"
+            [(ngModel)]="glbService.searchTo"
+            (ionInput)="popoverAirportsComponent.airportSearch($event,'to')">
+          </ion-input>
+        </div>
+        <div class="flex-item3">
+          <app-date-select label="Salida" ref="datetime1" (dateSelected)="glbService.dateFrom = $event"></app-date-select>
+          <app-date-select label="Regreso" ref="datetime2" (dateSelected)="glbService.dateTo = $event"></app-date-select>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="glbService.bookingResults.length==0">
     <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
         <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
@@ -53,20 +75,28 @@
       </ion-item>
     </ion-col>
     <ion-col>
-      <ion-item class="min-width-ion-item">
+      <ion-item lines="none" class="min-width-ion-item">
         <app-date-select label="Salida" ref="datetime1" (dateSelected)="glbService.dateFrom = $event"></app-date-select>
       </ion-item>
     </ion-col>
     <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
-      <ion-item class="min-width-ion-item">
+      <ion-item lines="none" class="min-width-ion-item">
         <app-date-select label="Regreso" ref="datetime2" (dateSelected)="glbService.dateTo = $event"></app-date-select>
       </ion-item>
     </ion-col>
     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="2,4"> 
-      <ion-button fill="solid" shape="round" mode="ios" (click)="explorar()" expand="block">
-        Buscar
+      <ion-button fill="solid" shape="round" mode="ios" (click)="explorar()" expand="block" [disabled]="glbService.bookingloading">
+        <ion-text *ngIf="!glbService.bookingloading"> Buscar </ion-text>
+        <ion-text *ngIf="glbService.bookingloading"> Buscando </ion-text>
+        <ion-spinner name="dots" *ngIf="glbService.bookingloading" style="margin-left: 5px;"></ion-spinner>
       </ion-button>
     </ion-col>
-    <app-popover-airports></app-popover-airports>
   </ion-row>
+  <app-popover-airports></app-popover-airports>
 </ion-grid>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: -18px; margin-bottom: -10px;" *ngIf="glbService.bookingResults.length>0">
+  <ion-fab-button size="small" (click)="explorar()" [disabled]="glbService.bookingloading">
+    <ion-icon name="search"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<app-alert-main></app-alert-main>

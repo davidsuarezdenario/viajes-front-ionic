@@ -1,31 +1,29 @@
-<ion-header mode="ios">
-  <ion-toolbar class="ion-no-padding">
-    <ion-grid fixed class="ion-no-padding">
-      <ion-row>
-        <ion-col size="12">
-          <ion-toolbar>
-            <img slot="start" src="assets/icon/viajes-favicon.webp" alt="icono">
-            <ion-label slot="start" color="primary">
-              <b>¡Viaja ahora paga después!</b>
-            </ion-label>
-            <ion-buttons slot="end">
-              <ion-button mode="ios" fill="outline" shape="round" class="btn-iniciar-sesion" [routerLink]="['/login']" *ngIf="!glbService.sesion">
-                Iniciar sesión
+<ion-toolbar class="ion-no-padding" mode="ios">
+  <ion-grid fixed class="ion-no-padding">
+    <ion-row>
+      <ion-col size="12">
+        <ion-toolbar>
+          <img slot="start" src="assets/icon/viajes-favicon.webp" alt="icono" [routerLink]="['/home']">
+          <ion-label slot="start" color="primary">
+            <b>¡Viaja ahora paga después!</b>
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button mode="ios" fill="outline" shape="round" class="btn-iniciar-sesion" [routerLink]="['/login']" *ngIf="!glbService.sesion">
+              Iniciar sesión
+            </ion-button>
+            <ion-chip color="primary" mode="ios" outline="true" *ngIf="glbService.sesion" title="Ver perfil" [routerLink]="['/profile']">
+              <ion-icon size="large" name="person-circle"></ion-icon>
+              <ion-text><b>¡Hola {{glbService.userData.primerNombre}}!</b></ion-text>
+            </ion-chip>
+            <ion-menu-toggle id="menu-main">
+              <ion-button aria-label="main-menu">
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
               </ion-button>
-              <ion-chip color="primary" mode="ios" outline="true" *ngIf="glbService.sesion" title="Ver perfil" [routerLink]="['/profile']">
-                <ion-icon size="large" name="person-circle"></ion-icon>
-                <ion-text><b>¡Hola {{glbService.userData.primerNombre}}!</b></ion-text>
-              </ion-chip>
-              <ion-menu-toggle id="menu-main">
-                <ion-button aria-label="main-menu">
-                  <ion-icon slot="icon-only" name="menu"></ion-icon>
-                </ion-button>
-              </ion-menu-toggle>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-header>
+            </ion-menu-toggle>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-toolbar>
     

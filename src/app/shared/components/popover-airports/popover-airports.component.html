@@ -1,6 +1,6 @@
 <ion-popover #popover [isOpen]="isOpen" (didDismiss)="dismissPopover()" mode="ios" keyboardClose="false" style="--min-width: 300px;">
   <ng-template>
-    <div class="ion-text-center" *ngIf="glbService.airports.length==0">
+    <div class="ion-text-center" *ngIf="searchBusy">
       <ion-spinner name="bubbles" color="primary"></ion-spinner>
     </div>
     <div *ngFor="let airport of glbService.airports" class="item-popover" (click)="selectAirport(airport)">

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +32,19 @@ export class GlbService {
   get totalBags() { return this.bags.hand + this.bags.hold; }
   trips: string = "idaVuelta";
   clase: string = "M";
-  dateFrom: string = "";
-  dateTo: string = "";
+  today = format(new Date(), 'dd/MM/yyyy');
+  dateFrom: string = this.today;
+  dateTo: string = this.today;
 
   bookingloading: boolean = false;
   bookingResults: any = [];
 
   constructor() { 
     this.initCityFrom();
+  }
+
+  normalizeString(str: string): string {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
   }
 
   initCityFrom() {

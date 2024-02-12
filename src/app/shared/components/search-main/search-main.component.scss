@@ -30,16 +30,34 @@ app-date-select{
 }
 
 .flex-item {
-    cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: nowrap;
 }
 
 .flex-item2 {
     min-width: 127px;
     cursor: pointer;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    font-weight: bold;
+    color: #000;
+}
+
+.flex-item1-3 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.flex-item3 {
+    min-width: 254px;
     height: 44px;
     display: flex;
     align-items: center;
