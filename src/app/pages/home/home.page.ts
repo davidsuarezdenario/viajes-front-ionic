@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { IonHeader, IonProgressBar, IonToolbar, IonGrid, IonRow, IonCol, IonContent, IonCard, IonText } from "@ionic/angular/standalone";
+import { IonHeader, IonProgressBar, IonToolbar, IonGrid, IonRow, IonCol, IonContent, IonCard, IonText, IonChip, IonLabel } from "@ionic/angular/standalone";
 import { HeaderMainComponent } from "../../shared/components/header-main/header-main.component";
 import { SearchMainComponent } from "../../shared/components/search-main/search-main.component";
 import { ApiService } from "../../shared/services/api/api.service";
@@ -14,7 +14,7 @@ import { BookingComponent } from "../../shared/components/booking/booking.compon
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonText, IonCard, IonContent, IonCol, IonRow, IonGrid, IonToolbar, IonProgressBar, IonHeader, CommonModule, FormsModule, HeaderMainComponent, SearchMainComponent, AlertMainComponent, BookingComponent, ],
+  imports: [IonLabel, IonChip, IonText, IonCard, IonContent, IonCol, IonRow, IonGrid, IonToolbar, IonProgressBar, IonHeader, CommonModule, FormsModule, HeaderMainComponent, SearchMainComponent, AlertMainComponent, BookingComponent, ],
 })
 export class HomePage implements OnInit {
 

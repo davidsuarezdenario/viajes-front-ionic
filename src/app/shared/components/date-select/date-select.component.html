@@ -1,12 +1,31 @@
-<div *ngIf="ref">
-  <ion-label class="label-floating-date">{{label}}</ion-label>
-  <div class="center-content">
-    <ion-datetime-button [datetime]="ref" color="primary"></ion-datetime-button>
-  </div>
-  <ion-modal [keepContentsMounted]="true">
-    <ng-template>
-      <ion-datetime [id]="ref" presentation="date" [(ngModel)]="date" (ionChange)="accept()"></ion-datetime>
-      <!-- <ion-button (click)="accept()">Aceptar</ion-button> -->
-    </ng-template>
-  </ion-modal>
+<ion-label class="label-floating-date">{{label}}</ion-label>
+<div [ngClass]="(glb.bookingResults.length>0) ? 'center-content-header' : 'center-content'">
+  <ion-button (click)="presentModal(true)" *ngIf="label" fill="clear" class="ion-no-padding">
+    <ion-text [ngClass]="(glb.bookingResults.length>0) ? 'text-date-label-header' : 'text-date-label'"> {{ selectedDateRangeLabel }} </ion-text>
+  </ion-button>
 </div>
+<ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false">
+  <ng-template>
+    <div class="ion-text-center">
+      <p>
+        <ion-text color="primary"><strong>{{label}}</strong></ion-text><br>
+        Elige una fecha específica o define un intervalo de fechas de {{label}}.<br><br>
+        <strong>{{dateEndString == dateStartString ? dateStartString : dateStartString + ' al ' + dateEndString}}</strong>
+      </p>
+    </div>
+    <div class="content-datetimes">
+      <div class="ion-text-center datetime-box">
+        <ion-text color="primary">Inicio</ion-text>
+        <ion-datetime [min]="label == 'Regreso' ? glb.selectedDateSalidaEnd : glb.today" presentation="date" [(ngModel)]="dateStart" (ionChange)="changeDate()" mode="ios"></ion-datetime>
+      </div>
+      <div class="ion-text-center datetime-box">
+        <ion-text color="primary">Fin</ion-text>
+        <ion-datetime presentation="date" [(ngModel)]="dateEnd" (ionChange)="changeDate()" [min]="dateStart" [min]="label == 'Salida' ? glb.selectedDateSalidaEnd : glb.selectedDateRegresoStart" mode="ios"></ion-datetime>
+      </div>
+    </div>
+    <div class="button-box">
+      <ion-button (click)="isModalOpen=false" color="medium">Cancelar</ion-button>
+      <ion-button (click)="accept()" color="success">Aceptar</ion-button>
+    </div>
+  </ng-template>
+</ion-modal>

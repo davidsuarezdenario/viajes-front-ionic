@@ -41,8 +41,11 @@
     </div>
     <ion-grid fixed *ngIf="glbService.bookingResults.length>0">
         <ion-row>
+            <ion-chip color="primary" mode="ios" outline="true" class="ion-no-margin" *ngIf="glbService.bookingResults.length > 0">
+                <ion-label>{{glbService.bookingResults.length}} resultados</ion-label>
+            </ion-chip>
             <ion-col size="12" *ngFor="let booking of glbService.bookingResults">
-                <app-booking [booking]="booking"></app-booking>
+                <app-booking [flight]="booking"></app-booking>
             </ion-col>
         </ion-row>
     </ion-grid>

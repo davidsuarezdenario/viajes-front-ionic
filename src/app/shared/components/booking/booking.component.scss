@@ -1,0 +1,37 @@
+ion-card{
+    border-radius: 10px;
+}
+
+.flight-card {
+    ion-grid {
+        padding: 0;
+    }
+    ion-card-header {
+        padding-bottom: 0;
+    }
+    ion-card-title {
+        font-weight: bold;
+    }
+    .flight-details {
+        .flight-time {
+            font-size: 0.8rem;
+        }
+        .flight-info {
+            font-size: 0.8rem;
+            p {
+                margin: 0;
+            }
+        }
+    }
+    .flight-price {
+        text-align: center;
+        p {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        ion-button {
+            --background: var(--ion-color-success);
+            margin-top: 8px;
+        }
+    }
+}

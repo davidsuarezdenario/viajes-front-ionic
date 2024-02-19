@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { IonGrid, IonRow, IonCol, IonItem, IonSelect, IonSelectOption, IonButton, IonInput, IonText, IonIcon, IonLabel, IonDatetime, IonDatetimeButton, IonModal, IonSpinner, IonFab, IonFabButton } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { chevronExpand, people, bag, repeatOutline, returnUpForwardOutline, search } from "ionicons/icons";
+import { chevronExpand, people, bag, repeatOutline, returnUpForwardOutline, search, shareSocialOutline, moveOutline } from "ionicons/icons";
 import { GlbService } from "../../services/glb/glb.service";
 import { ApiService } from "../../services/api/api.service";
 import { PopoverAirportsComponent } from "../popover-airports/popover-airports.component";
@@ -29,7 +29,7 @@ export class SearchMainComponent implements OnInit {
     public glbService: GlbService,
     private apiService: ApiService
   ) {
-    addIcons({ chevronExpand, people, bag, repeatOutline, returnUpForwardOutline, search });
+    addIcons({ chevronExpand, people, bag, repeatOutline, returnUpForwardOutline, search, shareSocialOutline, moveOutline });
   }
 
   ngOnInit() { }
@@ -50,8 +50,8 @@ export class SearchMainComponent implements OnInit {
     const body = {
       "fly_from": this.glbService.selectAirportFrom.code,
       "fly_to":  this.glbService.selectAirportTo.code,
-      "date_from": this.glbService.dateFrom,//yyyy-mm-dd
-      "date_to": this.glbService.dateTo,//yyyy-mm-dd
+      "date_from": this.glbService.selectedDateSalidaStart,//yyyy-mm-dd
+      "date_to": this.glbService.selectedDateSalidaEnd,//yyyy-mm-dd
       "nights_in_dst_from": "2",//yo
       "nights_in_dst_to": "2",//yo
       "max_fly_duration": "20",
@@ -70,6 +70,10 @@ export class SearchMainComponent implements OnInit {
       this.glbService.bookingloading = true;
       const bookingResponse:any = await this.apiService.post('/travel/booking', body);
       console.log('bookingResponse: ', bookingResponse);
+      if(bookingResponse.data.error) {
+        this.alertMainComponent.setOpen(true, 'Error', 'Al consultar vuelos', bookingResponse.data.error);
+        return;
+      }
       if (bookingResponse.data.data.length > 0) {
         this.glbService.bookingResults = bookingResponse.data.data;
         return;
