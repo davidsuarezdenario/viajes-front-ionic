@@ -37,7 +37,7 @@
     <ion-col size="12" class="ion-no-padding ion-text-center">
       <div class="flex-item1-3">
         <div class="flex-item3">
-          <ion-input type="text" placeholder="Ciudad" debounce="100"
+          <ion-input type="text" placeholder="Ciudad" debounce="100" autocomplete="on"
             [(ngModel)]="glbService.searchFrom"
             (ionInput)="popoverAirportsComponent.airportSearch($event,'from')">
           </ion-input>
@@ -45,7 +45,7 @@
           <strong *ngIf="glbService.trips=='soloIda'"><ion-icon name="return-up-forward-outline" size="large" color="primary"></ion-icon></strong>
           <strong *ngIf="glbService.trips=='multiplesDestinos'"><ion-icon name="share-social-outline" size="large" color="primary"></ion-icon></strong>
           <strong *ngIf="glbService.trips=='nomad'"><ion-icon name="move-outline" size="large" color="primary"></ion-icon></strong>
-          <ion-input type="text" placeholder="Ciudad" debounce="100"
+          <ion-input type="text" placeholder="Ciudad" debounce="100" autocomplete="on"
             [(ngModel)]="glbService.searchTo"
             (ionInput)="popoverAirportsComponent.airportSearch($event,'to')">
           </ion-input>
@@ -60,7 +60,7 @@
   <ion-row *ngIf="glbService.bookingResults.length==0">
     <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
+        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100" autocomplete="on"
           [(ngModel)]="glbService.searchFrom"
           (ionInput)="popoverAirportsComponent.airportSearch($event,'from')">
           <div slot="label" style="font-weight: lighter;">Origen</div>
@@ -75,7 +75,7 @@
     </div>
     <ion-col class="min-width-ion-item" size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100"
+        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100" autocomplete="on" autofocus="true"
           [(ngModel)]="glbService.searchTo"
           (ionInput)="popoverAirportsComponent.airportSearch($event,'to')">
           <div slot="label" style="font-weight: lighter;">Destino</div>

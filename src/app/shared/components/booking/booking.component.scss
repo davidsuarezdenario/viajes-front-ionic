@@ -1,16 +1,19 @@
-ion-card{
-    border-radius: 10px;
-}
-
 .flight-card {
+    height: 100%;
+    border-radius: 10px;
     ion-grid {
         padding: 0;
     }
     ion-card-header {
         padding-bottom: 0;
+        padding-left: 13px;
     }
     ion-card-title {
         font-weight: bold;
+    }
+    ion-card-content {
+        padding-left: 13px;
+        padding-bottom: 13px;
     }
     .flight-details {
         .flight-time {
@@ -24,14 +27,25 @@ ion-card{
         }
     }
     .flight-price {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
         p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            color: #000;
         }
         ion-button {
             --background: var(--ion-color-success);
             margin-top: 8px;
+            margin-bottom: 0px;
         }
+        padding-bottom: 13px;
+        padding-right: 13px;
     }
 }

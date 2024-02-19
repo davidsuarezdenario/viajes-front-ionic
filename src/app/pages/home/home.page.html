@@ -39,12 +39,12 @@
         </ion-grid>
         <ion-progress-bar type="indeterminate" *ngIf="glbService.bookingloading"></ion-progress-bar>
     </div>
-    <ion-grid fixed *ngIf="glbService.bookingResults.length>0">
-        <ion-row>
-            <ion-chip color="primary" mode="ios" outline="true" class="ion-no-margin" *ngIf="glbService.bookingResults.length > 0">
-                <ion-label>{{glbService.bookingResults.length}} resultados</ion-label>
-            </ion-chip>
-            <ion-col size="12" *ngFor="let booking of glbService.bookingResults">
+    <ion-grid fixed *ngIf="glbService.bookingResults.length>0" class="ion-no-padding">
+        <ion-chip color="primary" mode="ios" *ngIf="glbService.bookingResults.length > 0">
+            <ion-text>{{glbService.bookingResults.length}} resultados</ion-text>
+        </ion-chip>
+        <ion-row class="ion-no-padding">
+            <ion-col size="12" *ngFor="let booking of glbService.bookingResults" style="margin-top: -10px;" class="ion-no-padding">
                 <app-booking [flight]="booking"></app-booking>
             </ion-col>
         </ion-row>
