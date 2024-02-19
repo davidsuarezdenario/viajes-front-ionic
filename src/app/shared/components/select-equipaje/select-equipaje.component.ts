@@ -38,4 +38,18 @@ export class SelectEquipajeComponent implements OnInit {
       this.glbService.bags[luggageType]--;
     }
   }
+
+  get disableAddHoldBags(): boolean {
+    if(this.glbService.bags.hold >= this.glbService.totalPassengers * 2) {
+      return true;
+    }
+    return false;
+  }
+  
+  get disableAddHandBags(): boolean {
+    if(this.glbService.bags.hand >= this.glbService.totalPassengers) {
+      return true;
+    }
+    return false;
+  }
 }

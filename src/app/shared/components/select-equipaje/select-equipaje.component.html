@@ -12,7 +12,7 @@
               <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
             </ion-button>
             <ion-note>{{ glbService.bags.hand }}</ion-note>
-            <ion-button (click)="increment('hand')">
+            <ion-button (click)="increment('hand')" [disabled]="disableAddHandBags">
               <ion-icon slot="icon-only" name="add-outline"></ion-icon>
             </ion-button>
           </ion-buttons>
@@ -27,7 +27,7 @@
               <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
             </ion-button>
             <ion-note>{{ glbService.bags.hold }}</ion-note>
-            <ion-button (click)="increment('hold')">
+            <ion-button (click)="increment('hold')" [disabled]="disableAddHoldBags">
               <ion-icon slot="icon-only" name="add-outline"></ion-icon>
             </ion-button>
           </ion-buttons>

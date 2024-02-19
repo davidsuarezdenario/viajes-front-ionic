@@ -11,6 +11,7 @@ import { SelectPasajerosComponent } from "../select-pasajeros/select-pasajeros.c
 import { SelectEquipajeComponent } from "../select-equipaje/select-equipaje.component";
 import { DateSelectComponent } from "../date-select/date-select.component";
 import { AlertMainComponent } from "../alert-main/alert-main.component";
+import { th } from 'date-fns/locale';
 
 @Component({
   selector: 'app-search-main',
@@ -38,6 +39,34 @@ export class SearchMainComponent implements OnInit {
     console.log('event getDateFrom: ', event);
   }
 
+  totalBagsHoldToDistribute: number = 0;
+  bagsHoldDistributionFunc(persons: number): string {
+    const maxBagsPerAdult = 2;
+    let bagDistribution = Array(persons).fill(0);
+    let totalBags = this.totalBagsHoldToDistribute;
+    for (let i = 0; i < totalBags; i++) {
+      if (bagDistribution[i % persons] < maxBagsPerAdult) {
+        bagDistribution[i % persons]++;
+        this.totalBagsHoldToDistribute--;
+      }
+    }
+    return bagDistribution.join(',');
+  }
+
+  totalBagsHandToDistribute: number = 0;
+  bagsHandDistributionFunc(persons: number): string {
+    const maxBagsPerAdult = 1;
+    let bagDistribution = Array(persons).fill(0);
+    let totalBags = this.totalBagsHandToDistribute;
+    for (let i = 0; i < totalBags; i++) {
+      if (bagDistribution[i % persons] < maxBagsPerAdult) {
+        bagDistribution[i % persons]++;
+        this.totalBagsHandToDistribute--;
+      }
+    }
+    return bagDistribution.join(',');
+  }
+
   async explorar() {
     console.log('trips: ', this.glbService.trips);
     console.log('clase: ', this.glbService.clase);
@@ -47,20 +76,22 @@ export class SearchMainComponent implements OnInit {
     console.log('airport to: ', this.glbService.selectAirportTo);
     console.log('date from: ', this.glbService.dateFrom);
     console.log('date to: ', this.glbService.dateTo);
+    this.totalBagsHoldToDistribute = this.glbService.bags.hold;
+    this.totalBagsHandToDistribute = this.glbService.bags.hand;
     const body = {
       "fly_from": this.glbService.selectAirportFrom.code,
-      "fly_to":  this.glbService.selectAirportTo.code,
+      "fly_to": this.glbService.selectAirportTo.code,
       "date_from": this.glbService.selectedDateSalidaStart,//yyyy-mm-dd
       "date_to": this.glbService.selectedDateSalidaEnd,//yyyy-mm-dd
       "nights_in_dst_from": "2",//yo
       "nights_in_dst_to": "2",//yo
       "max_fly_duration": "20",
       "adults": this.glbService.passengers.adult,
-      "adult_hold_bag": this.glbService.bags.hold,
-      "adult_hand_bag": this.glbService.bags.hand,
+      "adult_hold_bag": this.bagsHoldDistributionFunc(this.glbService.passengers.adult),
+      "adult_hand_bag": this.bagsHandDistributionFunc(this.glbService.passengers.adult),
       "children": this.glbService.passengers.child,
-      "child_hold_bag": "0",
-      "child_hand_bag": "0",
+      "child_hold_bag": this.bagsHoldDistributionFunc(this.glbService.passengers.child),
+      "child_hand_bag": this.bagsHandDistributionFunc(this.glbService.passengers.child),
       "infants": this.glbService.passengers.infant,
       "selected_cabins": this.glbService.clase
     }
@@ -68,9 +99,9 @@ export class SearchMainComponent implements OnInit {
     if (!this.validators()) return;
     try {
       this.glbService.bookingloading = true;
-      const bookingResponse:any = await this.apiService.post('/travel/booking', body);
+      const bookingResponse: any = await this.apiService.post('/travel/booking', body);
       console.log('bookingResponse: ', bookingResponse);
-      if(bookingResponse.data.error) {
+      if (bookingResponse.data.error) {
         this.alertMainComponent.setOpen(true, 'Error', 'Al consultar vuelos', bookingResponse.data.error);
         return;
       }
@@ -78,9 +109,9 @@ export class SearchMainComponent implements OnInit {
         this.glbService.bookingResults = bookingResponse.data.data;
         return;
       }
-      const alertButtons = [ { text: 'OK', role: 'confirm', handler: () => { console.log('Alert confirmed'); this.glbService.bookingResults = []; }, } ];
+      const alertButtons = [{ text: 'OK', role: 'confirm', handler: () => { console.log('Alert confirmed'); this.glbService.bookingResults = []; }, }];
       this.alertMainComponent.setOpen(true, 'Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busquda.', alertButtons);
-    } catch(e) {
+    } catch (e) {
       console.error('error bookingResponse: ', e);
       this.alertMainComponent.setOpen(true, 'Error', 'Al consultar vuelos', JSON.stringify(e));
     } finally {
@@ -107,14 +138,14 @@ export class SearchMainComponent implements OnInit {
         message: 'Seleccione al menos un pasajero'
       }
     ];
-  
+
     for (let item of conditions) {
       if (item.condition) {
         this.alertMainComponent.setOpen(true, 'Error', 'Datos incompletos', item.message);
         return false;
       }
     }
-  
+
     return true;
   }
 
