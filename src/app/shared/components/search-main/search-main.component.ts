@@ -107,6 +107,7 @@ export class SearchMainComponent implements OnInit {
       }
       if (bookingResponse.data.data.length > 0) {
         this.glbService.bookingResults = bookingResponse.data.data;
+        this.glbService.firstSearch = false;
         return;
       }
       const alertButtons = [{ text: 'OK', role: 'confirm', handler: () => { console.log('Alert confirmed'); this.glbService.bookingResults = []; }, }];
@@ -147,6 +148,11 @@ export class SearchMainComponent implements OnInit {
     }
 
     return true;
+  }
+
+  change(){
+    console.log('*****change');
+    this.glbService.bookingResults = [];
   }
 
 }

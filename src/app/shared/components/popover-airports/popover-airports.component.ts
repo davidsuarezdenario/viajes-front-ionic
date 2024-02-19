@@ -103,7 +103,7 @@ export class PopoverAirportsComponent implements OnInit {
     }
     this.dismissPopover();
     console.log('airport: ', airport);
-
+    this.glbService.bookingResults = [];
   }
 
 }

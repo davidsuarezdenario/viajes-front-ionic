@@ -1,7 +1,7 @@
 <ion-label class="label-floating-date">{{label}}</ion-label>
-<div [ngClass]="(glb.bookingResults.length>0) ? 'center-content-header' : 'center-content'">
+<div [ngClass]="(!glb.firstSearch) ? 'center-content-header' : 'center-content'">
   <ion-button (click)="presentModal(true)" *ngIf="label" fill="clear" class="ion-no-padding">
-    <ion-text [ngClass]="(glb.bookingResults.length>0) ? 'text-date-label-header' : 'text-date-label'"> {{ selectedDateRangeLabel }} </ion-text>
+    <ion-text [ngClass]="(!glb.firstSearch) ? 'text-date-label-header' : 'text-date-label'"> {{ selectedDateRangeLabel }} </ion-text>
   </ion-button>
 </div>
 <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false">

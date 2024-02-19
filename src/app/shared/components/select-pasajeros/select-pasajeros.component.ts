@@ -31,11 +31,13 @@ export class SelectPasajerosComponent  implements OnInit {
 
   increment(passengerType: string) {
     this.glbService.passengers[passengerType]++;
+    this.glbService.bookingResults = [];
   }
 
   decrement(passengerType: string) {
     if (this.glbService.passengers[passengerType] > 0) {
       this.glbService.passengers[passengerType]--;
+      this.glbService.bookingResults = [];
     }
   }
 

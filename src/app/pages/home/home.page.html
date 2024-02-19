@@ -1,7 +1,7 @@
 <ion-header>
     <app-header-main></app-header-main>
 </ion-header>
-<ion-header mode="ios" *ngIf="glbService.bookingResults.length>0">
+<ion-header mode="ios" *ngIf="!glbService.firstSearch">
     <ion-toolbar class="ion-no-padding">
         <ion-grid fixed class="ion-no-padding">
             <ion-row>
@@ -16,7 +16,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <div class="banner" *ngIf="glbService.bookingResults.length==0">
+    <div class="banner" *ngIf="glbService.firstSearch">
         <ion-grid fixed class="ion-no-padding">
             <ion-row>
                 <ion-col size="12">
@@ -39,8 +39,8 @@
         </ion-grid>
         <ion-progress-bar type="indeterminate" *ngIf="glbService.bookingloading"></ion-progress-bar>
     </div>
-    <ion-grid fixed *ngIf="glbService.bookingResults.length>0" class="ion-no-padding">
-        <ion-chip color="primary" mode="ios" *ngIf="glbService.bookingResults.length > 0">
+    <ion-grid fixed *ngIf="!glbService.firstSearch" class="ion-no-padding">
+        <ion-chip color="primary" mode="ios">
             <ion-text>{{glbService.bookingResults.length}} resultados</ion-text>
         </ion-chip>
         <ion-row class="ion-no-padding">

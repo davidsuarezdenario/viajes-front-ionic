@@ -31,11 +31,13 @@ export class SelectEquipajeComponent implements OnInit {
 
   increment(luggageType: string) {
     this.glbService.bags[luggageType]++;
+    this.glbService.bookingResults = [];
   }
 
   decrement(luggageType: string) {
     if (this.glbService.bags[luggageType] > 0) {
       this.glbService.bags[luggageType]--;
+      this.glbService.bookingResults = [];
     }
   }
 

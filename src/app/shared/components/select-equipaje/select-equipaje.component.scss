@@ -1,9 +1,9 @@
 ion-popover {
-    --width: 350px;
-    --max-width: 350px;
+    --width: 375px;
+    --max-width: 375px;
   }
   
-  @media (max-width: 350px) {
+  @media (max-width: 375px) {
     ion-popover {
       --width: 100%;
       --max-width: 100%;

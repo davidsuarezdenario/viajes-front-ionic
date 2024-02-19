@@ -12,6 +12,7 @@ export class GlbService {
 
   searchFrom: string = "";
   searchTo: string = "";
+  firstSearch: boolean = true;
   selectAirportFrom: any = {};
   selectAirportTo: any = {};
   airports: any = [];

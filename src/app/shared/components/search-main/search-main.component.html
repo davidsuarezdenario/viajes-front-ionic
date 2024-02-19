@@ -3,7 +3,7 @@
     <ion-col size="12">
       <div class="flex-item">
         <div class="space-items">
-          <ion-select [(ngModel)]="glbService.trips" placeholder="Selecciona" interface="popover">
+          <ion-select [(ngModel)]="glbService.trips" placeholder="Selecciona" interface="popover" (ionChange)="change()">
             <ion-select-option value="idaVuelta">Ida y vuelta</ion-select-option>
             <ion-select-option value="soloIda">Solo ida</ion-select-option>
             <!-- <ion-select-option value="multiplesDestinos">Multiples destinos</ion-select-option>
@@ -11,7 +11,7 @@
           </ion-select>
         </div>
         <div class="space-items">
-          <ion-select [(ngModel)]="glbService.clase" placeholder="Clase" interface="popover">
+          <ion-select [(ngModel)]="glbService.clase" placeholder="Clase" interface="popover" (ionChange)="change()">
             <ion-select-option value="M">Clase económica</ion-select-option>
             <ion-select-option value="W">Clase premium</ion-select-option>
             <ion-select-option value="C">Business</ion-select-option>
@@ -33,7 +33,7 @@
       </div>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="glbService.bookingResults.length>0">
+  <ion-row *ngIf="!glbService.firstSearch">
     <ion-col size="12" class="ion-no-padding ion-text-center">
       <div class="flex-item1-3">
         <div class="flex-item3">
@@ -57,7 +57,7 @@
       </div>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="glbService.bookingResults.length==0">
+  <ion-row *ngIf="glbService.firstSearch">
     <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
         <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100" autocomplete="on"
@@ -102,7 +102,7 @@
   </ion-row>
   <app-popover-airports></app-popover-airports>
 </ion-grid>
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: -18px; margin-bottom: -10px;" *ngIf="glbService.bookingResults.length>0">
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: -18px; margin-bottom: -10px;" *ngIf="!glbService.firstSearch">
   <ion-fab-button size="small" (click)="explorar()" [disabled]="glbService.bookingloading">
     <ion-icon name="search"></ion-icon>
   </ion-fab-button>

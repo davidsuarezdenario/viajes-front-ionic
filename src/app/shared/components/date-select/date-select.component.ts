@@ -58,6 +58,7 @@ export class DateSelectComponent  implements OnInit {
       this.glb.selectedDateRegresoEnd = this.glb.selectedDateSalidaEnd;
     }
     this.isModalOpen = false;
+    this.glb.bookingResults = [];
   }
 
   get selectedDateRangeLabel() {

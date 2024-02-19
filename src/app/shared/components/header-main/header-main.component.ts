@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonLabel, IonButtons, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonMenuToggle, IonText, IonChip } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { menu, personCircle } from "ionicons/icons";
@@ -17,11 +17,16 @@ import { MenuMainComponent } from "../menu-main/menu-main.component";
 export class HeaderMainComponent implements OnInit {
 
   constructor(
-    public glbService: GlbService
+    public glbService: GlbService,
+    private router: Router
   ) {
     addIcons({ menu, personCircle });
   }
 
   ngOnInit() { }
+
+  goHome() {
+    window.location.reload();
+  }
 
 }
