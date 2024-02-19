@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonPopover, IonIcon, IonSpinner } from "@ionic/angular/standalone";
+import { addIcons } from 'ionicons';
+import { airplaneOutline, businessOutline } from "ionicons/icons";
 import { CommonModule } from "@angular/common";
 import { GlbService } from "../../services/glb/glb.service";
 import { ApiService } from "../../services/api/api.service";
@@ -10,7 +12,7 @@ import { ApiService } from "../../services/api/api.service";
   templateUrl: './popover-airports.component.html',
   styleUrls: ['./popover-airports.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [IonSpinner, IonIcon, IonPopover, CommonModule, FormsModule ],
 })
 export class PopoverAirportsComponent implements OnInit {
   @ViewChild('popover') popover: any;
@@ -23,7 +25,9 @@ export class PopoverAirportsComponent implements OnInit {
   constructor(
     public glbService: GlbService,
     private apiService: ApiService
-  ) { }
+  ) { 
+    addIcons({ airplaneOutline, businessOutline });
+  }
 
   ngOnInit() { }
 
@@ -34,7 +38,8 @@ export class PopoverAirportsComponent implements OnInit {
     if (!airport.code) {
       this.glbService[searchField] = "";
     } else {
-      this.glbService[searchField] = `${airport.city.name}-${airport.code}`;
+      if(airport.type == 'city') this.glbService[searchField] = `${airport.name}-${airport.code}`;
+      if(airport.type == 'airport') this.glbService[searchField] = `${airport.city.name}-${airport.code}`;
     }
   }
 
@@ -88,18 +93,31 @@ export class PopoverAirportsComponent implements OnInit {
   }
 
   handleResponse(data: any) {
+    console.log('data: ', data);
     this.glbService.airports = data.locations;
     /* if (this.glbService.airports.length == 0) this.dismissPopover(); */
   }
 
   selectAirport(airport: any) {
     if (this.field == 'from') {
-      this.glbService.selectAirportFrom = airport;
-      this.glbService.searchFrom = `${airport.city.name}-${airport.code}`;
+      if(airport.type == 'city') {
+        this.glbService.selectAirportFrom = airport;
+        this.glbService.searchFrom = `${airport.name}-${airport.code}`;
+      }
+      if(airport.type == 'airport') {
+        this.glbService.selectAirportFrom = airport;
+        this.glbService.searchFrom = `${airport.city.name}-${airport.code}`;
+      }
     }
     else if (this.field == 'to') {
-      this.glbService.selectAirportTo = airport;
-      this.glbService.searchTo = `${airport.city.name}-${airport.code}`;
+      if(airport.type == 'city') {
+        this.glbService.selectAirportTo = airport;
+        this.glbService.searchTo = `${airport.name}-${airport.code}`;
+      }
+      if(airport.type == 'airport') {
+        this.glbService.selectAirportTo = airport;
+        this.glbService.searchTo = `${airport.city.name}-${airport.code}`;
+      }
     }
     this.dismissPopover();
     console.log('airport: ', airport);
