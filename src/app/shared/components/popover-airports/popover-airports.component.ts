@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonPopover, IonIcon, IonSpinner } from "@ionic/angular/standalone";
+import { IonPopover, IonIcon, IonSpinner, IonLabel, IonItem } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { airplaneOutline, businessOutline } from "ionicons/icons";
 import { CommonModule } from "@angular/common";
@@ -12,7 +12,7 @@ import { ApiService } from "../../services/api/api.service";
   templateUrl: './popover-airports.component.html',
   styleUrls: ['./popover-airports.component.scss'],
   standalone: true,
-  imports: [IonSpinner, IonIcon, IonPopover, CommonModule, FormsModule ],
+  imports: [IonItem, IonLabel, IonSpinner, IonIcon, IonPopover, CommonModule, FormsModule ],
 })
 export class PopoverAirportsComponent implements OnInit {
   @ViewChild('popover') popover: any;

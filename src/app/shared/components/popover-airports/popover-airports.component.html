@@ -4,16 +4,20 @@
       <ion-spinner name="bubbles" color="primary"></ion-spinner>
     </div>
     <div *ngFor="let airport of glbService.airports" class="item-popover" (click)="selectAirport(airport)">
-      <p class="p-popover" *ngIf="airport.type=='airport'">
-        <ion-icon name="airplane-outline" size="medium"></ion-icon>
-        {{airport.city.name}}, {{airport.city.country.name}}<br>
-        <small>{{airport.name}}</small>
-      </p>
-      <p class="p-popover" *ngIf="airport.type=='city'">
-        <ion-icon name="business-outline" size="medium"></ion-icon>
-        {{airport.name}}, {{airport.country.name}}<br>
-        <small>{{airport.name}}</small>
-      </p>
+      <ion-item lines="none" *ngIf="airport.type=='airport'">
+        <ion-icon name="airplane-outline" size="medium" slot="start"></ion-icon>
+        <p class="p-popover">
+          {{airport.city.name}}, {{airport.city.country.name}}<br>
+          <small>{{airport.name}}</small>
+        </p>
+      </ion-item>
+      <ion-item lines="none" *ngIf="airport.type=='city'">
+        <ion-icon name="business-outline" size="medium" slot="start"></ion-icon>
+        <p class="p-popover" >
+          {{airport.name}}, {{airport.country.name}}<br>
+          <small>{{airport.name}}</small>
+        </p>
+      </ion-item>
     </div>
   </ng-template>
 </ion-popover>

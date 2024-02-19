@@ -3,12 +3,13 @@
     border-bottom: 1px solid var(--ion-color-primary);
 
     :hover {
-        background: var(--ion-color-primary);
-        color: var(--ion-color-light);
+        /* background: var(--ion-color-light); */
+        color: var(--ion-color-primary);
     }
 }
 
 .p-popover {
     margin: 0;
     padding: 5px;
+    width: 100%;
 }
