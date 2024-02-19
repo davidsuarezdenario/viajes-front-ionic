@@ -83,8 +83,10 @@ export class SearchMainComponent implements OnInit {
       "fly_to": this.glbService.selectAirportTo.code,
       "date_from": this.glbService.selectedDateSalidaStart,//yyyy-mm-dd
       "date_to": this.glbService.selectedDateSalidaEnd,//yyyy-mm-dd
-      "nights_in_dst_from": "2",//yo
-      "nights_in_dst_to": "2",//yo
+      "return_from": this.glbService.trips=='idaVuelta' ? this.glbService.selectedDateRegresoStart : '',//yyyy-mm-dd
+      "return_to": this.glbService.trips=='idaVuelta' ? this.glbService.selectedDateRegresoEnd : '',//yyyy-mm-dd
+      /* "nights_in_dst_from": "2", */
+      /* "nights_in_dst_to": "2", */
       "max_fly_duration": "20",
       "adults": this.glbService.passengers.adult,
       "adult_hold_bag": this.bagsHoldDistributionFunc(this.glbService.passengers.adult),
@@ -93,7 +95,8 @@ export class SearchMainComponent implements OnInit {
       "child_hold_bag": this.bagsHoldDistributionFunc(this.glbService.passengers.child),
       "child_hand_bag": this.bagsHandDistributionFunc(this.glbService.passengers.child),
       "infants": this.glbService.passengers.infant,
-      "selected_cabins": this.glbService.clase
+      "selected_cabins": this.glbService.clase,
+      "limit": 50,
     }
     console.log('body: ', body);
     if (!this.validators()) return;
