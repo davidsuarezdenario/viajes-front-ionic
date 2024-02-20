@@ -16,11 +16,11 @@
     <div class="content-datetimes">
       <div class="ion-text-center datetime-box">
         <ion-text color="primary">Inicio</ion-text>
-        <ion-datetime [min]="label == 'Regreso' ? glb.selectedDateSalidaEnd : glb.today" presentation="date" [(ngModel)]="dateStart" (ionChange)="changeDate()" mode="ios"></ion-datetime>
+        <ion-datetime presentation="date" [(ngModel)]="dateStart" (ionChange)="changeDate()" [min]="label == 'Salida' ? glb.today : glb.selectedDateSalidaEnd" mode="ios"></ion-datetime>
       </div>
       <div class="ion-text-center datetime-box">
         <ion-text color="primary">Fin</ion-text>
-        <ion-datetime presentation="date" [(ngModel)]="dateEnd" (ionChange)="changeDate()" [min]="dateStart" [min]="label == 'Salida' ? glb.selectedDateSalidaEnd : glb.selectedDateRegresoStart" mode="ios"></ion-datetime>
+        <ion-datetime presentation="date" [(ngModel)]="dateEnd" (ionChange)="changeDate()" [min]="label == 'Salida' ? glb.selectedDateSalidaStart : glb.selectedDateRegresoStart" mode="ios"></ion-datetime>
       </div>
     </div>
     <div class="button-box">

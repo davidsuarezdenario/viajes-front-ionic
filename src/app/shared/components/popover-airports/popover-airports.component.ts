@@ -99,28 +99,16 @@ export class PopoverAirportsComponent implements OnInit {
   }
 
   selectAirport(airport: any) {
-    if (this.field == 'from') {
-      if(airport.type == 'city') {
-        this.glbService.selectAirportFrom = airport;
-        this.glbService.searchFrom = `${airport.name}-${airport.code}`;
-      }
-      if(airport.type == 'airport') {
-        this.glbService.selectAirportFrom = airport;
-        this.glbService.searchFrom = `${airport.city.name}-${airport.code}`;
-      }
-    }
-    else if (this.field == 'to') {
-      if(airport.type == 'city') {
-        this.glbService.selectAirportTo = airport;
-        this.glbService.searchTo = `${airport.name}-${airport.code}`;
-      }
-      if(airport.type == 'airport') {
-        this.glbService.selectAirportTo = airport;
-        this.glbService.searchTo = `${airport.city.name}-${airport.code}`;
-      }
-    }
-    this.dismissPopover();
     console.log('airport: ', airport);
+    const isFrom = this.field === 'from';
+    const targetProperty = isFrom ? 'selectAirportFrom' : 'selectAirportTo';
+    const searchProperty = isFrom ? 'searchFrom' : 'searchTo';
+    const airportOrCityName = airport.type === 'city' ? airport.name : airport.city?.name;
+
+    this.glbService[targetProperty] = airport;
+    this.glbService[searchProperty] = `${airportOrCityName}-${airport.code}`;
+
+    this.dismissPopover();
     this.glbService.bookingResults = [];
   }
 
