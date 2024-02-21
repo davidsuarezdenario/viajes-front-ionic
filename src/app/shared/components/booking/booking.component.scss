@@ -1,4 +1,4 @@
-.flight-card {
+/* .flight-card {
     height: 100%;
     border-radius: 10px;
     ion-grid {
@@ -26,26 +26,51 @@
             }
         }
     }
-    .flight-price {
+    
+} */
+
+ion-card{
+    border-radius: 10px;
+    color: #000;
+}
+
+.flight-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    p {
         display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
+        align-items: center;
+        justify-content: center;
         height: 100%;
-        p {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #000;
-        }
-        ion-button {
-            --background: var(--ion-color-success);
-            margin-top: 8px;
-            margin-bottom: 0px;
-        }
-        padding-bottom: 13px;
-        padding-right: 13px;
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #000;
     }
+    ion-button {
+        --background: var(--ion-color-success);
+        margin-top: 8px;
+        margin-bottom: 0px;
+    }
+    padding-bottom: 13px;
+    padding-right: 13px;
+}
+
+.column-fly-data {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h4{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.grid-routes{
+    margin: 13px 0px 0px 13px;
 }
