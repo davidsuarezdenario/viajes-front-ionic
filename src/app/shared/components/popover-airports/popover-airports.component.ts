@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
 import { IonPopover, IonIcon, IonSpinner, IonLabel, IonItem } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { airplaneOutline, businessOutline } from "ionicons/icons";
-import { CommonModule } from "@angular/common";
 import { GlbService } from "../../services/glb/glb.service";
 import { ApiService } from "../../services/api/api.service";
 
@@ -21,6 +21,7 @@ export class PopoverAirportsComponent implements OnInit {
   searchBusy: boolean = false;
   search: string = "";
   field: string = "";
+  airports: any = [];
 
   constructor(
     public glbService: GlbService,
@@ -68,7 +69,7 @@ export class PopoverAirportsComponent implements OnInit {
 
   resetSearch() {
     this.searchBusy = false;
-    this.glbService.airports = [];
+    this.airports = [];
     /* this.dismissPopover(); */
   }
 
@@ -94,7 +95,7 @@ export class PopoverAirportsComponent implements OnInit {
 
   handleResponse(data: any) {
     console.log('data: ', data);
-    this.glbService.airports = data.locations;
+    this.airports = data.locations;
     /* if (this.glbService.airports.length == 0) this.dismissPopover(); */
   }
 

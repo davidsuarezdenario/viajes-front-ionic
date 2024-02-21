@@ -1,0 +1,54 @@
+.label-floating-date {
+    font-weight: normal;
+    font-size: smaller;
+    margin: 5px 0px 0px 0px;
+}
+
+.text-date-label {
+    color: #000;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.text-date-label-header {
+    color: #000;
+    font-size: medium;
+    font-weight: bold;
+    max-width: 120px;
+    white-space: normal;
+}
+
+main-button {
+    width: 100%;
+}
+
+ion-input {
+    border: 1px solid var(--ion-color-primary);
+    border-radius: 10px;
+    padding-left: 10px !important;
+}
+
+ion-item.airport-type {
+    padding-left: 10px;
+}
+
+.item-popover {
+    cursor: pointer;
+    border-bottom: 1px solid var(--ion-color-primary);
+
+    :hover {
+        /* background: var(--ion-color-light); */
+        color: var(--ion-color-primary);
+    }
+}
+
+.p-popover {
+    margin: 0;
+    padding: 5px;
+    width: 100%;
+}
+
+.watermark {
+    color: lightgray;
+    /* Add any other styles you want for the watermark text */
+  }

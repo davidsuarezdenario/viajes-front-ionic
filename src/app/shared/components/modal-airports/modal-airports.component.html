@@ -1,0 +1,49 @@
+<ion-label class="label-floating-date ion-text-left" *ngIf="show!='header'">{{label}}</ion-label>
+<div [ngClass]="(!glbService.firstSearch) ? 'center-content-header' : 'center-content'">
+  <ion-button (click)="setOpen(true)" fill="clear" expand="full" class="ion-no-padding main-button">
+    <ion-text [ngClass]="(!glbService.firstSearch) ? 'text-date-label-header' : 'text-date-label'">
+      <span *ngIf="label === 'Origen' ? glbService.searchFrom : glbService.searchTo; else watermark">
+        {{label === 'Origen' ? glbService.searchFrom : glbService.searchTo}}
+      </span>
+      <ng-template #watermark>
+        <span class="watermark">Ingresa {{label}}</span>
+      </ng-template>
+    </ion-text>
+  </ion-button>
+</div>
+<ion-modal [isOpen]="isModalOpen" (didDismiss)="setOpen(false)" mode="ios" (didPresent)="presentModal()">
+  <ng-template>
+    <ion-header mode="ios">
+      <ion-toolbar class="ion-text-center">
+        <ion-title>{{label}}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)">
+            <ion-icon slot="icon-only" name="close-circle-outline" color="warning"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-toolbar>
+        <ion-input #input type="text" placeholder="Ciudad - aeropuerto" debounce="100" autocomplete="on" [(ngModel)]="search"
+          (ionInput)="airportSearch()" [autofocus]="autofocus">
+        </ion-input>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="ion-text-center" *ngIf="searchBusy">
+        <ion-spinner name="bubbles" color="primary"></ion-spinner>
+      </div>
+      <div *ngFor="let airport of airports" (click)="selectAirport(airport)">
+        <ion-item lines="none" [ngSwitch]="airport.type" [class.airport-type]="airport.type == 'airport'"
+          class="item-popover">
+          <ion-icon [name]="airport.type == 'airport' ? 'airplane-outline' : 'business-outline'" size="medium"
+            slot="start"></ion-icon>
+          <p class="p-popover">
+            {{airport.type == 'airport' ? (airport.city.name + ', ' + airport.city.country.name) : (airport.name + ', '
+            + airport.country.name)}}<br>
+            <small>{{airport.name}}</small>
+          </p>
+        </ion-item>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

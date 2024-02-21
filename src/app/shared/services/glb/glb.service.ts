@@ -15,7 +15,8 @@ export class GlbService {
   firstSearch: boolean = true;
   selectAirportFrom: any = {};
   selectAirportTo: any = {};
-  airports: any = [];
+  airportsFrom: any = [];
+  airportsTo: any = [];
   today = format(new Date(), 'yyyy-MM-dd');
   selectedDateSalidaStart: string = this.today;
   selectedDateSalidaEnd: string = this.today;
@@ -51,7 +52,7 @@ export class GlbService {
   }
 
   initCityFrom() {
-    this.selectAirportFrom = {
+    const selectAirportFromMock = {
       "id": "BOG",
       "int_id": 1179,
       "airport_int_id": 1179,
@@ -149,7 +150,18 @@ export class GlbService {
       "routing_priority": 0,
       "type": "airport"
     };
-    this.searchFrom = `${this.selectAirportFrom.city.name}-${this.selectAirportFrom.code}`;
+    const airportsSelectedFrom = JSON.parse(localStorage.getItem('airportsSelectedFrom') || '[]');
+    if(airportsSelectedFrom.length == 0) this.selectAirportFrom = selectAirportFromMock;
+    else this.selectAirportFrom = airportsSelectedFrom[0];
+    console.log('selectAirportFrom: ', this.selectAirportFrom);
+    if(this.selectAirportFrom.type == 'city') this.searchFrom = `${this.selectAirportFrom.name}-${this.selectAirportFrom.code}`;
+    if(this.selectAirportFrom.type == 'airport') this.searchFrom = `${this.selectAirportFrom.city.name}-${this.selectAirportFrom.code}`;
+    const airportsSelectedTo = JSON.parse(localStorage.getItem('airportsSelectedTo') || '[]');
+    if(airportsSelectedTo.length == 0) this.selectAirportTo = {};
+    else this.selectAirportTo = airportsSelectedTo[0];
+    console.log('selectAirportTo: ', this.selectAirportTo);
+    if(this.selectAirportTo.type == 'city') this.searchTo = `${this.selectAirportTo.name}-${this.selectAirportTo.code}`;
+    if(this.selectAirportTo.type == 'airport') this.searchTo = `${this.selectAirportTo.city.name}-${this.selectAirportTo.code}`;
   }
 
   testBookingResults() {

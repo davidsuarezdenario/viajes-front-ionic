@@ -6,8 +6,6 @@
           <ion-select [(ngModel)]="glbService.trips" placeholder="Selecciona" interface="popover" (ionChange)="change()">
             <ion-select-option value="idaVuelta">Ida y vuelta</ion-select-option>
             <ion-select-option value="soloIda">Solo ida</ion-select-option>
-            <!-- <ion-select-option value="multiplesDestinos">Multiples destinos</ion-select-option>
-            <ion-select-option value="nomad">Nomad</ion-select-option> -->
           </ion-select>
         </div>
         <div class="space-items">
@@ -37,18 +35,12 @@
     <ion-col size="12" class="ion-no-padding ion-text-center">
       <div class="flex-item1-3">
         <div class="flex-item3">
-          <ion-input type="text" placeholder="Ciudad" debounce="100" autocomplete="on"
-            [(ngModel)]="glbService.searchFrom"
-            (ionInput)="popoverAirportsComponent.airportSearch($event,'from')">
-          </ion-input>
+          <app-modal-airports label="Origen" show="header"></app-modal-airports>
           <strong *ngIf="glbService.trips=='idaVuelta'"><ion-icon name="repeat-outline" size="large" color="primary"></ion-icon></strong>
           <strong *ngIf="glbService.trips=='soloIda'"><ion-icon name="return-up-forward-outline" size="large" color="primary"></ion-icon></strong>
           <strong *ngIf="glbService.trips=='multiplesDestinos'"><ion-icon name="share-social-outline" size="large" color="primary"></ion-icon></strong>
           <strong *ngIf="glbService.trips=='nomad'"><ion-icon name="move-outline" size="large" color="primary"></ion-icon></strong>
-          <ion-input type="text" placeholder="Ciudad" debounce="100" autocomplete="on"
-            [(ngModel)]="glbService.searchTo"
-            (ionInput)="popoverAirportsComponent.airportSearch($event,'to')">
-          </ion-input>
+          <app-modal-airports label="Destino" show="header"></app-modal-airports>
         </div>
         <div class="flex-item3">
           <app-date-select label="Salida" ref="datetime1"></app-date-select>
@@ -60,11 +52,7 @@
   <ion-row *ngIf="glbService.firstSearch">
     <ion-col class="min-width-ion-item">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100" autocomplete="on"
-          [(ngModel)]="glbService.searchFrom"
-          (ionInput)="popoverAirportsComponent.airportSearch($event,'from')">
-          <div slot="label" style="font-weight: lighter;">Origen</div>
-        </ion-input>
+        <app-modal-airports label="Origen"></app-modal-airports>
       </ion-item>
     </ion-col>
     <div class="button-trip-type">
@@ -75,11 +63,7 @@
     </div>
     <ion-col class="min-width-ion-item" size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
       <ion-item lines="none" class="ion-text-center">
-        <ion-input labelPlacement="floating" type="text" placeholder="Ciudad" debounce="100" autocomplete="on" autofocus="true"
-          [(ngModel)]="glbService.searchTo"
-          (ionInput)="popoverAirportsComponent.airportSearch($event,'to')">
-          <div slot="label" style="font-weight: lighter;">Destino</div>
-        </ion-input>
+        <app-modal-airports label="Destino"></app-modal-airports>
       </ion-item>
     </ion-col>
     <ion-col>
@@ -100,7 +84,6 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <app-popover-airports></app-popover-airports>
 </ion-grid>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: -18px; margin-bottom: -10px;" *ngIf="!glbService.firstSearch">
   <ion-fab-button size="small" (click)="explorar()" [disabled]="glbService.bookingloading">

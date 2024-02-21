@@ -17,7 +17,7 @@ ion-input {
     color: #000;
 }
 
-app-date-select{
+app-date-select {
     width: 100%;
 }
 
@@ -78,20 +78,24 @@ app-date-select{
 }
 
 .button-trip-type {
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 1000;
-  
+
     @media (min-width: 576px) {
-      height: 64px; 
-      margin-left: -16px; 
-      margin-right: -16px;
+        height: 64px;
+        margin-left: -16px;
+        margin-right: -16px;
     }
-  
+
     @media (max-width: 575px) {
-      width: 100%; 
-      margin-top: -16px; 
-      margin-bottom: -16px;
+        width: 100%;
+        margin-top: -16px;
+        margin-bottom: -16px;
     }
-  }
+}
+
+app-modal-airports {
+    width: 100%;
+}

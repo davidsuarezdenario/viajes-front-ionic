@@ -3,7 +3,7 @@
     <div class="ion-text-center" *ngIf="searchBusy">
       <ion-spinner name="bubbles" color="primary"></ion-spinner>
     </div>
-    <div *ngFor="let airport of glbService.airports" class="item-popover" (click)="selectAirport(airport)">
+    <div *ngFor="let airport of airports" class="item-popover" (click)="selectAirport(airport)">
       <ion-item lines="none" [ngSwitch]="airport.type" [style.padding-left]="airport.type == 'airport' ? '10px' : '0'">
         <ion-icon [name]="airport.type == 'airport' ? 'airplane-outline' : 'business-outline'" size="medium" slot="start"></ion-icon>
         <p class="p-popover">

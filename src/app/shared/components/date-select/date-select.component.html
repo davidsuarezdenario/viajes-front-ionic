@@ -1,6 +1,6 @@
 <ion-label class="label-floating-date">{{label}}</ion-label>
 <div [ngClass]="(!glb.firstSearch) ? 'center-content-header' : 'center-content'">
-  <ion-button (click)="presentModal(true)" *ngIf="label" fill="clear" class="ion-no-padding">
+  <ion-button (click)="presentModal(true)" *ngIf="label" fill="clear" expand="full" class="ion-no-padding main-button"> 
     <ion-text [ngClass]="(!glb.firstSearch) ? 'text-date-label-header' : 'text-date-label'"> {{ selectedDateRangeLabel }} </ion-text>
   </ion-button>
 </div>
