@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IonCard, IonGrid, IonRow, IonCardHeader, IonCol, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonImg, IonText } from "@ionic/angular/standalone";
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { format } from 'date-fns';
+import { GlbService } from "../../services/glb/glb.service";
 
 @Component({
   selector: 'app-booking',
@@ -14,7 +15,9 @@ import { format } from 'date-fns';
 export class BookingComponent  implements OnInit {
   @Input() flight: any;
 
-  constructor() {}
+  constructor(
+    public glb: GlbService
+  ) {}
 
   ngOnInit() {
     console.log('flight: ',this.flight);
