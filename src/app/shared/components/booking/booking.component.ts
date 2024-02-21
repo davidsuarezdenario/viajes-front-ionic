@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IonCard, IonGrid, IonRow, IonCardHeader, IonCol, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonImg, IonText } from "@ionic/angular/standalone";
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { format } from 'date-fns';
-import { last } from 'rxjs';
 
 @Component({
   selector: 'app-booking',
