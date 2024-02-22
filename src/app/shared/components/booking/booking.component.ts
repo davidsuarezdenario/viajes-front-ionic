@@ -64,7 +64,7 @@ export class BookingComponent implements OnInit {
 
   getAirlineArray(returnType: number): string[] {
     const segments = returnType === 0 ? this.outboundSegments : this.returnSegments;
-    return segments.map((segment: any) => segment.airline);
+    return [...new Set(segments.map((segment: any) => segment.airline))];
   }
 
 }
