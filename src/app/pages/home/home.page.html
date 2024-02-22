@@ -43,8 +43,8 @@
         <ion-chip color="primary" mode="ios">
             <ion-text>{{glbService.bookingResults.length}} resultados</ion-text>
         </ion-chip>
-        <ion-row class="ion-no-padding">
-            <ion-col size="12" *ngFor="let booking of glbService.bookingResults" style="margin-top: -10px;" class="ion-no-padding">
+        <ion-row class="ion-no-padding" style="margin-top: 15px;">
+            <ion-col size="12" *ngFor="let booking of glbService.bookingResults" style="margin-top: -40px;" class="ion-no-padding">
                 <app-booking [flight]="booking"></app-booking>
             </ion-col>
         </ion-row>

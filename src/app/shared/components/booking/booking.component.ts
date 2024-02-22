@@ -14,23 +14,31 @@ import { GlbService } from "../../services/glb/glb.service";
   imports: [IonText, IonImg, IonButton, IonCardContent, IonCardTitle, IonCardSubtitle, IonCol, IonCardHeader, IonRow, IonGrid, IonCard, DatePipe, CurrencyPipe, FormsModule, CommonModule],
   providers: [DatePipe, CurrencyPipe]
 })
-export class BookingComponent  implements OnInit {
+export class BookingComponent implements OnInit {
   @Input() flight: any;
+  outboundSegments: any[] = [];
+  returnSegments: any[] = [];
 
   constructor(
     public glb: GlbService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    console.log('flight: ',this.flight);
+    console.log('flight: ', this.flight);
+    this.outboundSegments = this.sortSegments(this.filterSegments(0));
+    this.returnSegments = this.sortSegments(this.filterSegments(1));
   }
 
-  formatDate(date: string) {
-    return format(new Date(date), 'EEE dd/MM');
+  filterSegments(returnType: number) {
+    return this.flight.route.filter((segment: any) => segment.return === returnType);
   }
 
-  formatTime(date: string) {
-    return format(new Date(date), 'HH:mm');
+  sortSegments(segments: any[]) {
+    return segments.sort((a: any, b: any) => new Date(a.local_departure).getTime() - new Date(b.local_departure).getTime());
+  }
+
+  formatDateTime(date: string, formatType: 'EEE dd/MM' | 'HH:mm') {
+    return format(new Date(date), formatType);
   }
 
   formatDuration(seconds: number) {
@@ -39,56 +47,18 @@ export class BookingComponent  implements OnInit {
     return `${hours}h ${minutes}m`;
   }
 
-  getScales(type: string): number{
+  getScales(type: string): number {
     const returnType = type === 'outbound' ? 0 : 1;
     return this.flight.route.filter((segment: any) => segment.return === returnType).length - 1;
   }
 
-  getFirstDeparturelSegment(): string {
-    const segment = this.flight.route
-      .filter((segment:any) => segment.return === 1)
-      .sort((a:any, b:any) => new Date(a.local_departure).getTime() - new Date(b.local_departure).getTime());
-    if (segment.length === 0) {
+  getSegmentTime(returnType: number, segmentType: 'local_departure' | 'local_arrival', formatType: 'EEE dd/MM' | 'HH:mm'): string {
+    const segments = returnType === 0 ? this.outboundSegments : this.returnSegments;
+    if (segments.length === 0) {
       return "";
     }
-    const lastSegment = segment[0].local_departure;
-    const lastSegmentTime = format(new Date(lastSegment), 'EEE dd/MM');
-    return lastSegmentTime;
-  }
-  
-  getLastArrivalSegment(): string {
-    const segment = this.flight.route
-      .filter((segment:any) => segment.return === 1)
-      .sort((a:any, b:any) => new Date(a.local_arrival).getTime() - new Date(b.local_arrival).getTime());
-    if (segment.length === 0) {
-      return "";
-    }
-    const lastSegment = segment[segment.length - 1].local_arrival;
-    const lastSegmentTime = format(new Date(lastSegment), 'EEE dd/MM');
-    return lastSegmentTime;
-  }
-  
-  getFirstDeparturelSegmentTime(): string {
-    const segment = this.flight.route
-      .filter((segment:any) => segment.return === 1)
-      .sort((a:any, b:any) => new Date(a.local_departure).getTime() - new Date(b.local_departure).getTime());
-    if (segment.length === 0) {
-      return "";
-    }
-    const lastSegment = segment[0].local_departure;
-    const lastSegmentTime = format(new Date(lastSegment), 'HH:mm');
-    return lastSegmentTime;
-  }
-  
-  getLastArrivalSegmentTime(): string {
-    const segment = this.flight.route
-      .filter((segment:any) => segment.return === 1)
-      .sort((a:any, b:any) => new Date(a.local_arrival).getTime() - new Date(b.local_arrival).getTime());
-    if (segment.length === 0) {
-      return "";
-    }
-    const lastSegment = segment[segment.length - 1].local_arrival;
-    const lastSegmentTime = format(new Date(lastSegment), 'HH:mm');
+    const lastSegment = segmentType === 'local_departure' ? segments[0][segmentType] : segments[segments.length - 1][segmentType];
+    const lastSegmentTime = format(new Date(lastSegment), formatType);
     return lastSegmentTime;
   }
 

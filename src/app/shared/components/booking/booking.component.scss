@@ -1,75 +1,68 @@
-/* .flight-card {
-    height: 100%;
-    border-radius: 10px;
-    ion-grid {
-        padding: 0;
-    }
-    ion-card-header {
-        padding-bottom: 0;
-        padding-left: 13px;
-    }
-    ion-card-title {
-        font-weight: bold;
-    }
-    ion-card-content {
-        padding-left: 13px;
-        padding-bottom: 13px;
-    }
-    .flight-details {
-        .flight-time {
-            font-size: 0.8rem;
-        }
-        .flight-info {
-            font-size: 0.8rem;
-            p {
-                margin: 0;
-            }
-        }
-    }
-    
-} */
-
-ion-card{
-    border-radius: 10px;
-    color: #000;
+ion-card {
+  border-radius: 10px;
+  color: #000;
 }
 
+// Estilos para la sección de precios
 .flight-price {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  p {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    height: 100%;
-    p {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        font-weight: bold;
-        font-size: 1.2rem;
-        color: #000;
-    }
-    ion-button {
-        --background: var(--ion-color-success);
-        margin-top: 8px;
-        margin-bottom: 0px;
-    }
-    padding: 0px 5px 0px 5px;
-}
-
-.column-fly-data {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-weight: bold;
+    font-size:  1.2rem;
+    color: #000;
+    margin: 5px;
+  }
+  ion-button {
+    --background: var(--ion-color-success);
+    margin: 5px;
+  }
 }
 
-h4{
-    margin-bottom: 5px;
-    margin-top: 5px;
+// Estilos para datos de vuelo
+.column-fly-data {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.grid-routes{
-    margin: 2px 0px 0px 5px;
+// Estilos para el encabezado de cada sección
+h4 {
+  margin: 0;
+}
+
+// Ajustes de margen para rutas, eliminando el padding predeterminado
+.grid-routes {
+  margin: 0 0 0 5px;
+}
+
+// Estilos aplicados a las filas para bordes superiores e inferiores
+.route-border-top, .route-border {
+  border-top: 1px solid lightgray;
+}
+
+.route-border {
+  border-bottom: 1px solid lightgray;
+}
+
+// Estilo específico para la columna de precio, si es necesario
+.price-column {
+  border-top: 1px solid lightgray;
+}
+
+.info{
+    margin: 5px 0px 5px 0px;
+    div{
+        margin: 0px 3px 0px 3px;
+    }
 }
