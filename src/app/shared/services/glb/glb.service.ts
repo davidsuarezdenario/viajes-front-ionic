@@ -44,7 +44,7 @@ export class GlbService {
 
   constructor() {
     this.initCityFrom();
-    this.testBookingResults();
+    /* this.testBookingResults(); */
   }
 
   normalizeString(str: string): string {
