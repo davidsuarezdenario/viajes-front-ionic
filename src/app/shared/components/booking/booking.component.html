@@ -16,8 +16,15 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <div>
-                  {{ getScales('outbound') === 0 ? 'Directo' : getScales('outbound') + (getScales('outbound') === 1 ? ' escala' : ' escalas') }}
+                <div style="display: flex;">
+                  <ion-text class="chip"
+                    [ngClass]="{'chip-primay': getScales('outbound') === 0, 'chip-light': getScales('outbound') !== 0}">
+                    {{ getScales('outbound') === 0 ? 'Directo' : getScales('outbound') + (getScales('outbound') === 1 ?
+                    ' escala' : ' escalas') }}
+                  </ion-text>
+                  <ion-text class="chip chip-secondary">
+                    {{getAirlineArray(0)}}
+                  </ion-text>
                 </div>
                 <div>
                   {{ formatDuration(flight.duration.departure) }}
@@ -45,8 +52,15 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <div>
-                  {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? ' escala' : ' escalas') }}
+                <div style="display: flex;">
+                  <ion-text class="chip"
+                    [ngClass]="{'chip-primay': getScales('return') === 0, 'chip-light': getScales('return') !== 0}">
+                    {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
+                    escala' : ' escalas') }}
+                  </ion-text>
+                  <ion-text class="chip chip-secondary">
+                    {{getAirlineArray(1)}}
+                  </ion-text>
                 </div>
                 <div>
                   {{ formatDuration(flight.duration.return) }}

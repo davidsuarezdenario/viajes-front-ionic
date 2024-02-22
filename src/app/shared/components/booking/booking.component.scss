@@ -3,7 +3,6 @@ ion-card {
   color: #000;
 }
 
-// Estilos para la sección de precios
 .flight-price {
   display: flex;
   flex-direction: column;
@@ -25,7 +24,6 @@ ion-card {
   }
 }
 
-// Estilos para datos de vuelo
 .column-fly-data {
   height: 100%;
   width: 100%;
@@ -36,17 +34,14 @@ ion-card {
   margin-bottom: 5px;
 }
 
-// Estilos para el encabezado de cada sección
 h4 {
   margin: 0;
 }
 
-// Ajustes de margen para rutas, eliminando el padding predeterminado
 .grid-routes {
   margin: 0 0 0 5px;
 }
 
-// Estilos aplicados a las filas para bordes superiores e inferiores
 .route-border-top, .route-border {
   border-top: 1px solid lightgray;
 }
@@ -55,7 +50,6 @@ h4 {
   border-bottom: 1px solid lightgray;
 }
 
-// Estilo específico para la columna de precio, si es necesario
 .price-column {
   border-top: 1px solid lightgray;
 }
@@ -65,4 +59,26 @@ h4 {
     div{
         margin: 0px 3px 0px 3px;
     }
+}
+
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 16px;
+  font-size: small;
+}
+
+.chip-primay {
+  background-color: rgba(var(--ion-color-primary-rgb), 0.2);
+  color: var(--ion-color-primary-shade);
+}
+
+.chip-light {
+  background-color: var(--ion-color-light-tint);
+  color: var(--ion-color-light-contrast);
+}
+
+.chip-secondary {
+  background-color: var(--ion-color-secondary-tint);
+  color: var(--ion-color-secondary-contrast);
 }
