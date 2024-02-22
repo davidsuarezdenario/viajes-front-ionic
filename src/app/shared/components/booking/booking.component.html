@@ -33,7 +33,7 @@
               </div>
             </ion-col>
           </ion-row>
-          <ion-row style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;" *ngIf="glb.trips=='idaVuelta'">
+          <ion-row style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;" *ngIf="glb.trips=='idaVuelta'" >
             <ion-col size="12">
               <ion-text> <strong>Regreso</strong> </ion-text>
             </ion-col>
@@ -65,7 +65,7 @@
           </ion-row>
         </ion-grid>
 
-        <ion-card-content>
+        <ion-card-content class="ion-no-padding" style="margin-top: 5px;">
           <div class="flight-details">
             <div class="flight-time">
               <p>Duración: {{ formatDuration(flight.duration.total) }}</p>

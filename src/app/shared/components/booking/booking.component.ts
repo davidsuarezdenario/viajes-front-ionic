@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
 import { IonCard, IonGrid, IonRow, IonCardHeader, IonCol, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonImg, IonText } from "@ionic/angular/standalone";
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { format } from 'date-fns';
@@ -9,7 +11,7 @@ import { GlbService } from "../../services/glb/glb.service";
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.scss'],
   standalone: true,
-  imports: [IonText, IonImg, IonButton, IonCardContent, IonCardTitle, IonCardSubtitle, IonCol, IonCardHeader, IonRow, IonGrid, IonCard, DatePipe, CurrencyPipe],
+  imports: [IonText, IonImg, IonButton, IonCardContent, IonCardTitle, IonCardSubtitle, IonCol, IonCardHeader, IonRow, IonGrid, IonCard, DatePipe, CurrencyPipe, FormsModule, CommonModule],
   providers: [DatePipe, CurrencyPipe]
 })
 export class BookingComponent  implements OnInit {
@@ -51,7 +53,6 @@ export class BookingComponent  implements OnInit {
     }
     const lastSegment = segment[0].local_departure;
     const lastSegmentTime = format(new Date(lastSegment), 'EEE dd/MM');
-    console.log('lastSegment: ',lastSegmentTime);
     return lastSegmentTime;
   }
   
@@ -64,7 +65,6 @@ export class BookingComponent  implements OnInit {
     }
     const lastSegment = segment[segment.length - 1].local_arrival;
     const lastSegmentTime = format(new Date(lastSegment), 'EEE dd/MM');
-    console.log('lastSegment: ',lastSegmentTime);
     return lastSegmentTime;
   }
   
@@ -77,7 +77,6 @@ export class BookingComponent  implements OnInit {
     }
     const lastSegment = segment[0].local_departure;
     const lastSegmentTime = format(new Date(lastSegment), 'HH:mm');
-    console.log('lastSegment: ',lastSegmentTime);
     return lastSegmentTime;
   }
   
@@ -90,7 +89,6 @@ export class BookingComponent  implements OnInit {
     }
     const lastSegment = segment[segment.length - 1].local_arrival;
     const lastSegmentTime = format(new Date(lastSegment), 'HH:mm');
-    console.log('lastSegment: ',lastSegmentTime);
     return lastSegmentTime;
   }
 
