@@ -22,7 +22,7 @@
                     {{ getScales('outbound') === 0 ? 'Directo' : getScales('outbound') + (getScales('outbound') === 1 ?
                     ' escala' : ' escalas') }}
                   </ion-text>
-                  <img class="airline-logo" *ngFor="let logo of getAirlineArray(0)" src="https://content.r9cdn.net/rimg/provider-logos/airlines/v/{{logo}}.png">
+                  <img class="airline-logo" *ngFor="let logo of getAirlineArray(0)" title={{logo}} alt={{logo}} src="https://content.r9cdn.net/rimg/provider-logos/airlines/v/{{logo}}.png">
                 </div>
                 <div>
                   {{ formatDuration(flight.duration.departure) }}
@@ -57,7 +57,7 @@
                       {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
                       escala' : ' escalas') }}
                     </ion-text>
-                    <img class="airline-logo" *ngFor="let logo of getAirlineArray(1)" src="https://content.r9cdn.net/rimg/provider-logos/airlines/v/{{logo}}.png">
+                    <img class="airline-logo" *ngFor="let logo of getAirlineArray(1)" title={{logo}} alt={{logo}} src="https://content.r9cdn.net/rimg/provider-logos/airlines/v/{{logo}}.png">
                   </div>
                   <div>
                     {{ formatDuration(flight.duration.return) }}
