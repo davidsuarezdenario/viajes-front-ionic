@@ -52,6 +52,9 @@ export class ApiService {
   async post(url: string, data: any) {
     const headers = this.createHeaders();
     const observable = this.http.post(`${environment.api.url}${url}`, data, { headers: headers });
+    console.log('url: ', `${environment.api.url}${url}`);
+    console.log('headers: ', headers);
+    console.log('data: ', data);
     return lastValueFrom(observable);
   }
 

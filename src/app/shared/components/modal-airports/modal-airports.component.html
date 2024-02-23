@@ -23,7 +23,7 @@
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
-        <ion-input #input type="text" placeholder="Ciudad - aeropuerto" debounce="100" autocomplete="on" [(ngModel)]="search"
+        <ion-input #input type="text" placeholder="Ciudad - aeropuerto" debounce="100" [(ngModel)]="search"
           (ionInput)="airportSearch()" [autofocus]="autofocus">
         </ion-input>
         <ion-buttons slot="end">
@@ -40,11 +40,17 @@
       <div *ngFor="let airport of airports" (click)="selectAirport(airport)">
         <ion-item lines="none" [ngSwitch]="airport.type" [class.airport-type]="airport.type == 'airport'"
           class="item-popover">
-          <ion-icon [name]="airport.type == 'airport' ? 'airplane-outline' : 'business-outline'" size="medium"
-            slot="start"></ion-icon>
+          <ion-icon
+            [name]="airport.type == 'airport' ? 'airplane-outline' : airport.type == 'city' ? 'business-outline' : 'earth-outline'"
+            size="medium" slot="start"></ion-icon>
           <p class="p-popover">
-            {{airport.type == 'airport' ? (airport.city.name + ', ' + airport.city.country.name) : (airport.name + ', '
-            + airport.country.name)}}<br>
+            {{
+            airport.type == 'airport'
+            ? (airport.city.name + ', ' + (airport.city.country ? airport.city.country.name : ''))
+            : airport.type == 'city'
+            ? (airport.name + ', ' + (airport.country ? airport.country.name : ''))
+            : airport.name
+            }}<br>
             <small>{{airport.name}}</small>
           </p>
         </ion-item>
