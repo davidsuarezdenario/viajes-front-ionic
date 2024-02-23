@@ -26,6 +26,11 @@
         <ion-input #input type="text" placeholder="Ciudad - aeropuerto" debounce="100" autocomplete="on" [(ngModel)]="search"
           (ionInput)="airportSearch()" [autofocus]="autofocus">
         </ion-input>
+        <ion-buttons slot="end">
+          <ion-button (click)="deleteSearch();" slot="end" size="small" fill="clear">
+            <ion-icon name="backspace-outline" color="primary" size="large"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">

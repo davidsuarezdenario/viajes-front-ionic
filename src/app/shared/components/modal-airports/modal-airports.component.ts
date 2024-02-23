@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonInput, IonSpinner, IonIcon, IonLabel } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { airplaneOutline, businessOutline, closeCircleOutline } from "ionicons/icons";
+import { airplaneOutline, businessOutline, closeCircleOutline, backspaceOutline } from "ionicons/icons";
 import { GlbService } from "../../services/glb/glb.service";
 import { ApiService } from "../../services/api/api.service";
 
@@ -28,7 +28,7 @@ export class ModalAirportsComponent  implements OnInit {
     public glbService: GlbService,
     private apiService: ApiService
   ) { 
-    addIcons({ airplaneOutline, businessOutline, closeCircleOutline });
+    addIcons({ airplaneOutline, businessOutline, closeCircleOutline, backspaceOutline });
   }
 
   ngOnInit() {}
@@ -75,6 +75,11 @@ export class ModalAirportsComponent  implements OnInit {
       if(airport.type == 'city') this.glbService[searchlabel] = `${airport.name}-${airport.code}`;
       if(airport.type == 'airport') this.glbService[searchlabel] = `${airport.city.name}-${airport.code}`;
     }
+  }
+
+  deleteSearch() {
+    this.search = '';
+    this.resetSearch();
   }
 
   airportSearch() {

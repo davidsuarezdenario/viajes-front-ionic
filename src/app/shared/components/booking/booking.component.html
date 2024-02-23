@@ -16,15 +16,13 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <div style="display: flex;">
-                  <ion-text class="chip"
+                <div class="segment-info">
+                  <ion-text class="chip chip ion-text-center"
                     [ngClass]="{'chip-primay': getScales('outbound') === 0, 'chip-light': getScales('outbound') !== 0}">
                     {{ getScales('outbound') === 0 ? 'Directo' : getScales('outbound') + (getScales('outbound') === 1 ?
                     ' escala' : ' escalas') }}
                   </ion-text>
-                  <ion-text class="chip chip-secondary">
-                    {{getAirlineArray(0)}}
-                  </ion-text>
+                  <img class="airline-logo" *ngFor="let logo of getAirlineArray(0)" src="https://content.r9cdn.net/rimg/provider-logos/airlines/v/{{logo}}.png">
                 </div>
                 <div>
                   {{ formatDuration(flight.duration.departure) }}
@@ -51,19 +49,19 @@
               </div>
             </ion-col>
             <ion-col size="4">
-              <div class="column-fly-data">
-                <div style="display: flex;">
-                  <ion-text class="chip"
-                    [ngClass]="{'chip-primay': getScales('return') === 0, 'chip-light': getScales('return') !== 0}">
-                    {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
-                    escala' : ' escalas') }}
-                  </ion-text>
-                  <ion-text class="chip chip-secondary">
-                    {{getAirlineArray(1)}}
-                  </ion-text>
-                </div>
-                <div>
-                  {{ formatDuration(flight.duration.return) }}
+              <div>
+                <div class="column-fly-data">
+                  <div class="segment-info">
+                    <ion-text class="chip ion-text-center"
+                      [ngClass]="{'chip-primay': getScales('return') === 0, 'chip-light': getScales('return') !== 0}">
+                      {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
+                      escala' : ' escalas') }}
+                    </ion-text>
+                    <img class="airline-logo" *ngFor="let logo of getAirlineArray(1)" src="https://content.r9cdn.net/rimg/provider-logos/airlines/v/{{logo}}.png">
+                  </div>
+                  <div>
+                    {{ formatDuration(flight.duration.return) }}
+                  </div>
                 </div>
               </div>
             </ion-col>
