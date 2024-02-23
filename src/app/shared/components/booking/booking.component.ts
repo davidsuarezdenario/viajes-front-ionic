@@ -24,7 +24,6 @@ export class BookingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('flight: ', this.flight);
     this.outboundSegments = this.sortSegments(this.filterSegments(0));
     this.returnSegments = this.sortSegments(this.filterSegments(1));
   }

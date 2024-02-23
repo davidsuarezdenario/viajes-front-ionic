@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { IonHeader, IonProgressBar, IonToolbar, IonGrid, IonRow, IonCol, IonContent, IonCard, IonText, IonChip, IonLabel, IonTitle, IonButton } from "@ionic/angular/standalone";
+import { IonHeader, IonProgressBar, IonToolbar, IonGrid, IonRow, IonCol, IonContent, IonCard, IonText, IonChip, IonLabel, IonTitle, IonButton, IonSkeletonText } from "@ionic/angular/standalone";
 import { HeaderMainComponent } from "../../shared/components/header-main/header-main.component";
 import { SearchMainComponent } from "../../shared/components/search-main/search-main.component";
 import { ApiService } from "../../shared/services/api/api.service";
 import { GlbService } from "../../shared/services/glb/glb.service";
 import { BookingComponent } from "../../shared/components/booking/booking.component";
+import { BookingSkeletonComponent } from "../../shared/components/booking-skeleton/booking-skeleton.component";
 import { AlertMainService } from "../../shared/services/alert-main/alert-main.service";
 
 @Component({
@@ -14,7 +15,7 @@ import { AlertMainService } from "../../shared/services/alert-main/alert-main.se
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonButton, IonTitle, IonLabel, IonChip, IonText, IonCard, IonContent, IonCol, IonRow, IonGrid, IonToolbar, IonProgressBar, IonHeader, CommonModule, FormsModule, HeaderMainComponent, SearchMainComponent, BookingComponent, ],
+  imports: [IonSkeletonText, IonButton, IonTitle, IonLabel, IonChip, IonText, IonCard, IonContent, IonCol, IonRow, IonGrid, IonToolbar, IonProgressBar, IonHeader, CommonModule, FormsModule, HeaderMainComponent, SearchMainComponent, BookingComponent, BookingSkeletonComponent],
 })
 export class HomePage implements OnInit {
 

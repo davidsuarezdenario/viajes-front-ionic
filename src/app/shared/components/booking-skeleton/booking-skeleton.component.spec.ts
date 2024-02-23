@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { PopoverAirportsComponent } from './popover-airports.component';
+import { BookingSkeletonComponent } from './booking-skeleton.component';
 
-describe('PopoverAirportsComponent', () => {
-  let component: PopoverAirportsComponent;
-  let fixture: ComponentFixture<PopoverAirportsComponent>;
+describe('BookingSkeletonComponent', () => {
+  let component: BookingSkeletonComponent;
+  let fixture: ComponentFixture<BookingSkeletonComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PopoverAirportsComponent ],
+      declarations: [ BookingSkeletonComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PopoverAirportsComponent);
+    fixture = TestBed.createComponent(BookingSkeletonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

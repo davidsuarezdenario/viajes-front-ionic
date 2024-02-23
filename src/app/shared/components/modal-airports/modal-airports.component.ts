@@ -6,6 +6,7 @@ import { addIcons } from 'ionicons';
 import { airplaneOutline, businessOutline, closeCircleOutline, backspaceOutline } from "ionicons/icons";
 import { GlbService } from "../../services/glb/glb.service";
 import { ApiService } from "../../services/api/api.service";
+import { SearchMainService } from "../../services/search-main/search-main.service";
 
 @Component({
   selector: 'app-modal-airports',
@@ -26,7 +27,8 @@ export class ModalAirportsComponent  implements OnInit {
 
   constructor(
     public glbService: GlbService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private searchMainService: SearchMainService
   ) { 
     addIcons({ airplaneOutline, businessOutline, closeCircleOutline, backspaceOutline });
   }
@@ -80,6 +82,7 @@ export class ModalAirportsComponent  implements OnInit {
   deleteSearch() {
     this.search = '';
     this.resetSearch();
+    this.input.setFocus();
   }
 
   airportSearch() {
@@ -151,7 +154,9 @@ export class ModalAirportsComponent  implements OnInit {
     this.saveAirportSelection(storageKey, airport);
   
     this.setOpen(false);
-    this.glbService.bookingResults = [];
+    if( !this.glbService.firstSearch){
+      this.searchMainService.explorar();
+    }
   }
   
   saveAirportSelection(key: string, airport: any) {
