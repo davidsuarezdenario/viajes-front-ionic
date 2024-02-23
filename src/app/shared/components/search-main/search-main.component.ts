@@ -9,7 +9,7 @@ import { ApiService } from "../../services/api/api.service";
 import { SelectPasajerosComponent } from "../select-pasajeros/select-pasajeros.component";
 import { SelectEquipajeComponent } from "../select-equipaje/select-equipaje.component";
 import { DateSelectComponent } from "../date-select/date-select.component";
-import { AlertMainComponent } from "../alert-main/alert-main.component";
+import { AlertMainService } from "../../services/alert-main/alert-main.service";
 import { ModalAirportsComponent } from "../modal-airports/modal-airports.component";
 
 @Component({
@@ -17,16 +17,16 @@ import { ModalAirportsComponent } from "../modal-airports/modal-airports.compone
   templateUrl: './search-main.component.html',
   styleUrls: ['./search-main.component.scss'],
   standalone: true,
-  imports: [IonSpinner, IonFabButton, IonFab, CommonModule, FormsModule, IonGrid, IonRow, IonCol, IonItem, IonSelect, IonSelectOption, IonButton, IonText, SelectPasajerosComponent, SelectEquipajeComponent, IonIcon, DateSelectComponent, AlertMainComponent, ModalAirportsComponent]
+  imports: [IonSpinner, IonFabButton, IonFab, CommonModule, FormsModule, IonGrid, IonRow, IonCol, IonItem, IonSelect, IonSelectOption, IonButton, IonText, SelectPasajerosComponent, SelectEquipajeComponent, IonIcon, DateSelectComponent, ModalAirportsComponent]
 })
 export class SearchMainComponent implements OnInit {
   @ViewChild(SelectPasajerosComponent) selectPasajerosComponent!: SelectPasajerosComponent;
   @ViewChild(SelectEquipajeComponent) selectEquipajeComponent!: SelectEquipajeComponent;
-  @ViewChild(AlertMainComponent) alertMainComponent!: AlertMainComponent;
 
   constructor(
     public glbService: GlbService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private alertMain: AlertMainService
   ) {
     addIcons({ chevronExpand, people, bag, repeatOutline, returnUpForwardOutline, search, shareSocialOutline, moveOutline });
   }
@@ -103,7 +103,7 @@ export class SearchMainComponent implements OnInit {
       const bookingResponse: any = await this.apiService.post('/travel/booking', body);
       console.log('bookingResponse: ', bookingResponse);
       if (bookingResponse.data.error) {
-        this.alertMainComponent.setOpen(true, 'Error', 'Al consultar vuelos', bookingResponse.data.error);
+        this.alertMain.present('Error', 'Al consultar vuelos', bookingResponse.data.error);
         return;
       }
       if (bookingResponse.data.data.length > 0) {
@@ -112,10 +112,10 @@ export class SearchMainComponent implements OnInit {
         return;
       }
       const alertButtons = [{ text: 'OK', role: 'confirm', handler: () => { console.log('Alert confirmed'); this.glbService.bookingResults = []; }, }];
-      this.alertMainComponent.setOpen(true, 'Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busquda.', alertButtons);
+      this.alertMain.present('Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busquda.');
     } catch (e) {
       console.error('error bookingResponse: ', e);
-      this.alertMainComponent.setOpen(true, 'Error', 'Al consultar vuelos', JSON.stringify(e));
+      this.alertMain.present('Error', 'Al consultar vuelos', JSON.stringify(e));
     } finally {
       this.glbService.bookingloading = false;
     }
@@ -143,7 +143,7 @@ export class SearchMainComponent implements OnInit {
 
     for (let item of conditions) {
       if (item.condition) {
-        this.alertMainComponent.setOpen(true, 'Error', 'Datos incompletos', item.message);
+        this.alertMain.present('Error', 'Datos incompletos', item.message);
         return false;
       }
     }
