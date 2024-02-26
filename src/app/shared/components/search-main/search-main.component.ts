@@ -39,4 +39,16 @@ export class SearchMainComponent implements OnInit {
     }
   }
 
+  changeOriginDestination(){
+    const originSearch = this.glbService.searchFrom ;
+    const originAirport = this.glbService.selectAirportFrom;
+    this.glbService.searchFrom = this.glbService.searchTo;
+    this.glbService.selectAirportFrom = this.glbService.selectAirportTo;
+    this.glbService.searchTo = originSearch;
+    this.glbService.selectAirportTo = originAirport;
+    if( !this.glbService.firstSearch){
+      this.searchMainService.explorar();
+    }
+  }
+
 }

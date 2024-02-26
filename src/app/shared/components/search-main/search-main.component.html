@@ -30,10 +30,7 @@
       <div class="flex-item1-3">
         <div class="flex-item3">
           <app-modal-airports label="Origen" show="header"></app-modal-airports>
-          <strong *ngIf="glbService.trips=='idaVuelta'"><ion-icon name="repeat-outline" size="large" color="primary"></ion-icon></strong>
-          <strong *ngIf="glbService.trips=='soloIda'"><ion-icon name="return-up-forward-outline" size="large" color="primary"></ion-icon></strong>
-          <strong *ngIf="glbService.trips=='multiplesDestinos'"><ion-icon name="share-social-outline" size="large" color="primary"></ion-icon></strong>
-          <strong *ngIf="glbService.trips=='nomad'"><ion-icon name="move-outline" size="large" color="primary"></ion-icon></strong>
+          <strong class="change-origin-destination" (click)="changeOriginDestination()"><ion-icon name="repeat-outline" size="large" color="primary"></ion-icon></strong>
           <app-modal-airports label="Destino" show="header"></app-modal-airports>
         </div>
         <div class="flex-item3">
@@ -50,9 +47,8 @@
       </ion-item>
     </ion-col>
     <div class="button-trip-type">
-      <ion-button size="small" shape="round" class="ion-no-padding" [ngSwitch]="glbService.trips">
-        <strong *ngSwitchCase="'idaVuelta'"><ion-icon name="repeat-outline" size="large"></ion-icon></strong>
-        <strong *ngSwitchCase="'soloIda'"><ion-icon name="return-up-forward-outline" size="large"></ion-icon></strong>
+      <ion-button size="small" shape="round" class="ion-no-padding" (click)="changeOriginDestination()">
+        <strong><ion-icon name="repeat-outline" size="large"></ion-icon></strong>
       </ion-button>
     </div>
     <ion-col class="min-width-ion-item" size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
