@@ -56,9 +56,12 @@
                     <ion-label position="floating">Cupo</ion-label>
                     <ion-input type="number" [(ngModel)]="paymentOptions.cupo" name="cupo"></ion-input>
                 </ion-item>
+                <ion-item>
+                    <ion-label>Cupo Disponible:</ion-label>
+                    <ion-text>{{ paymentOptions.cupo }}</ion-text>
+                </ion-item>
             </form>
         </ion-col>
     </ion-row>
 </ion-grid>
-
 </ion-content>
