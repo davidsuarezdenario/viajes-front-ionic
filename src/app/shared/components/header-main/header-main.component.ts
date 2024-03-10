@@ -26,7 +26,9 @@ export class HeaderMainComponent implements OnInit {
   ngOnInit() { }
 
   goHome() {
-    window.location.reload();
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
 
 }
