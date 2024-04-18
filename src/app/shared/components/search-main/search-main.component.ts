@@ -81,8 +81,8 @@ export class SearchMainComponent implements OnInit {
       "fly_to": this.glbService.selectAirportTo.code,
       "date_from": this.glbService.selectedDateSalidaStart,//yyyy-mm-dd
       "date_to": this.glbService.selectedDateSalidaEnd,//yyyy-mm-dd
-      "return_from": this.glbService.trips=='idaVuelta' ? this.glbService.selectedDateRegresoStart : '',//yyyy-mm-dd
-      "return_to": this.glbService.trips=='idaVuelta' ? this.glbService.selectedDateRegresoEnd : '',//yyyy-mm-dd
+      "return_from": this.glbService.trips == 'idaVuelta' ? this.glbService.selectedDateRegresoStart : '',//yyyy-mm-dd
+      "return_to": this.glbService.trips == 'idaVuelta' ? this.glbService.selectedDateRegresoEnd : '',//yyyy-mm-dd
       /* "nights_in_dst_from": "2", */
       /* "nights_in_dst_to": "2", */
       "max_fly_duration": "20",
@@ -99,7 +99,7 @@ export class SearchMainComponent implements OnInit {
     let body: any = {
       originLocationCode: this.glbService.selectAirportFrom.iataCode, destinationLocationCode: this.glbService.selectAirportTo.iataCode, departureDate: this.glbService.selectedDateSalidaStart, adults: this.glbService.passengers.adult, children: this.glbService.passengers.child, infants: this.glbService.passengers.infant, travelClass: this.glbService.clase, max: 2
     };
-    this.glbService.trips=='idaVuelta' ? body.returnDate = this.glbService.selectedDateRegresoStart : false;
+    this.glbService.trips == 'idaVuelta' ? body.returnDate = this.glbService.selectedDateRegresoStart : false;
     console.log('body: ', body);
     if (!this.validators()) return;
     try {
@@ -155,7 +155,7 @@ export class SearchMainComponent implements OnInit {
     return true;
   }
 
-  change(){
+  change() {
     console.log('*****change');
     this.glbService.bookingResults = [];
   }
