@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from "@angular/common";
+import { CommonModule, TitleCasePipe } from "@angular/common";
 import { IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonInput, IonSpinner, IonIcon, IonLabel } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { airplaneOutline, businessOutline, closeCircleOutline } from "ionicons/icons";
@@ -67,13 +67,14 @@ export class ModalAirportsComponent  implements OnInit {
 
   handleClose() {
     this.autofocus = false;
+    const titlecase = new TitleCasePipe();
     const airport = this.label === 'Origen' ? this.glbService.selectAirportFrom : this.glbService.selectAirportTo;
     const searchlabel = this.label === 'Origen' ? 'searchFrom' : 'searchTo';
-    if (!airport.code) {
+    if (!airport.iataCode) {
       this.glbService[searchlabel] = "";
     } else {
-      if(airport.type == 'city') this.glbService[searchlabel] = `${airport.name}-${airport.code}`;
-      if(airport.type == 'airport') this.glbService[searchlabel] = `${airport.city.name}-${airport.code}`;
+      if(airport.subType == 'CITY') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`;
+      if(airport.subType == 'AIRPORTS') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`;
     }
   }
 
@@ -109,9 +110,10 @@ export class ModalAirportsComponent  implements OnInit {
     this.searchBusy = true;
     const normalizedSearch = this.glbService.normalizeString(search);
     console.log('normalizedSearch: ', normalizedSearch);
-    const body = { search: normalizedSearch };
+    const body = { search: normalizedSearch, limit: 50, location_types: ["CITY", "AIRPORTS"] };
     try {
       const response: any = await this.apiService.post('/travel/search_airport', body);
+      console.log('response: ', response);
       if (!response.error) this.handleResponse(response.data);
     } catch (error) {
       this.handleError(error);
@@ -126,21 +128,25 @@ export class ModalAirportsComponent  implements OnInit {
   }
 
   handleResponse(data: any) {
-    console.log('data: ', data);
-    this.airports = data.locations;
-    if(this.label === 'Origen') this.glbService.airportsFrom = data.locations;
-    if(this.label === 'Destino') this.glbService.airportsTo = data.locations;
+    this.airports = data.data;
+    console.log('airports: ', this.airports);
+    if(this.label === 'Origen') this.glbService.airportsFrom = data.data;
+    if(this.label === 'Destino') this.glbService.airportsTo = data.data;
     /* if (this.glbService.airports.length == 0) this.dismissPopover(); */
   }
 
   selectAirport(airport: any) {
+    console.log('airport: ', airport);
     const isFrom = this.label === 'Origen';
+    const titlecase = new TitleCasePipe();
     const targetProperty = isFrom ? 'selectAirportFrom' : 'selectAirportTo';
     const searchProperty = isFrom ? 'searchFrom' : 'searchTo';
-    const airportOrCityName = airport.type === 'city' ? airport.name : airport.city?.name;
+    /* const airportOrCityName = airport.subType === 'CITY' ? airport.address?.cityName : airport.name; */
+    const airportOrCityName = `${(titlecase.transform(airport.name))}-${airport.iataCode}`;
   
     this.glbService[targetProperty] = airport;
-    this.glbService[searchProperty] = `${airportOrCityName}-${airport.code}`;
+    this.glbService[searchProperty] = airportOrCityName;
+    console.log('glbService: ', this.glbService);
   
     const storageKey = isFrom ? 'airportsSelectedFrom' : 'airportsSelectedTo';
     this.saveAirportSelection(storageKey, airport);
@@ -150,8 +156,9 @@ export class ModalAirportsComponent  implements OnInit {
   }
   
   saveAirportSelection(key: string, airport: any) {
+    console.log('guardando aeropuerto seleccionado: ', airport);
     let airportsSelected = JSON.parse(localStorage.getItem(key) || '[]');
-    const index = airportsSelected.findIndex((a: any) => a.code === airport.code);
+    const index = airportsSelected.findIndex((a: any) => a.code === airport.iataCode);
     if (index > -1) {
       airportsSelected.splice(index, 1);
     }

@@ -76,7 +76,7 @@ export class SearchMainComponent implements OnInit {
     console.log('date to: ', this.glbService.dateTo);
     this.totalBagsHoldToDistribute = this.glbService.bags.hold;
     this.totalBagsHandToDistribute = this.glbService.bags.hand;
-    const body = {
+    const body1 = {
       "fly_from": this.glbService.selectAirportFrom.code,
       "fly_to": this.glbService.selectAirportTo.code,
       "date_from": this.glbService.selectedDateSalidaStart,//yyyy-mm-dd
@@ -96,6 +96,10 @@ export class SearchMainComponent implements OnInit {
       "selected_cabins": this.glbService.clase,
       "limit": 50,
     }
+    let body: any = {
+      originLocationCode: this.glbService.selectAirportFrom.iataCode, destinationLocationCode: this.glbService.selectAirportTo.iataCode, departureDate: this.glbService.selectedDateSalidaStart, adults: this.glbService.passengers.adult, children: this.glbService.passengers.child, infants: this.glbService.passengers.infant, travelClass: this.glbService.clase, max: 2
+    };
+    this.glbService.trips=='idaVuelta' ? body.returnDate = this.glbService.selectedDateRegresoStart : false;
     console.log('body: ', body);
     if (!this.validators()) return;
     try {
@@ -124,11 +128,11 @@ export class SearchMainComponent implements OnInit {
   validators(): boolean {
     const conditions = [
       {
-        condition: !this.glbService.selectAirportFrom.code,
+        condition: !this.glbService.selectAirportFrom.iataCode,
         message: 'Seleccione un aeropuerto de origen'
       },
       {
-        condition: !this.glbService.selectAirportTo.code,
+        condition: !this.glbService.selectAirportTo.iataCode,
         message: 'Seleccione un aeropuerto de destino'
       },
       {

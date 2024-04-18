@@ -7,8 +7,5 @@ export const routes: Routes = [
   { path: 'login', loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage), canActivate: [LoginGuardGuard]},
   { path: 'register', loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage) },
   { path: 'restore-pass', loadComponent: () => import('./pages/restore-pass/restore-pass.page').then( m => m.RestorePassPage) },
-  {
-    path: 'profile',
-    loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
-  }
+  { path: 'profile', loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage) }
 ];

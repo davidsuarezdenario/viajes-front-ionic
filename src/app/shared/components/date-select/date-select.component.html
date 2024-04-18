@@ -18,10 +18,10 @@
         <ion-text color="primary">Inicio</ion-text>
         <ion-datetime presentation="date" [(ngModel)]="dateStart" (ionChange)="changeDate()" [min]="label == 'Salida' ? glb.today : glb.selectedDateSalidaEnd" mode="ios"></ion-datetime>
       </div>
-      <div class="ion-text-center datetime-box">
+      <!-- <div class="ion-text-center datetime-box">
         <ion-text color="primary">Fin</ion-text>
         <ion-datetime presentation="date" [(ngModel)]="dateEnd" (ionChange)="changeDate()" [min]="label == 'Salida' ? glb.selectedDateSalidaStart : glb.selectedDateRegresoStart" mode="ios"></ion-datetime>
-      </div>
+      </div> -->
     </div>
     <div class="button-box">
       <ion-button (click)="isModalOpen=false" color="medium">Cancelar</ion-button>

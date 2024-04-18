@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { format } from 'date-fns';
+import { TitleCasePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -151,17 +152,18 @@ export class GlbService {
       "type": "airport"
     };
     const airportsSelectedFrom = JSON.parse(localStorage.getItem('airportsSelectedFrom') || '[]');
+    const titlecase = new TitleCasePipe();
     if (airportsSelectedFrom.length == 0) this.selectAirportFrom = selectAirportFromMock;
     else this.selectAirportFrom = airportsSelectedFrom[0];
     console.log('selectAirportFrom: ', this.selectAirportFrom);
-    if (this.selectAirportFrom.type == 'city') this.searchFrom = `${this.selectAirportFrom.name}-${this.selectAirportFrom.code}`;
-    if (this.selectAirportFrom.type == 'airport') this.searchFrom = `${this.selectAirportFrom.city.name}-${this.selectAirportFrom.code}`;
+    if (this.selectAirportFrom.subType == 'CITY') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.name)}-${this.selectAirportFrom.iataCode}`;
+    if (this.selectAirportFrom.subType == 'AIRPORTS') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.city.name)}-${this.selectAirportFrom.iataCode}`;
     const airportsSelectedTo = JSON.parse(localStorage.getItem('airportsSelectedTo') || '[]');
     if (airportsSelectedTo.length == 0) this.selectAirportTo = {};
     else this.selectAirportTo = airportsSelectedTo[0];
     console.log('selectAirportTo: ', this.selectAirportTo);
-    if (this.selectAirportTo.type == 'city') this.searchTo = `${this.selectAirportTo.name}-${this.selectAirportTo.code}`;
-    if (this.selectAirportTo.type == 'airport') this.searchTo = `${this.selectAirportTo.city.name}-${this.selectAirportTo.code}`;
+    if (this.selectAirportTo.subType == 'CITY') this.searchTo = `${titlecase.transform(this.selectAirportTo.name)}-${this.selectAirportTo.iataCode}`;
+    if (this.selectAirportTo.subType == 'AIRPORTS') this.searchTo = `${titlecase.transform(this.selectAirportTo.city.name)}-${this.selectAirportTo.iataCode}`;
   }
 
   testBookingResults() {

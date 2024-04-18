@@ -10,10 +10,10 @@
         </div>
         <div class="space-items">
           <ion-select [(ngModel)]="glbService.clase" placeholder="Clase" interface="popover" (ionChange)="change()">
-            <ion-select-option value="M">Clase económica</ion-select-option>
-            <ion-select-option value="W">Clase premium</ion-select-option>
-            <ion-select-option value="C">Business</ion-select-option>
-            <ion-select-option value="F">Primera clase</ion-select-option>
+            <ion-select-option value="ECONOMY">Clase económica</ion-select-option>
+            <ion-select-option value="PREMIUM_ECONOMY">Clase premium</ion-select-option>
+            <ion-select-option value="BUSINESS">Business</ion-select-option>
+            <ion-select-option value="FIRST">Primera clase</ion-select-option>
           </ion-select>
         </div>
         <div (click)="selectPasajerosComponent.presentPopover($event)" class="flex-item2 space-items">
