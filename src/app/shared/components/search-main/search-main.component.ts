@@ -97,7 +97,7 @@ export class SearchMainComponent implements OnInit {
       "limit": 50,
     }
     let body: any = {
-      originLocationCode: this.glbService.selectAirportFrom.iataCode, destinationLocationCode: this.glbService.selectAirportTo.iataCode, departureDate: this.glbService.selectedDateSalidaStart, adults: this.glbService.passengers.adult, children: this.glbService.passengers.child, infants: this.glbService.passengers.infant, travelClass: this.glbService.clase, max: 2
+      originLocationCode: this.glbService.selectAirportFrom.iataCode, destinationLocationCode: this.glbService.selectAirportTo.iataCode, departureDate: this.glbService.selectedDateSalidaStart, adults: this.glbService.passengers.adult, children: this.glbService.passengers.child, infants: this.glbService.passengers.infant, travelClass: this.glbService.clase, max: 4
     };
     this.glbService.trips == 'idaVuelta' ? body.returnDate = this.glbService.selectedDateRegresoStart : false;
     console.log('body: ', body);

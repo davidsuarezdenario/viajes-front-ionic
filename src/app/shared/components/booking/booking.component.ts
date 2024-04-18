@@ -25,16 +25,20 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     console.log('flight: ', this.flight);
-    this.outboundSegments = this.sortSegments(this.filterSegments(0));
-    this.returnSegments = this.sortSegments(this.filterSegments(1));
+    /* console.log('flight1: ', this.flight.itineraries[0].segments[(this.flight.itineraries[0].segments.length)-1].arrival.iataCode);
+    console.log('flight2: ', this.flight.itineraries[1].segments[(this.flight.itineraries[0].segments.length)-1].arrival.iataCode); */
+    /* this.outboundSegments = this.sortSegments(this.filterSegments(false)); */
+    this.outboundSegments = this.sortSegments(this.flight.itineraries[0].segments);
+    /* this.returnSegments = this.sortSegments(this.filterSegments(true)); */
+    this.returnSegments = this.sortSegments(this.flight.itineraries.length > 1 ? this.flight.itineraries[1].segments : []);
   }
 
-  filterSegments(returnType: number) {
-    return this.flight.route.filter((segment: any) => segment.return === returnType);
+  filterSegments(returnType: boolean) {
+    /* return this.flight.route.filter((segment: any) => segment.return === returnType); */
   }
 
   sortSegments(segments: any[]) {
-    return segments.sort((a: any, b: any) => new Date(a.local_departure).getTime() - new Date(b.local_departure).getTime());
+    return segments.sort((a: any, b: any) => new Date(a.departure).getTime() - new Date(b.departure).getTime());
   }
 
   formatDateTime(date: string, formatType: 'EEE dd/MM' | 'HH:mm') {
