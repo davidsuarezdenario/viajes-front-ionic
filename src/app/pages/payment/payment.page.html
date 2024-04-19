@@ -1,0 +1,67 @@
+<ion-header>
+    <app-header-main></app-header-main>
+</ion-header>
+<ion-header mode="ios" *ngIf="!glbService.firstSearch">
+    <ion-toolbar class="ion-no-padding">
+        <ion-grid fixed class="ion-no-padding">
+            <ion-row>
+                <ion-col size="12">
+                    <ion-toolbar style="margin-top: -20px;">
+                        <app-search-main></app-search-main>
+                    </ion-toolbar>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-progress-bar type="indeterminate" *ngIf="glbService.bookingloading"
+            style="z-index: 1000;"></ion-progress-bar>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+        <ion-col size="7">
+            <form (ngSubmit)="submitForm()">
+                <ion-item>
+                    <ion-label position="floating">Nombre</ion-label>
+                    <ion-input type="text" [(ngModel)]="formData.nombre" name="nombre" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label position="floating">Apellido</ion-label>
+                    <ion-input type="text" [(ngModel)]="formData.apellido" name="apellido" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label position="floating">Celular</ion-label>
+                    <ion-input type="tel" [(ngModel)]="formData.celular" name="celular" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label position="floating">Correo Electrónico</ion-label>
+                    <ion-input type="email" [(ngModel)]="formData.correo" name="correo" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label position="floating">Nacionalidad</ion-label>
+                    <ion-input type="text" [(ngModel)]="formData.nacionalidad" name="nacionalidad" required></ion-input>
+                </ion-item>
+
+                <ion-button expand="block" type="submit">Enviar</ion-button>
+            </form>
+        </ion-col>
+
+        <ion-col size="3">
+            <form>
+                <ion-item>
+                    <ion-label position="floating">Cupo</ion-label>
+                    <ion-input type="number" [(ngModel)]="paymentOptions.cupo" name="cupo"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Cupo Disponible:</ion-label>
+                    <ion-text>{{ paymentOptions.cupo }}</ion-text>
+                </ion-item>
+            </form>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+</ion-content>

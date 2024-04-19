@@ -23,9 +23,14 @@
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
-        <ion-input #input type="text" placeholder="Ciudad - aeropuerto" debounce="100" autocomplete="on" [(ngModel)]="search"
+        <ion-input #input type="text" placeholder="Ciudad - aeropuerto" debounce="100" [(ngModel)]="search"
           (ionInput)="airportSearch()" [autofocus]="autofocus">
         </ion-input>
+        <ion-buttons slot="end">
+          <ion-button (click)="deleteSearch();" slot="end" size="small" fill="clear">
+            <ion-icon name="backspace-outline" color="primary" size="large"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -38,6 +43,11 @@
           <ion-icon [name]="airport.subType == 'AIRPORTS' ? 'airplane-outline' : 'business-outline'" size="medium"
             slot="start"></ion-icon>
           <!-- <p>{{airport.subType}}</p> -->
+          <!-- 
+            {{ airport.type == 'airport' ? (airport.city.name + ', ' + (airport.city.country ? airport.city.country.name : '')) : airport.type == 'city' ? (airport.name + ', ' + (airport.country ? airport.country.name : '')) : airport.name }}<br>
+            <ion-icon
+            [name]="airport.type == 'airport' ? 'airplane-outline' : airport.type == 'city' ? 'business-outline' : 'earth-outline'"
+            size="medium" slot="start"></ion-icon> -->
           <p class="p-popover">
             {{airport.subType == 'CITY' ? ((airport.address?.cityName | titlecase) + ', ' + airport.address?.countryName) : ((airport.address?.cityName | titlecase) + ', '
             + airport.address?.countryName)}}<br>

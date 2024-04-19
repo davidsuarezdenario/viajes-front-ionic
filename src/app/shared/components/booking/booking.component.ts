@@ -5,6 +5,7 @@ import { IonCard, IonGrid, IonRow, IonCardHeader, IonCol, IonCardSubtitle, IonCa
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { format } from 'date-fns';
 import { GlbService } from "../../services/glb/glb.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking',
@@ -20,11 +21,11 @@ export class BookingComponent implements OnInit {
   returnSegments: any[] = [];
 
   constructor(
-    public glb: GlbService
+    public glb: GlbService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    console.log('flight: ', this.flight);
     /* console.log('flight1: ', this.flight.itineraries[0].segments[(this.flight.itineraries[0].segments.length)-1].arrival.iataCode);
     console.log('flight2: ', this.flight.itineraries[1].segments[(this.flight.itineraries[0].segments.length)-1].arrival.iataCode); */
     /* this.outboundSegments = this.sortSegments(this.filterSegments(false)); */
@@ -74,6 +75,10 @@ export class BookingComponent implements OnInit {
     for (let i = 0; i < arraySegment.length; i++) { airline.push(arraySegment[i].carrierCode); }
     return [...new Set(airline)];
     /* return [...new Set(segments.map((segment: any) => segment.airline))]; */
+  }
+
+  goToBookingOne(){
+    this.router.navigate(['/booking-one']);
   }
 
 }

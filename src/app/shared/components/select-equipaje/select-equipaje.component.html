@@ -1,6 +1,16 @@
+<div class="item-select" (click)="presentPopover($event)">
+  <ion-icon slot="start" name="bag" color="dark" size="small" style="margin-right: 5px;"></ion-icon>
+  <ion-text> {{glbService.totalBags}} maleta(s) </ion-text>
+  <ion-icon name="chevron-expand" size="small" color="dark"></ion-icon>
+</div>
 <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
   <ng-template>
     <ion-content>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Total maletas {{totalBags}} <br><small>(máximo {{maxBags}})</small></ion-title>
+        </ion-toolbar>
+      </ion-header>
       <ion-list>
         <ion-item lines="full">
           <ion-label>
@@ -11,7 +21,7 @@
             <ion-button (click)="decrement('hand')">
               <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
             </ion-button>
-            <ion-note>{{ glbService.bags.hand }}</ion-note>
+            <ion-note>{{ bags.hand }}</ion-note>
             <ion-button (click)="increment('hand')" [disabled]="disableAddHandBags">
               <ion-icon slot="icon-only" name="add-outline"></ion-icon>
             </ion-button>
@@ -26,14 +36,14 @@
             <ion-button (click)="decrement('hold')">
               <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
             </ion-button>
-            <ion-note>{{ glbService.bags.hold }}</ion-note>
+            <ion-note>{{ bags.hold }}</ion-note>
             <ion-button (click)="increment('hold')" [disabled]="disableAddHoldBags">
               <ion-icon slot="icon-only" name="add-outline"></ion-icon>
             </ion-button>
           </ion-buttons>
         </ion-item>
       </ion-list>
-      <ion-button expand="block" mode="ios" (click)="isOpen=false">Aceptar</ion-button>
+      <ion-button expand="block" mode="ios" (click)="accept()">Aceptar</ion-button>
     </ion-content>
   </ng-template>
 </ion-popover>

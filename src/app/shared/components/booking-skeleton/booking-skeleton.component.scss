@@ -1,0 +1,101 @@
+ion-card {
+    border-radius: 10px;
+    color: #000;
+
+    .flight-price {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+
+        p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #000;
+            margin: 5px;
+        }
+
+        ion-button {
+            --background: var(--ion-color-success);
+            margin: 5px;
+        }
+    }
+
+    .column-fly-data {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    h4 {
+        margin: 0;
+    }
+
+    .grid-routes {
+        margin: 0 0 0 5px;
+    }
+
+    .route-border-top,
+    .route-border {
+        border-top: 1px solid lightgray;
+    }
+
+    .route-border {
+        border-bottom: 1px solid lightgray;
+    }
+
+    .price-column {
+        border-top: 1px solid lightgray;
+    }
+
+    .info {
+        margin: 5px 0;
+        div {
+            margin: 0px 3px;
+        }
+    }
+
+    .chip {
+        display: flex;
+        padding: 2px 5px;
+        border-radius: 16px;
+    }
+
+    .chip-primay {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.2);
+        color: var(--ion-color-primary-shade);
+    }
+
+    .chip-light {
+        background-color: var(--ion-color-light-tint);
+        color: var(--ion-color-light-contrast);
+    }
+
+    .chip-secondary {
+        background-color: var(--ion-color-secondary-tint);
+        color: var(--ion-color-secondary-contrast);
+    }
+
+    .segment-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+    .airline-logo {
+        width: 25px;
+        height: 25px;
+        margin: 0px -3px 0px 0px;
+        background: #fff;
+        border: 2px solid #fff;
+    }
+}

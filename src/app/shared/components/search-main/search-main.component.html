@@ -16,18 +16,17 @@
             <ion-select-option value="FIRST">Primera clase</ion-select-option>
           </ion-select>
         </div>
-        <div (click)="selectPasajerosComponent.presentPopover($event)" class="flex-item2 space-items">
-          <ion-icon slot="start" name="people" color="dark" size="small" style="margin-right: 5px;"></ion-icon>
-          <ion-text> {{glbService.totalPassengers}} pasajero(s) </ion-text>
-          <ion-icon name="chevron-expand" size="small" color="dark"></ion-icon>
+        <div class="flex-item2 space-items">
           <app-select-pasajeros></app-select-pasajeros>
         </div>
         <!-- <div (click)="selectEquipajeComponent.presentPopover($event)" class="flex-item2 space-items">
           <ion-icon slot="start" name="bag" color="dark" size="small" style="margin-right: 5px;"></ion-icon>
           <ion-text> {{glbService.totalBags}} maleta(s) </ion-text>
           <ion-icon name="chevron-expand" size="small" color="dark"></ion-icon>
-          <app-select-equipaje></app-select-equipaje>
         </div> -->
+        <div class="flex-item2 space-items">
+          <app-select-equipaje></app-select-equipaje>
+        </div>
       </div>
     </ion-col>
   </ion-row>
@@ -36,10 +35,7 @@
       <div class="flex-item1-3">
         <div class="flex-item3">
           <app-modal-airports label="Origen" show="header"></app-modal-airports>
-          <strong *ngIf="glbService.trips=='idaVuelta'"><ion-icon name="repeat-outline" size="large" color="primary"></ion-icon></strong>
-          <strong *ngIf="glbService.trips=='soloIda'"><ion-icon name="return-up-forward-outline" size="large" color="primary"></ion-icon></strong>
-          <strong *ngIf="glbService.trips=='multiplesDestinos'"><ion-icon name="share-social-outline" size="large" color="primary"></ion-icon></strong>
-          <strong *ngIf="glbService.trips=='nomad'"><ion-icon name="move-outline" size="large" color="primary"></ion-icon></strong>
+          <strong class="change-origin-destination" (click)="changeOriginDestination()"><ion-icon name="repeat-outline" size="large" color="primary"></ion-icon></strong>
           <app-modal-airports label="Destino" show="header"></app-modal-airports>
         </div>
         <div class="flex-item3">
@@ -56,9 +52,8 @@
       </ion-item>
     </ion-col>
     <div class="button-trip-type">
-      <ion-button size="small" shape="round" class="ion-no-padding" [ngSwitch]="glbService.trips">
-        <strong *ngSwitchCase="'idaVuelta'"><ion-icon name="repeat-outline" size="large"></ion-icon></strong>
-        <strong *ngSwitchCase="'soloIda'"><ion-icon name="return-up-forward-outline" size="large"></ion-icon></strong>
+      <ion-button size="small" shape="round" class="ion-no-padding" (click)="changeOriginDestination()">
+        <strong><ion-icon name="repeat-outline" size="large"></ion-icon></strong>
       </ion-button>
     </div>
     <ion-col class="min-width-ion-item" size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="2,4">
@@ -77,7 +72,7 @@
       </ion-item>
     </ion-col>
     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="2,4"> 
-      <ion-button fill="solid" shape="round" mode="ios" (click)="explorar()" expand="block" [disabled]="glbService.bookingloading">
+      <ion-button fill="solid" shape="round" mode="ios" (click)="searchMainService.explorar()" expand="block" [disabled]="glbService.bookingloading">
         <ion-text *ngIf="!glbService.bookingloading"> Buscar </ion-text>
         <ion-text *ngIf="glbService.bookingloading"> Buscando </ion-text>
         <ion-spinner name="dots" *ngIf="glbService.bookingloading" style="margin-left: 5px;"></ion-spinner>
@@ -86,8 +81,7 @@
   </ion-row>
 </ion-grid>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: -18px; margin-bottom: -10px;" *ngIf="!glbService.firstSearch">
-  <ion-fab-button size="small" (click)="explorar()" [disabled]="glbService.bookingloading">
-    <ion-icon name="search"></ion-icon>
+  <ion-fab-button size="small" (click)="searchMainService.explorar()" [disabled]="glbService.bookingloading">
+    <ion-icon name="reload-outline"></ion-icon>
   </ion-fab-button>
 </ion-fab>
-<app-alert-main></app-alert-main>

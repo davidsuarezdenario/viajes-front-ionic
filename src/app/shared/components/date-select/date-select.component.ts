@@ -6,6 +6,7 @@ import { format, parseISO, formatISO } from 'date-fns';
 import { GlbService } from "../../services/glb/glb.service";
 import { addIcons } from 'ionicons';
 import { closeCircleOutline } from "ionicons/icons";
+import { SearchMainService } from "../../services/search-main/search-main.service";
 
 @Component({
   selector: 'app-date-select',
@@ -27,6 +28,7 @@ export class DateSelectComponent implements OnInit {
 
   constructor(
     public glb: GlbService,
+    private searchMainService: SearchMainService
   ) {
     addIcons({ closeCircleOutline });
   }
@@ -63,7 +65,9 @@ export class DateSelectComponent implements OnInit {
       this.glb.selectedDateRegresoEnd = this.glb.selectedDateSalidaEnd;
     }
     this.isModalOpen = false;
-    this.glb.bookingResults = [];
+    if (!this.glb.firstSearch) {
+      this.searchMainService.explorar();
+    }
   }
 
   get selectedDateRangeLabel() {

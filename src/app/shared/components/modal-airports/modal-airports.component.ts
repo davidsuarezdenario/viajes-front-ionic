@@ -3,9 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, TitleCasePipe } from "@angular/common";
 import { IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonInput, IonSpinner, IonIcon, IonLabel } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { airplaneOutline, businessOutline, closeCircleOutline } from "ionicons/icons";
+import { airplaneOutline, businessOutline, closeCircleOutline, backspaceOutline, earthOutline } from "ionicons/icons";
 import { GlbService } from "../../services/glb/glb.service";
 import { ApiService } from "../../services/api/api.service";
+import { SearchMainService } from "../../services/search-main/search-main.service";
 
 @Component({
   selector: 'app-modal-airports',
@@ -14,7 +15,7 @@ import { ApiService } from "../../services/api/api.service";
   standalone: true,
   imports: [IonLabel, IonIcon, IonSpinner, IonInput, IonContent, IonButton, IonButtons, IonTitle, IonToolbar, IonHeader, IonModal, CommonModule, FormsModule]
 })
-export class ModalAirportsComponent  implements OnInit {
+export class ModalAirportsComponent implements OnInit {
   @ViewChild('input') input!: IonInput;
   @Input() label: string = "";
   @Input() show: string = "";
@@ -26,12 +27,13 @@ export class ModalAirportsComponent  implements OnInit {
 
   constructor(
     public glbService: GlbService,
-    private apiService: ApiService
-  ) { 
-    addIcons({ airplaneOutline, businessOutline, closeCircleOutline });
+    private apiService: ApiService,
+    private searchMainService: SearchMainService
+  ) {
+    addIcons({ airplaneOutline, businessOutline, closeCircleOutline, backspaceOutline, earthOutline });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
@@ -45,19 +47,19 @@ export class ModalAirportsComponent  implements OnInit {
     const airportsProperty = isFrom ? 'airportsFrom' : 'airportsTo';
     const selectedAirportProperty = isFrom ? 'selectAirportFrom' : null;
     const storageKey = isFrom ? 'airportsSelectedFrom' : 'airportsSelectedTo';
-  
+
     this.search = this.glbService[searchProperty];
     this.airports = this.getAirports(airportsProperty, storageKey, selectedAirportProperty);
   }
 
-  presentModal(){
+  presentModal() {
     this.input.setFocus();
   }
-  
+
   getAirports(airportsProperty: string, storageKey: string, selectedAirportProperty: string | null) {
     let airports = (this.glbService as any)[airportsProperty];
-    if(airports.length == 0) airports = JSON.parse(localStorage.getItem(storageKey) || '[]');
-    if(airports.length == 0 && selectedAirportProperty) {
+    if (airports.length == 0) airports = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    if (airports.length == 0 && selectedAirportProperty) {
       console.log('seleccion de aeropuerto from por defecto, guardada');
       airports.push((this.glbService as any)[selectedAirportProperty]);
       this.saveAirportSelection(storageKey, (this.glbService as any)[selectedAirportProperty]);
@@ -76,6 +78,12 @@ export class ModalAirportsComponent  implements OnInit {
       if(airport.subType == 'CITY') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`;
       if(airport.subType == 'AIRPORTS') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`;
     }
+  }
+
+  deleteSearch() {
+    this.search = '';
+    this.resetSearch();
+    this.input.setFocus();
   }
 
   airportSearch() {
@@ -143,18 +151,19 @@ export class ModalAirportsComponent  implements OnInit {
     const searchProperty = isFrom ? 'searchFrom' : 'searchTo';
     /* const airportOrCityName = airport.subType === 'CITY' ? airport.address?.cityName : airport.name; */
     const airportOrCityName = `${(titlecase.transform(airport.name))}-${airport.iataCode}`;
-  
     this.glbService[targetProperty] = airport;
     this.glbService[searchProperty] = airportOrCityName;
-    console.log('glbService: ', this.glbService);
-  
+    /* const typeToPropertyMap:any = { 'city': 'name', 'airport': 'city?.name', 'country': 'name' };
+    const airportOrCityName = airport[typeToPropertyMap[airport.type]]; */
     const storageKey = isFrom ? 'airportsSelectedFrom' : 'airportsSelectedTo';
     this.saveAirportSelection(storageKey, airport);
-  
+
     this.setOpen(false);
-    this.glbService.bookingResults = [];
+    if (!this.glbService.firstSearch) {
+      this.searchMainService.explorar();
+    }
   }
-  
+
   saveAirportSelection(key: string, airport: any) {
     console.log('guardando aeropuerto seleccionado: ', airport);
     let airportsSelected = JSON.parse(localStorage.getItem(key) || '[]');

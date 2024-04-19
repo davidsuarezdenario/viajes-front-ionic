@@ -16,16 +16,13 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <div style="display: flex;">
-                  <ion-text class="chip"
+                <div class="segment-info">
+                  <ion-text class="chip chip ion-text-center"
                     [ngClass]="{'chip-primay': getScales('outbound') === 0, 'chip-light': getScales('outbound') !== 0}">
                     {{ getScales('outbound') === 0 ? 'Directo' : getScales('outbound') + (getScales('outbound') === 1 ?
                     ' escala' : ' escalas') }}
                   </ion-text>
                   <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[0].segments)" title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
-                  <!-- <ion-text class="chip chip-secondary">
-                    {{getAirlineArray(flight.itineraries[0].segments)}}
-                  </ion-text> -->
                 </div>
                 <div>
                   <!-- {{ formatDuration(flight.itineraries[0].duration) }} -->
@@ -53,20 +50,19 @@
               </div>
             </ion-col>
             <ion-col size="4">
-              <div class="column-fly-data">
-                <div style="display: flex;">
-                  <ion-text class="chip"
-                    [ngClass]="{'chip-primay': getScales('return') === 0, 'chip-light': getScales('return') !== 0}">
-                    {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
-                    escala' : ' escalas') }}
-                  </ion-text>
-                  <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[1].segments)" title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
-                  <!-- <ion-text class="chip chip-secondary">
-                    {{getAirlineArray(flight.itineraries[1].segments)}}
-                  </ion-text> -->
-                </div>
-                <div>
-                  {{ (flight.itineraries[1].duration).split('PT')[1] }}
+              <div>
+                <div class="column-fly-data">
+                  <div class="segment-info">
+                    <ion-text class="chip ion-text-center"
+                      [ngClass]="{'chip-primay': getScales('return') === 0, 'chip-light': getScales('return') !== 0}">
+                      {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
+                      escala' : ' escalas') }}
+                    </ion-text>
+                    <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[1].segments)" title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
+                  </div>
+                  <div>
+                    {{ (flight.itineraries[1].duration).split('PT')[1] }}
+                  </div>
                 </div>
               </div>
             </ion-col>
@@ -100,7 +96,7 @@
       <ion-col size-xs="12" size-sm="3" class="price-column">
         <div class="flight-price">
           <p>{{ flight.price.total | currency:'$':'symbol':'1.0-0' }}</p>
-          <ion-button expand="block" mode="ios">Reservar</ion-button>
+          <ion-button expand="block" mode="ios" (click)="goToBookingOne()">Reservar</ion-button>
         </div>
       </ion-col>
     </ion-row>
