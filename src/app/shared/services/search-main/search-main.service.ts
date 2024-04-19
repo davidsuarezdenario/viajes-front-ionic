@@ -53,26 +53,10 @@ export class SearchMainService {
     console.log('date to: ', this.glbService.dateTo);
     this.totalBagsHoldToDistribute = this.glbService.bags.hold;
     this.totalBagsHandToDistribute = this.glbService.bags.hand;
-    const body = {
-      "fly_from": this.glbService.selectAirportFrom.code,
-      "fly_to": this.glbService.selectAirportTo.code,
-      "date_from": this.glbService.selectedDateSalidaStart,//yyyy-mm-dd
-      "date_to": this.glbService.selectedDateSalidaEnd,//yyyy-mm-dd
-      "return_from": this.glbService.trips=='idaVuelta' ? this.glbService.selectedDateRegresoStart : '',//yyyy-mm-dd
-      "return_to": this.glbService.trips=='idaVuelta' ? this.glbService.selectedDateRegresoEnd : '',//yyyy-mm-dd
-      /* "nights_in_dst_from": "2", */
-      /* "nights_in_dst_to": "2", */
-      "max_fly_duration": "20",
-      "adults": this.glbService.passengers.adult,
-      "adult_hold_bag": this.bagsHoldDistributionFunc(this.glbService.passengers.adult),
-      "adult_hand_bag": this.bagsHandDistributionFunc(this.glbService.passengers.adult),
-      "children": this.glbService.passengers.child,
-      "child_hold_bag": this.bagsHoldDistributionFunc(this.glbService.passengers.child),
-      "child_hand_bag": this.bagsHandDistributionFunc(this.glbService.passengers.child),
-      "infants": this.glbService.passengers.infant,
-      "selected_cabins": this.glbService.clase,
-      "limit": 50,
-    }
+    let body: any = {
+      originLocationCode: this.glbService.selectAirportFrom.iataCode, destinationLocationCode: this.glbService.selectAirportTo.iataCode, departureDate: this.glbService.selectedDateSalidaStart, adults: this.glbService.passengers.adult, children: this.glbService.passengers.child, infants: this.glbService.passengers.infant, travelClass: this.glbService.clase, max: 4
+    };
+    this.glbService.trips == 'idaVuelta' ? body.returnDate = this.glbService.selectedDateRegresoStart : false;
     console.log('body: ', body);
     if (!this.validators()) return;
     this.glbService.bookingResults = [];
@@ -89,7 +73,7 @@ export class SearchMainService {
         this.glbService.firstSearch = false;
         return;
       }
-      this.alertMain.present('Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busquda.');
+      this.alertMain.present('Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busqueda.');
     } catch (e) {
       console.error('error bookingResponse: ', e);
       this.alertMain.present('Error', 'Al consultar vuelos', JSON.stringify(e));
@@ -101,11 +85,11 @@ export class SearchMainService {
   validators(): boolean {
     const conditions = [
       {
-        condition: !this.glbService.selectAirportFrom.code,
+        condition: !this.glbService.selectAirportFrom.iataCode,
         message: 'Seleccione un aeropuerto de origen'
       },
       {
-        condition: !this.glbService.selectAirportTo.code,
+        condition: !this.glbService.selectAirportTo.iataCode,
         message: 'Seleccione un aeropuerto de destino'
       },
       {
