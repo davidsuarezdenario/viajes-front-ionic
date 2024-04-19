@@ -10,31 +10,62 @@
             <ion-col size="4">
               <div class="column-fly-data">
                 <h4>{{ flight.itineraries[0].segments[0].departure.iataCode }}→</h4>
-                <div>{{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM') }}</div>
-                <div>{{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'HH:mm') }}</div>
+                <div>{{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM')
+                  }}</div>
+                <div>{{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'HH:mm') }}
+                </div>
               </div>
             </ion-col>
             <ion-col size="4">
-              <div class="column-fly-data">
+              <div id="itinerary-departure-{{flight.id}}" class="column-fly-data">
                 <div class="segment-info">
                   <ion-text class="chip chip ion-text-center"
                     [ngClass]="{'chip-primay': getScales('outbound') === 0, 'chip-light': getScales('outbound') !== 0}">
                     {{ getScales('outbound') === 0 ? 'Directo' : getScales('outbound') + (getScales('outbound') === 1 ?
                     ' escala' : ' escalas') }}
                   </ion-text>
-                  <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[0].segments)" title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
+                  <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[0].segments)"
+                    title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
                 </div>
                 <div>
-                  <!-- {{ formatDuration(flight.itineraries[0].duration) }} -->
                   {{ (flight.itineraries[0].duration).split('PT')[1] }}
                 </div>
               </div>
+              <ion-popover trigger="itinerary-departure-{{flight.id}}" triggerAction="click">
+                <ng-template>
+                  <div *ngFor="let segment of flight.itineraries[0].segments; let ind = index;">
+                    <h6 *ngIf="ind != 0" style="text-align: center;">Escala {{getScalesTime(flight.itineraries[0].segments[ind-1].arrival.at, flight.itineraries[0].segments[ind].departure.at)}}</h6>
+                    <ion-content class="ion-padding">
+                      <ion-grid>
+                        <ion-row>
+                          <ion-col size="2">
+                            <img class="airline-logo" title={{segment.carrierCode}} alt={{segment.carrierCode}}
+                              src="https://images.kiwi.com/airlines/32x32/{{segment.carrierCode}}.png">
+                          </ion-col>
+                          <ion-col size="10">
+                            Trayecto: {{segment.departure.iataCode}}-{{segment.arrival.iataCode}},
+                            {{getStops(segment.stops ? segment.stops : [])}}<br>
+                            Vuelo: {{segment.carrierCode}}{{segment.number}}<br>
+                            Duración: {{(segment.duration).split('PT')[1]}}<br>
+                            Aeronave: {{segment.aircraft.code}}
+                          </ion-col>
+                        </ion-row>
+                      </ion-grid>
+                    </ion-content>
+                  </div>
+                </ng-template>
+              </ion-popover>
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>→{{ flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}</h4>
-                <div>{{ formatDateTime((flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'EEE dd/MM') }}</div>
-                <div>{{ formatDateTime((flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'HH:mm') }}</div>
+                <h4>→{{ flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}
+                </h4>
+                <div>{{
+                  formatDateTime((flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T',
+                  ' '), 'EEE dd/MM') }}</div>
+                <div>{{
+                  formatDateTime((flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T',
+                  ' '), 'HH:mm') }}</div>
               </div>
             </ion-col>
           </ion-row>
@@ -45,39 +76,72 @@
             <ion-col size="4">
               <div class="column-fly-data">
                 <h4>{{ flight.itineraries[1].segments[0].departure.iataCode }}→</h4>
-                <div>{{ formatDateTime((flight.itineraries[1].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM') }}</div>
-                <div>{{ formatDateTime((flight.itineraries[1].segments[0].departure.at).replace('T', ' '), 'HH:mm') }}</div>
+                <div>{{ formatDateTime((flight.itineraries[1].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM')
+                  }}</div>
+                <div>{{ formatDateTime((flight.itineraries[1].segments[0].departure.at).replace('T', ' '), 'HH:mm') }}
+                </div>
               </div>
             </ion-col>
             <ion-col size="4">
               <div>
-                <div class="column-fly-data">
+                <div id="itinerary-arrival-{{flight.id}}" class="column-fly-data">
                   <div class="segment-info">
                     <ion-text class="chip ion-text-center"
                       [ngClass]="{'chip-primay': getScales('return') === 0, 'chip-light': getScales('return') !== 0}">
                       {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
                       escala' : ' escalas') }}
                     </ion-text>
-                    <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[1].segments)" title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
+                    <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[1].segments)"
+                      title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
                   </div>
                   <div>
                     {{ (flight.itineraries[1].duration).split('PT')[1] }}
                   </div>
                 </div>
+                <ion-popover trigger="itinerary-arrival-{{flight.id}}" triggerAction="click">
+                  <ng-template>
+                    <div *ngFor="let segment of flight.itineraries[0].segments; let ind = index;">
+                      <h6 *ngIf="ind != 0" style="text-align: center;">Escala {{getScalesTime(flight.itineraries[1].segments[ind-1].arrival.at, flight.itineraries[1].segments[ind].departure.at)}}</h6>
+                      <ion-content class="ion-padding">
+                        <ion-grid>
+                          <ion-row>
+                            <ion-col size="2">
+                              <img class="airline-logo" title={{segment.carrierCode}} alt={{segment.carrierCode}}
+                                src="https://images.kiwi.com/airlines/32x32/{{segment.carrierCode}}.png">
+                            </ion-col>
+                            <ion-col size="10">
+                              Trayecto: {{segment.departure.iataCode}}-{{segment.arrival.iataCode}},
+                              {{getStops(segment.stops ? segment.stops : [])}}<br>
+                              Vuelo: {{segment.carrierCode}}{{segment.number}}<br>
+                              Duración: {{(segment.duration).split('PT')[1]}}<br>
+                              Aeronave: {{segment.aircraft.code}}
+                            </ion-col>
+                          </ion-row>
+                        </ion-grid>
+                      </ion-content>
+                    </div>
+                  </ng-template>
+                </ion-popover>
               </div>
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>→{{ flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}</h4>
-                <div>{{ formatDateTime((flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'EEE dd/MM') }}</div>
-                <div>{{ formatDateTime((flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'HH:mm') }}</div>
+                <h4>→{{ flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}
+                </h4>
+                <div>{{
+                  formatDateTime((flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T',
+                  ' '), 'EEE dd/MM') }}</div>
+                <div>{{
+                  formatDateTime((flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T',
+                  ' '), 'HH:mm') }}</div>
               </div>
             </ion-col>
           </ion-row>
           <ion-row class="info">
             <ion-col class="ion-text-center">
               <div>
-                <strong>Duración:</strong> {{ formatDuration((flight.itineraries[0].duration).split('PT')[1], (flight.itineraries[1].duration).split('PT')[1]) }}
+                <strong>Duración:</strong> {{ formatDuration((flight.itineraries[0].duration).split('PT')[1],
+                (flight.itineraries[1].duration).split('PT')[1]) }}
               </div>
             </ion-col>
             <!-- <ion-col class="ion-text-center">

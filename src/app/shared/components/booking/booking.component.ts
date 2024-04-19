@@ -1,18 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { IonCard, IonGrid, IonRow, IonCardHeader, IonCol, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonImg, IonText, IonChip, IonLabel } from "@ionic/angular/standalone";
+import { IonPopover, IonContent, IonCard, IonGrid, IonRow, IonCardHeader, IonCol, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonImg, IonText, IonChip, IonLabel } from "@ionic/angular/standalone";
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { format } from 'date-fns';
 import { GlbService } from "../../services/glb/glb.service";
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.scss'],
   standalone: true,
-  imports: [IonLabel, IonChip, IonText, IonImg, IonButton, IonCardContent, IonCardTitle, IonCardSubtitle, IonCol, IonCardHeader, IonRow, IonGrid, IonCard, DatePipe, CurrencyPipe, FormsModule, CommonModule],
+  imports: [IonPopover, IonContent, IonLabel, IonChip, IonText, IonImg, IonButton, IonCardContent, IonCardTitle, IonCardSubtitle, IonCol, IonCardHeader, IonRow, IonGrid, IonCard, DatePipe, CurrencyPipe, FormsModule, CommonModule],
   providers: [DatePipe, CurrencyPipe]
 })
 export class BookingComponent implements OnInit {
@@ -57,7 +58,23 @@ export class BookingComponent implements OnInit {
   getScales(type: string): number {
     const returnType = type === 'outbound' ? 0 : 1;
     return this.flight.itineraries[returnType].segments.length - 1;
-    /* return this.flight.route.filter((segment: any) => segment.return === returnType).length - 1; */
+  }
+
+  getStops(array: any): string {
+    if (array.length > 0) {
+      let stops = '';
+      for (let i = 0; i < array.length; i++) { if (i == 0) { stops = `${array[i].iataCode} (${(array[i].duration).split('PT')[1]})`; } else { stops += ` - ${array[i].iataCode} (${(array[i].duration).split('PT')[1]})`; } }
+      return `via ${stops}`;
+    } else {
+      return '';
+    }
+  }
+
+  getScalesTime(date1: string, date2: string): string {
+    const diff = new Date(date2).getTime() - new Date(date1).getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}H${minutes}M (${hours > 4 ? 'escala larga' : 'escala corta'})`;
   }
 
   getSegmentTime(returnType: number, segmentType: 'local_departure' | 'local_arrival', formatType: 'EEE dd/MM' | 'HH:mm'): string {
@@ -77,7 +94,7 @@ export class BookingComponent implements OnInit {
     /* return [...new Set(segments.map((segment: any) => segment.airline))]; */
   }
 
-  goToBookingOne(){
+  goToBookingOne() {
     this.router.navigate(['/booking-one']);
   }
 
