@@ -46,10 +46,11 @@ export class BookingComponent implements OnInit {
   }
 
   formatDuration(duration1: string, duration2: string) {
-    /* const hours = Math.floor(seconds / 3600); */
-
-    /* const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m`; */
+    const [hours1, minutes1] = duration1.split('H').map(el => el.replace('M', '')), [hours2, minutes2] = duration2.split('H').map(el => el.replace('M', ''));
+    const totalMinutes1 = parseInt(hours1) * 60 + parseInt(minutes1), totalMinutes2 = parseInt(hours2) * 60 + parseInt(minutes2);
+    const totalMinutes = totalMinutes1 + totalMinutes2;
+    const hours = Math.floor(totalMinutes / 60), minutes = totalMinutes % 60;
+    return `${hours}H${minutes}M`;
   }
 
   getScales(type: string): number {

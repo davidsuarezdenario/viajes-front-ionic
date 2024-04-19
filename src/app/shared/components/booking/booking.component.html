@@ -10,9 +10,8 @@
             <ion-col size="4">
               <div class="column-fly-data">
                 <h4>{{ flight.itineraries[0].segments[0].departure.iataCode }}→</h4>
-                <!-- <div>{{ formatDateTime(flight.local_departure, 'EEE dd/MM') }}</div> -->
-                <div>{{ flight.itineraries[0].segments[0].departure.at }}</div>
-                <!-- <div>{{ formatDateTime(flight.local_departure, 'HH:mm') }}</div> -->
+                <div>{{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM') }}</div>
+                <div>{{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'HH:mm') }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
@@ -36,8 +35,8 @@
             <ion-col size="4">
               <div class="column-fly-data">
                 <h4>→{{ flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}</h4>
-                <div>{{ flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at }}</div>
-                <!-- <div>{{ formatDateTime(flight.local_arrival, 'HH:mm') }}</div> -->
+                <div>{{ formatDateTime((flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'EEE dd/MM') }}</div>
+                <div>{{ formatDateTime((flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'HH:mm') }}</div>
               </div>
             </ion-col>
           </ion-row>
@@ -48,9 +47,8 @@
             <ion-col size="4">
               <div class="column-fly-data">
                 <h4>{{ flight.itineraries[1].segments[0].departure.iataCode }}→</h4>
-                <div>{{ flight.itineraries[1].segments[0].departure.at }}</div>
-                <!-- <div>{{ getSegmentTime(1, 'local_departure', 'EEE dd/MM') }}</div> -->
-                <!-- <div>{{ getSegmentTime(1, 'local_departure', 'HH:mm') }}</div> -->
+                <div>{{ formatDateTime((flight.itineraries[1].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM') }}</div>
+                <div>{{ formatDateTime((flight.itineraries[1].segments[0].departure.at).replace('T', ' '), 'HH:mm') }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
@@ -73,14 +71,15 @@
             <ion-col size="4">
               <div class="column-fly-data">
                 <h4>→{{ flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}</h4>
-                <div>{{ flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at }}</div>
+                <div>{{ formatDateTime((flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'EEE dd/MM') }}</div>
+                <div>{{ formatDateTime((flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at).replace('T', ' '), 'HH:mm') }}</div>
               </div>
             </ion-col>
           </ion-row>
           <ion-row class="info">
             <ion-col class="ion-text-center">
               <div>
-                <!-- <strong>Duración:</strong> {{ formatDuration((flight.itineraries[0].duration).split('PT')[1], (flight.itineraries[0].duration).split('PT')[1]) }} -->
+                <strong>Duración:</strong> {{ formatDuration((flight.itineraries[0].duration).split('PT')[1], (flight.itineraries[1].duration).split('PT')[1]) }}
               </div>
             </ion-col>
             <!-- <ion-col class="ion-text-center">
