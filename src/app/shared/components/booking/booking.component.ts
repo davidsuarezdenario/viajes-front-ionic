@@ -45,15 +45,17 @@ export class BookingComponent implements OnInit {
     return format(new Date(date), formatType);
   }
 
-  formatDuration(seconds: number) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m`;
+  formatDuration(duration1: string, duration2: string) {
+    /* const hours = Math.floor(seconds / 3600); */
+
+    /* const minutes = Math.floor((seconds % 3600) / 60);
+    return `${hours}h ${minutes}m`; */
   }
 
   getScales(type: string): number {
     const returnType = type === 'outbound' ? 0 : 1;
-    return this.flight.route.filter((segment: any) => segment.return === returnType).length - 1;
+    return this.flight.itineraries[returnType].segments.length - 1;
+    /* return this.flight.route.filter((segment: any) => segment.return === returnType).length - 1; */
   }
 
   getSegmentTime(returnType: number, segmentType: 'local_departure' | 'local_arrival', formatType: 'EEE dd/MM' | 'HH:mm'): string {

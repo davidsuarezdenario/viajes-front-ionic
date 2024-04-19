@@ -9,9 +9,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>{{ flight.flyFrom }}→</h4>
-                <div>{{ formatDateTime(flight.local_departure, 'EEE dd/MM') }}</div>
-                <div>{{ formatDateTime(flight.local_departure, 'HH:mm') }}</div>
+                <h4>{{ flight.itineraries[0].segments[0].departure.iataCode }}→</h4>
+                <!-- <div>{{ formatDateTime(flight.local_departure, 'EEE dd/MM') }}</div> -->
+                <div>{{ flight.itineraries[0].segments[0].departure.at }}</div>
+                <!-- <div>{{ formatDateTime(flight.local_departure, 'HH:mm') }}</div> -->
               </div>
             </ion-col>
             <ion-col size="4">
@@ -27,14 +28,15 @@
                   </ion-text>
                 </div>
                 <div>
-                  {{ formatDuration(flight.duration.departure) }}
+                  <!-- {{ formatDuration(flight.itineraries[0].duration) }} -->
+                  {{ (flight.itineraries[0].duration).split('PT')[1] }}
                 </div>
               </div>
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
                 <h4>→{{ flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}</h4>
-                <div>{{ formatDateTime(flight.itineraries[0].segments[0].departure.at, 'EEE dd/MM') }}</div>
+                <div>{{ flight.itineraries[0].segments[(flight.itineraries[0].segments.length)-1].arrival.at }}</div>
                 <!-- <div>{{ formatDateTime(flight.local_arrival, 'HH:mm') }}</div> -->
               </div>
             </ion-col>
@@ -45,9 +47,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>{{ flight.flyTo }}→</h4>
-                <div>{{ getSegmentTime(1, 'local_departure', 'EEE dd/MM') }}</div>
-                <div>{{ getSegmentTime(1, 'local_departure', 'HH:mm') }}</div>
+                <h4>{{ flight.itineraries[1].segments[0].departure.iataCode }}→</h4>
+                <div>{{ flight.itineraries[1].segments[0].departure.at }}</div>
+                <!-- <div>{{ getSegmentTime(1, 'local_departure', 'EEE dd/MM') }}</div> -->
+                <!-- <div>{{ getSegmentTime(1, 'local_departure', 'HH:mm') }}</div> -->
               </div>
             </ion-col>
             <ion-col size="4">
@@ -63,32 +66,31 @@
                   </ion-text>
                 </div>
                 <div>
-                  {{ formatDuration(flight.duration.return) }}
+                  {{ (flight.itineraries[1].duration).split('PT')[1] }}
                 </div>
               </div>
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>→{{ flight.flyFrom }}</h4>
-                <div>{{ getSegmentTime(1, 'local_arrival', 'EEE dd/MM') }}</div>
-                <div>{{ getSegmentTime(1, 'local_arrival', 'HH:mm') }}</div>
+                <h4>→{{ flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.iataCode }}</h4>
+                <div>{{ flight.itineraries[1].segments[(flight.itineraries[0].segments.length)-1].arrival.at }}</div>
               </div>
             </ion-col>
           </ion-row>
           <ion-row class="info">
             <ion-col class="ion-text-center">
               <div>
-                <strong>Duración:</strong> {{ formatDuration(flight.duration.total) }}
+                <!-- <strong>Duración:</strong> {{ formatDuration((flight.itineraries[0].duration).split('PT')[1], (flight.itineraries[0].duration).split('PT')[1]) }} -->
               </div>
             </ion-col>
-            <ion-col class="ion-text-center">
+            <!-- <ion-col class="ion-text-center">
               <div>
                 <strong>Incluido:</strong> {{ flight.baglimit.hold_weight }} kg equipaje
               </div>
-            </ion-col>
+            </ion-col> -->
             <ion-col class="ion-text-center">
               <div>
-                <strong>Asientos:</strong> {{ flight.availability.seats }} disponible(s)
+                <strong>Asientos:</strong> {{ flight.numberOfBookableSeats }} disponible(s)
               </div>
             </ion-col>
           </ion-row>
@@ -96,7 +98,7 @@
       </ion-col>
       <ion-col size-xs="12" size-sm="3" class="price-column">
         <div class="flight-price">
-          <p>{{ flight.price | currency:'$':'symbol':'1.0-0' }}</p>
+          <p>{{ flight.price.total | currency:'$':'symbol':'1.0-0' }}</p>
           <ion-button expand="block" mode="ios">Reservar</ion-button>
         </div>
       </ion-col>
