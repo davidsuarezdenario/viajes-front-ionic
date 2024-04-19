@@ -47,7 +47,7 @@ export class BookingComponent implements OnInit {
 
   formatDuration(duration1: string, duration2: string) {
     const [hours1, minutes1] = duration1.split('H').map(el => el.replace('M', '')), [hours2, minutes2] = duration2.split('H').map(el => el.replace('M', ''));
-    const totalMinutes1 = parseInt(hours1) * 60 + parseInt(minutes1), totalMinutes2 = parseInt(hours2) * 60 + parseInt(minutes2);
+    const totalMinutes1 = parseInt(hours1) * 60 + parseInt(minutes1 ? minutes1 : '00'), totalMinutes2 = parseInt(hours2) * 60 + parseInt(minutes2 ? minutes2 : '00');
     const totalMinutes = totalMinutes1 + totalMinutes2;
     const hours = Math.floor(totalMinutes / 60), minutes = totalMinutes % 60;
     return `${hours}H${minutes}M`;
@@ -69,9 +69,11 @@ export class BookingComponent implements OnInit {
     return lastSegmentTime;
   }
 
-  getAirlineArray(returnType: number): string[] {
-    const segments = returnType === 0 ? this.outboundSegments : this.returnSegments;
-    return [...new Set(segments.map((segment: any) => segment.airline))];
+  getAirlineArray(arraySegment: any): string[] {
+    let airline = [];
+    for (let i = 0; i < arraySegment.length; i++) { airline.push(arraySegment[i].carrierCode); }
+    return [...new Set(airline)];
+    /* return [...new Set(segments.map((segment: any) => segment.airline))]; */
   }
 
 }
