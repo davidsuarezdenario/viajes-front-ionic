@@ -56,6 +56,7 @@ export class SearchMainService {
     /* let body: any = {
       originLocationCode: this.glbService.selectAirportFrom.iataCode, destinationLocationCode: this.glbService.selectAirportTo.iataCode, departureDate: this.glbService.selectedDateSalidaStart, adults: this.glbService.passengers.adult, children: this.glbService.passengers.child, infants: this.glbService.passengers.infant, travelClass: this.glbService.clase, max: 4
     }; */
+    let xxxx=true;
     let body: any =
     {
       "data": {
@@ -80,12 +81,7 @@ export class SearchMainService {
                   "arrivalLocalization": [ { "arrivalMultiCity": [ { "locationId": [ this.glbService.selectAirportTo.iataCode ], "airportCityQualifier": [ "C" ] } ] } ],
                   "timeDetails": [ { "firstDateTimeDetail": [ { "date": [ "140624" ] } ], "rangeOfDate": [ { "rangeQualifier": [ "M" ], "dayInterval": [ "2" ] } ] } ]
                 },
-                {
-                  "requestedSegmentRef": [ { "segRef": [ "1" ] } ],
-                  "departureLocalization": [ { "depMultiCity": [ { "locationId": [ this.glbService.selectAirportTo.iataCode ], "airportCityQualifier": [ "C" ] } ] } ],
-                  "arrivalLocalization": [ { "arrivalMultiCity": [ { "locationId": [ this.glbService.selectAirportFrom.iataCode ], "airportCityQualifier": [ "C" ] } ] } ],
-                  "timeDetails": [ { "firstDateTimeDetail": [ { "date": [ "190624" ] } ], "rangeOfDate": [ { "rangeQualifier": [ "M" ], "dayInterval": [ "2" ] } ] } ]
-                }
+                xxxx == true ? {} : { "requestedSegmentRef": [ { "segRef": [ "1" ] } ], "departureLocalization": [ { "depMultiCity": [ { "locationId": [ this.glbService.selectAirportTo.iataCode ], "airportCityQualifier": [ "C" ] } ] } ], "arrivalLocalization": [ { "arrivalMultiCity": [ { "locationId": [ this.glbService.selectAirportFrom.iataCode ], "airportCityQualifier": [ "C" ] } ] } ], "timeDetails": [ { "firstDateTimeDetail": [ { "date": [ "190624" ] } ], "rangeOfDate": [ { "rangeQualifier": [ "M" ], "dayInterval": [ "2" ] } ] } ] }
               ]
             }
           ]
