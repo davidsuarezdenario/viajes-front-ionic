@@ -48,6 +48,8 @@ export class DateSelectComponent implements OnInit {
     }
     this.dateStartString = format(parseISO(this.dateStart), 'yyyy-MM-dd');
     this.dateEndString = format(parseISO(this.dateEnd), 'yyyy-MM-dd');
+    /* this.dateStartString = format(parseISO(this.dateStart), 'ddMMyy');
+    this.dateEndString = format(parseISO(this.dateEnd), 'ddMMyy'); */
     console.log('dateStartString: ', this.dateStartString);
     console.log('dateEndString: ', this.dateEndString);
   }
