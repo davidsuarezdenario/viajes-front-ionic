@@ -54,6 +54,10 @@ export class SearchMainService {
     console.log('date to: ', this.glbService.dateTo);
     this.totalBagsHoldToDistribute = this.glbService.bags.hold;
     this.totalBagsHandToDistribute = this.glbService.bags.hand;
+    const requestedSegmentRef = this.glbService.trips == 'idaVuelta' ? 
+      [{ "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }], "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }] },
+      { "requestedSegmentRef": [{ "segRef": ["2"] }], "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }], "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateRegresoStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }] }]:
+      [{ "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }], "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }] }];
     /* const requestedSegmentRef = this.glbService.trips == 'idaVuelta' ? [{ "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "departurePoint": [{ "locationId": [this.glbService.selectAirportFrom.iataCode] }] }], "arrivalLocalization": [{ "arrivalPointDetails": [{ "locationId": [this.glbService.selectAirportTo.iataCode] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }, { "requestedSegmentRef": [{ "segRef": ["2"] }], "departureLocalization": [{ "departurePoint": [{ "locationId": [this.glbService.selectAirportTo.iataCode] }] }], "arrivalLocalization": [{ "arrivalPointDetails": [{ "locationId": [this.glbService.selectAirportFrom.iataCode] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateRegresoStart), 'ddMMyy')] }] }] }] : [{ "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "departurePoint": [{ "locationId": [this.glbService.selectAirportFrom.iataCode] }] }], "arrivalLocalization": [{ "arrivalPointDetails": [{ "locationId": [this.glbService.selectAirportTo.iataCode] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }];
     let contPax = 1;
     const paxAdt = await Array.from({ length: this.glbService.passengers.adult }, () => ({ ref: [(contPax++) + ''] }));
@@ -87,17 +91,9 @@ export class SearchMainService {
                 }
               ],
               "paxReference": [{ "ptc": ["ADT"], "traveller": [{ "ref": ["1"] }, { "ref": ["2"] }] }],
-              "fareOptions": [{ "pricingTickInfo": [{ "pricingTicketing": [{ "priceType": ["ET", "RP", "RU", "TAC", "XND"] }] }] }],
+              "fareOptions": [{ "pricingTickInfo": [{ "pricingTicketing": [{ "priceType": ["ET", "RP", "RU"] }] }] }],
               "travelFlightInfo": [{ "flightDetail": [{ "flightType": ["N"] }] }],
-              "itinerary": [
-                {
-                  "requestedSegmentRef": [{ "segRef": ["1"] }],
-                  "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }],
-                  "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }],
-                  "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }]
-                },
-                this.glbService.trips == 'idaVuelta' ? { "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }], "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateRegresoStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }] } : false
-              ]
+              "itinerary": requestedSegmentRef
             }
           ]
         }
