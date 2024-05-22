@@ -54,6 +54,25 @@ export class SearchMainService {
     console.log('date to: ', this.glbService.dateTo);
     this.totalBagsHoldToDistribute = this.glbService.bags.hold;
     this.totalBagsHandToDistribute = this.glbService.bags.hand;
+    /* const requestedSegmentRef = this.glbService.trips == 'idaVuelta' ? [{ "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "departurePoint": [{ "locationId": [this.glbService.selectAirportFrom.iataCode] }] }], "arrivalLocalization": [{ "arrivalPointDetails": [{ "locationId": [this.glbService.selectAirportTo.iataCode] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }, { "requestedSegmentRef": [{ "segRef": ["2"] }], "departureLocalization": [{ "departurePoint": [{ "locationId": [this.glbService.selectAirportTo.iataCode] }] }], "arrivalLocalization": [{ "arrivalPointDetails": [{ "locationId": [this.glbService.selectAirportFrom.iataCode] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateRegresoStart), 'ddMMyy')] }] }] }] : [{ "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "departurePoint": [{ "locationId": [this.glbService.selectAirportFrom.iataCode] }] }], "arrivalLocalization": [{ "arrivalPointDetails": [{ "locationId": [this.glbService.selectAirportTo.iataCode] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }];
+    let contPax = 1;
+    const paxAdt = await Array.from({ length: this.glbService.passengers.adult }, () => ({ ref: [(contPax++) + ''] }));
+    const paxCnn = await Array.from({ length: this.glbService.passengers.child }, () => ({ ref: [(contPax++) + ''] }));
+    const paxInf = await Array.from({ length: this.glbService.passengers.infant }, (_, i) => ({ ref: [(i + 1) + ''], infantIndicator: [(i + 1) + ''] }));
+    const body: any = {
+      "data": {
+        "soapenv:Body": {
+          "Fare_MasterPricerTravelBoardSearch": [
+            {
+              "numberOfUnit": [{ "unitNumberDetail": [{ "numberOfUnits": [(this.glbService.passengers.adult + this.glbService.passengers.child) + ""], "typeOfUnit": ["PX"] }, { "numberOfUnits": ["250"], "typeOfUnit": ["RC"] }] }],
+              "paxReference": [{ "ptc": ["ADT"], "traveller": paxAdt }, { "ptc": ["CNN"], "traveller": paxCnn }, { "ptc": ["INF"], "traveller": paxInf }],
+              "fareOptions": [{ "pricingTickInfo": [{ "pricingTicketing": [{ "priceType": ["ET", "RP", "RU"] }] }]},{ "feeIdDescription": [ { "feeId": [ { "feeType": [ "SBF" ], "feeIdNumber": [ "1" ] }, { "feeType": [ "FFI" ], "feeIdNumber": [ "3" ] }, { "feeType": [ "COA" ], "feeIdNumber": [ "1" ] } ] } ] }],
+              "itinerary": requestedSegmentRef
+            }
+          ]
+        }
+      }
+    }; */
     const body: any = {
       "data": {
         "soapenv:Body": {
