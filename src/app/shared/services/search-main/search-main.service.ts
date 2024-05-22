@@ -44,14 +44,6 @@ export class SearchMainService {
   }
 
   async explorar() {
-    console.log('trips: ', this.glbService.trips);
-    console.log('clase: ', this.glbService.clase);
-    console.log('passengers: ', this.glbService.passengers);
-    console.log('bags: ', this.glbService.bags);
-    console.log('airport from: ', this.glbService.selectAirportFrom);
-    console.log('airport to: ', this.glbService.selectAirportTo);
-    console.log('date from: ', this.glbService.dateFrom);
-    console.log('date to: ', this.glbService.dateTo);
     this.totalBagsHoldToDistribute = this.glbService.bags.hold;
     this.totalBagsHandToDistribute = this.glbService.bags.hand;
     // const requestedSegmentRef = this.glbService.trips == 'idaVuelta' ? [ { "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }], "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }] }, { "requestedSegmentRef": [{ "segRef": ["2"] }], "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }], "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateRegresoStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }] }] : [{ "requestedSegmentRef": [{ "segRef": ["1"] }], "departureLocalization": [{ "depMultiCity": [{ "locationId": [this.glbService.selectAirportFrom.iataCode], "airportCityQualifier": ["C"] }] }], "arrivalLocalization": [{ "arrivalMultiCity": [{ "locationId": [this.glbService.selectAirportTo.iataCode], "airportCityQualifier": ["C"] }] }], "timeDetails": [{ "firstDateTimeDetail": [{ "date": [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }], "rangeOfDate": [{ "rangeQualifier": ["M"], "dayInterval": ["2"] }] }] }];
@@ -101,7 +93,7 @@ export class SearchMainService {
     try {
       this.glbService.bookingloading = true;
       const bookingResponse: any = await this.apiService.post('/travel/booking', body);
-      console.log('bookingResponse: ', bookingResponse);
+      console.log('bookingResponse: ', bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]);
       //if (bookingResponse.data.error) {
       //  this.alertMain.present('Error', 'Al consultar vuelos', bookingResponse.data.error);
       //  return;
