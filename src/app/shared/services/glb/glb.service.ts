@@ -26,19 +26,12 @@ export class GlbService {
   selectedDateRegresoStart: string = this.today;
   selectedDateRegresoEnd: string = this.today;
 
-  passengers: any = {
-    adult: 1,
-    child: 0,
-    infant: 0
-  }
+  passengers: any = { adult: 1, child: 0, infant: 0 }
   get totalPassengers() { return this.passengers.adult + this.passengers.child + this.passengers.infant; }
-  bags: any = {
-    hand: 0,
-    hold: 0
-  }
+  bags: any = { hand: 0, hold: 0 }
   get totalBags() { return this.bags.hand + this.bags.hold; }
   trips: string = "idaVuelta";
-  clase: string = "ECONOMY";
+  clase: string = "Y";
   dateFrom: string = this.today;
   dateTo: string = this.today;
 

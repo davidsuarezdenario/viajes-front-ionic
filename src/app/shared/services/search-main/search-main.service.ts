@@ -72,34 +72,64 @@ export class SearchMainService {
         "soapenv:Body": {
           "Fare_MasterPricerTravelBoardSearch": [
             {
-              "numberOfUnit": [{ "unitNumberDetail": [{ "numberOfUnits": [this.glbService.passengers.adult + this.glbService.passengers.child], "typeOfUnit": ["PX"] }, { "numberOfUnits": ["250"], "typeOfUnit": ["RC"] }] }],
+              "numberOfUnit": [{ "unitNumberDetail": [{ "numberOfUnits": [this.glbService.passengers.adult + this.glbService.passengers.child], "typeOfUnit": ["PX"] }, { "numberOfUnits": ["5"], "typeOfUnit": ["RC"] }] }],
               "paxReference": paxReference,
               "fareOptions": [{ "pricingTickInfo": [{ "pricingTicketing": [{ "priceType": ["ET", "RP", "RU"] }] }] }],
+              "travelFlightInfo": [{ "cabinId": [{ "cabin": [this.glbService.clase] }] }],
               "itinerary": requestedSegmentRef
             }
           ]
         }
       }
     };
-    console.log('paxAdt: ', paxAdt);
-    console.log('paxCnn: ', paxCnn);
-    console.log('paxInf: ', paxInf);
-    console.log('body: ', body);
     if (!this.validators()) return;
     this.glbService.bookingResults = [];
     try {
       this.glbService.bookingloading = true;
       const bookingResponse: any = await this.apiService.post('/travel/booking', body);
-      console.log('bookingResponse: ', bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]);
-      //if (bookingResponse.data.error) {
-      //  this.alertMain.present('Error', 'Al consultar vuelos', bookingResponse.data.error);
-      //  return;
-      //}
-      //if (bookingResponse.data.data.length > 0) {
-      //  this.glbService.bookingResults = bookingResponse.data.data;
-      //  this.glbService.firstSearch = false;
-      //  return;
-      //}
+      console.log('bookingResponse: ', bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]);
+      if (bookingResponse.data.error) {
+        this.alertMain.present('Error', 'Al consultar vuelos', bookingResponse.data.error);
+        return;
+      }
+      if ((bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex']).length > 0) {
+        /* let result = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].map((item: any) => {
+          let found = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'].find((element: any) => (element.propFlightGrDetail[0].flightProposal[0].ref[0] == item.propFlightGrDetail[0].flightProposal[0].ref[0], console.log(`${element.propFlightGrDetail[0].flightProposal[0].ref[0]} == ${item.propFlightGrDetail[0].flightProposal[0].ref[0]}`)));
+          return { ...item, ...found };
+        }); */
+        let result = [];
+        if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 2) {
+          for (let i = 0; i < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].length; i++) {
+            for (let j = 0; j < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'].length; j++) {
+              if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][i].propFlightGrDetail[0].flightProposal[0].ref[0] == bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'][j].propFlightGrDetail[0].flightProposal[0].ref[0]) {
+                result.push({ ida: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][i], vuelta: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'][j] });
+              }
+            }
+          }
+        } else if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 1){
+          for (let i = 0; i < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].length; i++) {
+            result.push({ ida: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][i] });
+          }
+        } else {
+          this.alertMain.present('Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busqueda.');
+        }
+        console.log('result: ', result);
+        this.glbService.bookingResults = result;
+        /* console.log('result: ', result); */
+        /* this.glbService.bookingResults = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex']; */
+        /* const bookingResultsTemp = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'];
+        for (let i = 0; i < bookingResultsTemp[0].groupOfFlights.length; i++) {
+          bookingResultsTemp[0].groupOfFlights[i].idReserva = bookingResultsTemp[0].groupOfFlights[i].propFlightGrDetail[0].flightProposal[0].ref[0];
+        }
+        if(bookingResultsTemp[1].groupOfFlights.length > 0){
+          for (let i = 0; i < bookingResultsTemp[1].groupOfFlights.length; i++) {
+            bookingResultsTemp[1].groupOfFlights[i].idReserva = bookingResultsTemp[1].groupOfFlights[i].propFlightGrDetail[0].flightProposal[0].ref[0];
+          }
+        } */
+        /* console.log('bookingResultsTemp: ', bookingResultsTemp); */
+        this.glbService.firstSearch = false;
+        return;
+      }
       this.alertMain.present('Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busqueda.');
     } catch (e) {
       console.error('error bookingResponse: ', e);
@@ -111,22 +141,10 @@ export class SearchMainService {
 
   validators(): boolean {
     const conditions = [
-      {
-        condition: !this.glbService.selectAirportFrom.iataCode,
-        message: 'Seleccione un aeropuerto de origen'
-      },
-      {
-        condition: !this.glbService.selectAirportTo.iataCode,
-        message: 'Seleccione un aeropuerto de destino'
-      },
-      {
-        condition: !this.glbService.dateFrom,
-        message: 'Seleccione una fecha de salida'
-      },
-      {
-        condition: this.glbService.totalPassengers <= 0,
-        message: 'Seleccione al menos un pasajero'
-      }
+      { condition: !this.glbService.selectAirportFrom.iataCode, message: 'Seleccione un aeropuerto de origen' },
+      { condition: !this.glbService.selectAirportTo.iataCode, message: 'Seleccione un aeropuerto de destino' },
+      { condition: !this.glbService.dateFrom, message: 'Seleccione una fecha de salida' },
+      { condition: this.glbService.totalPassengers <= 0, message: 'Seleccione al menos un pasajero' }
     ];
 
     for (let item of conditions) {

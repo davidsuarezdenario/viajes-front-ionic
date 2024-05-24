@@ -30,9 +30,10 @@ export class BookingComponent implements OnInit {
     /* console.log('flight1: ', this.flight.itineraries[0].segments[(this.flight.itineraries[0].segments.length)-1].arrival.iataCode);
     console.log('flight2: ', this.flight.itineraries[1].segments[(this.flight.itineraries[0].segments.length)-1].arrival.iataCode); */
     /* this.outboundSegments = this.sortSegments(this.filterSegments(false)); */
-    this.outboundSegments = this.sortSegments(this.flight.itineraries[0].segments);
+    console.log('flight: ', this.flight);
+    this.outboundSegments = this.sortSegments(this.flight.groupOfFlights);
     /* this.returnSegments = this.sortSegments(this.filterSegments(true)); */
-    this.returnSegments = this.sortSegments(this.flight.itineraries.length > 1 ? this.flight.itineraries[1].segments : []);
+    /* this.returnSegments = this.sortSegments(this.flight.itineraries.length > 1 ? this.flight.itineraries[1].segments : []); */
   }
 
   filterSegments(returnType: boolean) {
