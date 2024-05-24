@@ -72,7 +72,7 @@ export class SearchMainService {
         "soapenv:Body": {
           "Fare_MasterPricerTravelBoardSearch": [
             {
-              "numberOfUnit": [{ "unitNumberDetail": [{ "numberOfUnits": [this.glbService.passengers.adult + this.glbService.passengers.child], "typeOfUnit": ["PX"] }, { "numberOfUnits": ["5"], "typeOfUnit": ["RC"] }] }],
+              "numberOfUnit": [{ "unitNumberDetail": [{ "numberOfUnits": [this.glbService.passengers.adult + this.glbService.passengers.child], "typeOfUnit": ["PX"] }, { "numberOfUnits": ["250"], "typeOfUnit": ["RC"] }] }],
               "paxReference": paxReference,
               "fareOptions": [{ "pricingTickInfo": [{ "pricingTicketing": [{ "priceType": ["ET", "RP", "RU"] }] }] }],
               "travelFlightInfo": [{ "cabinId": [{ "cabin": [this.glbService.clase] }] }],
