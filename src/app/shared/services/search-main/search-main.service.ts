@@ -106,7 +106,7 @@ export class SearchMainService {
               }
             }
           }
-        } else if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 1){
+        } else if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 1) {
           for (let i = 0; i < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].length; i++) {
             result.push({ ida: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][i] });
           }
