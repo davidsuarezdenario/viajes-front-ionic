@@ -92,29 +92,44 @@ export class SearchMainService {
         this.alertMain.present('Error', 'Al consultar vuelos', bookingResponse.data.error);
         return;
       }
-      if ((bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex']).length > 0) {
+      if ((bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['recommendation']).length > 0) {
         /* let result = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].map((item: any) => {
           let found = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'].find((element: any) => (element.propFlightGrDetail[0].flightProposal[0].ref[0] == item.propFlightGrDetail[0].flightProposal[0].ref[0], console.log(`${element.propFlightGrDetail[0].flightProposal[0].ref[0]} == ${item.propFlightGrDetail[0].flightProposal[0].ref[0]}`)));
           return { ...item, ...found };
         }); */
         let result = [];
-        if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 2) {
-          for (let i = 0; i < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].length; i++) {
-            for (let j = 0; j < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'].length; j++) {
-              if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][i].propFlightGrDetail[0].flightProposal[0].ref[0] == bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'][j].propFlightGrDetail[0].flightProposal[0].ref[0]) {
-                result.push({ ida: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][i], vuelta: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'][j] });
+
+        if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 1) {
+          for (let i = 0; i < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['recommendation'].length; i++) {
+            for (let j = 0; j < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].length; j++) {
+              if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['recommendation'][i]['segmentFlightRef'][0]['referencingDetail'][0]['refNumber'][0] == bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][j].propFlightGrDetail[0].flightProposal[0].ref[0]) {
+                result.push({ ida: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][j] });
               }
             }
           }
-        } else if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 1) {
-          for (let i = 0; i < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].length; i++) {
-            result.push({ ida: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][i] });
+        } else if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'].length == 2) {
+          for (let i = 0; i < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['recommendation'].length; i++) {
+            let idaTemp = [], vueltaTemp = [];
+            for (let j = 0; j < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'].length; j++) {
+              if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['recommendation'][i]['segmentFlightRef'][0]['referencingDetail'][0]['refNumber'][0] == bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][j].propFlightGrDetail[0].flightProposal[0].ref[0]) {
+                idaTemp = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][j];
+                //result.push({ ida: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][0]['groupOfFlights'][j] });
+              }
+            }
+            for (let k = 0; k < bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'].length; k++) {
+              if (bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['recommendation'][i]['segmentFlightRef'][0]['referencingDetail'][1]['refNumber'][0] == bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'][k].propFlightGrDetail[0].flightProposal[0].ref[0]) {
+                vueltaTemp = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'][k];
+                //result.push({ vuelta: bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'][1]['groupOfFlights'][k] });
+              }
+            }
+            result.push({ ida: idaTemp, vuelta: vueltaTemp });
           }
         } else {
           this.alertMain.present('Ups', 'No se encontraron vuelos', 'Intenta con otros parametros de busqueda.');
         }
         console.log('result: ', result);
-        this.glbService.bookingResults = result;
+        /* this.glbService.bookingResults = result; */
+        this.glbService.bookingResults = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['recommendation'];
         /* console.log('result: ', result); */
         /* this.glbService.bookingResults = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex']; */
         /* const bookingResultsTemp = bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]['flightIndex'];
