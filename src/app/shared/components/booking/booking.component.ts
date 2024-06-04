@@ -85,4 +85,16 @@ export class BookingComponent implements OnInit {
     this.router.navigate(['/booking-one']);
   }
 
+  convertToDate(dateString: any) {
+    let date = new Date(), day = dateString.substring(0, 2), month = dateString.substring(2, 4) - 1, year = dateString.substring(4, 6);
+    date.setDate(day), date.setMonth(month), date.setFullYear(2000 + parseInt(year));
+    return date;
+  }
+
+  convertToTime(timeString: any) {
+    let date = new Date(), hours = timeString.substring(0, 2), minutes = timeString.substring(2, 4);
+    date.setHours(hours), date.setMinutes(minutes);
+    return date;
+  }
+
 }
