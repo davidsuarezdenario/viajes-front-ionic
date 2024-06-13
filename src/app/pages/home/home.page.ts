@@ -34,8 +34,9 @@ export class HomePage implements OnInit {
     this.lettersBanner2 = this.mainBanner2.split("");
   }
 
-  ngOnInit() {
-    this.getDatosInit();
+  async ngOnInit() {
+    await this.getDatosInit();
+    this.getIataCodes();
   }
 
   async getDatosInit() {
@@ -54,6 +55,17 @@ export class HomePage implements OnInit {
         }
         this.alertMain.present('Error', 'Error al obtener los datos iniciales', res.Message);
       }
+    } catch (error: any) {
+      console.error('Error al obtener los datos iniciales: ', error);
+      this.alertMain.present('Error', 'Error al obtener los datos iniciales', error?.Message);
+    }
+  }
+
+  async getIataCodes() {
+    try {
+      const res: any = await this.apiService.get('/travel/iata_codes');
+      !res.error ? this.glbService.iataCodes = res.data : this.alertMain.present('Error', 'Error al obtener los códigos IATA');
+      console.log('res: ', this.glbService.iataCodes);
     } catch (error: any) {
       console.error('Error al obtener los datos iniciales: ', error);
       this.alertMain.present('Error', 'Error al obtener los datos iniciales', error?.Message);

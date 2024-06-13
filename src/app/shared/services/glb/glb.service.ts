@@ -12,6 +12,7 @@ export class GlbService {
   sesion: boolean = false;
   idCliente: string = "";
   userData: any = {};
+  iataCodes: any = {};
 
   searchFrom: string = "";
   searchTo: string = "";
