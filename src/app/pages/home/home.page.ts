@@ -67,7 +67,6 @@ export class HomePage implements OnInit {
       !res.error ? this.glbService.iataCodes = res.data : this.alertMain.present('Error', 'Error al obtener los códigos IATA');
       console.log('res: ', this.glbService.iataCodes);
     } catch (error: any) {
-      console.error('Error al obtener los datos iniciales: ', error);
       this.alertMain.present('Error', 'Error al obtener los datos iniciales', error?.Message);
     }
   }
