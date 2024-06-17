@@ -28,7 +28,6 @@ export class BookingOnePage implements OnInit {
     let passengersGroup = [], contPax = 1;
     if (this.glb.flightSelected.pax) { }
     for (let i = 0; i < this.glb.flightSelected.pax.length; i++) {
-      let passenger = {};
       if (this.glb.flightSelected.pax[i].paxReference[0].ptc[0] == 'ADT') {
         let travellerDetails = [];
         for (let j = 0; j < this.glb.flightSelected.pax[i].paxReference[0].traveller.length; j++) { travellerDetails.push({ measurementValue: [(contPax++) + ''] }); }
