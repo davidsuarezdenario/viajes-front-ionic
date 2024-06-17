@@ -20,30 +20,32 @@ export class BookingOnePage implements OnInit {
     this.glb.flightSelected.length == 0 ? this.router.navigate(['/home']) : this.loadResult();;
   }
 
+  passengersGroup: any = [];
+
   ngOnInit() {
   }
 
   async loadResult() {
     console.log('this.glb.flightSelected: ', this.glb.flightSelected.pax);
-    let passengersGroup = [], contPax = 1;
+    let contPax = 1;
     if (this.glb.flightSelected.pax) { }
     for (let i = 0; i < this.glb.flightSelected.pax.length; i++) {
       if (this.glb.flightSelected.pax[i].paxReference[0].ptc[0] == 'ADT') {
         let travellerDetails = [];
         for (let j = 0; j < this.glb.flightSelected.pax[i].paxReference[0].traveller.length; j++) { travellerDetails.push({ measurementValue: [(contPax++) + ''] }); }
-        passengersGroup.push({ "segmentRepetitionControl": [{ "segmentControlDetails": [{ "quantity": ["1"], "numberOfUnits": [this.glb.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], "travellersID": [{ "travellerDetails": travellerDetails }], "discountPtc": [{ "valueQualifier": ["ADT"] }] });
+        this.passengersGroup.push({ "segmentRepetitionControl": [{ "segmentControlDetails": [{ "quantity": ["1"], "numberOfUnits": [this.glb.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], "travellersID": [{ "travellerDetails": travellerDetails }], "discountPtc": [{ "valueQualifier": ["ADT"] }] });
       }
       if (this.glb.flightSelected.pax[i].paxReference[0].ptc[0] == 'CNN') {
         let travellerDetails = [];
         for (let k = 0; k < this.glb.flightSelected.pax[i].paxReference[0].traveller.length; k++) { travellerDetails.push({ measurementValue: [(contPax++) + ''] }); }
-        passengersGroup.push({ "segmentRepetitionControl": [{ "segmentControlDetails": [{ "quantity": ["2"], "numberOfUnits": [this.glb.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], "travellersID": [{ "travellerDetails": travellerDetails }], "discountPtc": [{ "valueQualifier": ["CH"] }] });
+        this.passengersGroup.push({ "segmentRepetitionControl": [{ "segmentControlDetails": [{ "quantity": ["2"], "numberOfUnits": [this.glb.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], "travellersID": [{ "travellerDetails": travellerDetails }], "discountPtc": [{ "valueQualifier": ["CH"] }] });
       }
       if (this.glb.flightSelected.pax[i].paxReference[0].ptc[0] == 'INF') {
         let travellerDetails = [];
         for (let l = 0; l < this.glb.flightSelected.pax[i].paxReference[0].traveller.length; l++) { travellerDetails.push({ measurementValue: [(l + 1) + ''] }); }
-        passengersGroup.push({ "segmentRepetitionControl": [{ "segmentControlDetails": [{ "quantity": ["3"], "numberOfUnits": [this.glb.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], "travellersID": [{ "travellerDetails": travellerDetails }], "discountPtc": [{ "valueQualifier": ["INF"], "fareDetails": [{ "qualifier": ["766"] }] }] });
+        this.passengersGroup.push({ "segmentRepetitionControl": [{ "segmentControlDetails": [{ "quantity": ["3"], "numberOfUnits": [this.glb.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], "travellersID": [{ "travellerDetails": travellerDetails }], "discountPtc": [{ "valueQualifier": ["INF"], "fareDetails": [{ "qualifier": ["766"] }] }] });
       }
-      console.log('passengersGroup: ', passengersGroup);
+      console.log('passengersGroup: ', this.passengersGroup);
     }
   }
 
@@ -52,13 +54,7 @@ export class BookingOnePage implements OnInit {
     "soapenv:Body": {
       "Fare_InformativePricingWithoutPNR": [
         {
-          "passengersGroup": [
-            {
-              "segmentRepetitionControl": [{ "segmentControlDetails": [{ "quantity": ["1"], "numberOfUnits": ["2"] }] }],
-              "travellersID": [{ "travellerDetails": [{ "measurementValue": ["1"] }, { "measurementValue": ["2"] }] }],
-              "discountPtc": [{ "valueQualifier": ["ADT"] }]
-            }
-          ],
+          "passengersGroup": this.passengersGroup,
           "segmentGroup": [
             {
               "segmentInformation": [{
