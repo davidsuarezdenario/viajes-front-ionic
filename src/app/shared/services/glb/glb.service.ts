@@ -39,6 +39,8 @@ export class GlbService {
   bookingloading: boolean = false;
   bookingResults: any = [];
 
+  flightSelected: any = [];
+
   constructor() {
     this.initCityFrom();
     /* this.testBookingResults(); */
@@ -65,5 +67,10 @@ export class GlbService {
   testBookingResults() {
     this.firstSearch = false;
     this.bookingResults = testBookingResults;
+  }
+
+  iataToName(iata: string): any {
+    const airport = this.iataCodes.find((airport: any) => this.normalizeString(airport.iata) == this.normalizeString(iata));
+    return airport ? airport : [{iata: '', airport: 'Estación de tren', city: '', country: '', continent: ''}];
   }
 }

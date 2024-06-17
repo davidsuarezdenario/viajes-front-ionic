@@ -81,7 +81,8 @@ export class BookingComponent implements OnInit {
     /* return [...new Set(segments.map((segment: any) => segment.airline))]; */
   }
 
-  goToBookingOne() {
+  goToBookingOne(flight: any) {
+    this.glb.flightSelected = flight;
     this.router.navigate(['/booking-one']);
   }
 
@@ -96,5 +97,4 @@ export class BookingComponent implements OnInit {
     date.setHours(hours), date.setMinutes(minutes);
     return date;
   }
-
 }

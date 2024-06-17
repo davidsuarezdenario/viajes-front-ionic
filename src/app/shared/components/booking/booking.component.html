@@ -9,7 +9,8 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>{{ flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
+                <h4>{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
+                <div>{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
                 <div>
                   {{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}
                   <!-- {{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM') }} -->
@@ -65,8 +66,8 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>→{{ flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}
-                </h4>
+                <h4>→{{ flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
+                <div>{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
                 <div>
                   {{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}
                 </div>
@@ -82,7 +83,8 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>{{ flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
+                <h4>{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
+                <div>{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
                 <div>
                   {{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}
                 </div>
@@ -136,8 +138,8 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>→{{ flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}
-                </h4>
+                <h4>→{{ flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
+                <div>{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
                 <div>
                   {{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfArrival[0]) | date:'EEE dd/MM' }}
                 </div>
@@ -172,7 +174,7 @@
           <p>{{ flight.precio[0].amount[0] | currency:'$':'symbol':'1.0-0' }}</p>
           <p style="font-size: 12px;">Base: {{ flight.precio[0].amount[0] - flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }}<br>Impuestos: {{ flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }}
           </p>
-          <ion-button expand="block" mode="ios" (click)="goToBookingOne()">Reservar</ion-button>
+          <ion-button expand="block" mode="ios" (click)="goToBookingOne(flight)">Reservar</ion-button>
         </div>
       </ion-col>
     </ion-row>
