@@ -40,6 +40,7 @@ export class GlbService {
   bookingResults: any = [];
 
   flightSelected: any = [];
+  session: any = {};
 
   constructor() {
     this.initCityFrom();
