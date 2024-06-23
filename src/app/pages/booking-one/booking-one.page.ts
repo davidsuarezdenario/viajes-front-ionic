@@ -47,6 +47,7 @@ export class BookingOnePage implements OnInit {
         }
         console.log('passengersGroup: ', this.passengersGroup);
       }
+      console.log('total pasajeros: ', contPax - 1);
       for (let x = 0; x < this.glb.flightSelected.ida.flightDetails.length; x++) {
         this.segmentGroup.push({
           segmentInformation: [{
@@ -54,7 +55,7 @@ export class BookingOnePage implements OnInit {
             boardPointDetails: [{ trueLocationId: [this.glb.flightSelected.ida.flightDetails[x].flightInformation[0].location[0].locationId[0]] }],
             offpointDetails: [{ trueLocationId: [this.glb.flightSelected.ida.flightDetails[x].flightInformation[0].location[1].locationId[0]] }],
             companyDetails: [{ marketingCompany: [this.glb.flightSelected.ida.flightDetails[x].flightInformation[0].companyId[0].marketingCarrier[0]] }],
-            flightIdentification: [{ flightNumber: [this.glb.flightSelected.ida.flightDetails[x].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glb.flightSelected.pax[0].fareDetails[0].groupOfFares[1].productInformation[0].cabinProduct[0].cabin[0]] }],
+            flightIdentification: [{ flightNumber: [this.glb.flightSelected.ida.flightDetails[x].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glb.flightSelected.pax[0].fareDetails[x].groupOfFares[0].productInformation[0].cabinProduct[0].cabin[0]] }],
             flightTypeDetails: [{ flightIndicator: [(x + 1) + ""] }],
             itemNumber: ["1"]
           }]
@@ -67,7 +68,7 @@ export class BookingOnePage implements OnInit {
             boardPointDetails: [{ trueLocationId: [this.glb.flightSelected.vuelta.flightDetails[y].flightInformation[0].location[0].locationId[0]] }],
             offpointDetails: [{ trueLocationId: [this.glb.flightSelected.vuelta.flightDetails[y].flightInformation[0].location[1].locationId[0]] }],
             companyDetails: [{ marketingCompany: [this.glb.flightSelected.vuelta.flightDetails[y].flightInformation[0].companyId[0].marketingCarrier[0]] }],
-            flightIdentification: [{ flightNumber: [this.glb.flightSelected.vuelta.flightDetails[y].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glb.flightSelected.pax[0].fareDetails[1].groupOfFares[1].productInformation[0].cabinProduct[0].cabin[0]] }],
+            flightIdentification: [{ flightNumber: [this.glb.flightSelected.vuelta.flightDetails[y].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glb.flightSelected.pax[0].fareDetails[y].groupOfFares[0].productInformation[0].cabinProduct[0].cabin[0]] }],
             flightTypeDetails: [{ flightIndicator: [(y + 1) + ""] }],
             itemNumber: ["2"]
           }]
@@ -77,6 +78,21 @@ export class BookingOnePage implements OnInit {
     console.log('segmentGroup: ', this.segmentGroup);
   }
   body = {
+    "soapenv:Body": {
+      Fare_InformativePricingWithoutPNR: [
+        {
+          passengersGroup: this.passengersGroup,
+          segmentGroup: this.segmentGroup,
+          pricingOptionGroup: [
+            { pricingOptionKey: [{ pricingOptionKey: ["RP"] }] },
+            { pricingOptionKey: [{ pricingOptionKey: ["RU"] }] },
+            { pricingOptionKey: [{ pricingOptionKey: ["RLO"] }] }
+          ]
+        }
+      ]
+    }
+  }
+  /* body = {
     "soapenv:Body": {
       Fare_InformativePricingWithoutPNR: [
         {
@@ -114,5 +130,5 @@ export class BookingOnePage implements OnInit {
         }
       ]
     }
-  }
+  } */
 }
