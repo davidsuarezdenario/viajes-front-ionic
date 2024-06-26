@@ -103,7 +103,7 @@ export class BookingOnePage implements OnInit {
     this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session);
   }
   async airSellFromRecommendation(response: any, session: any) {
-    let segmentInformation: any = [], relatedproductInformation: any = [], quantity = 0;
+    let segmentInformation: any = [], quantity = 0;
     console.log('response: ', response);
     for (let j = 0; j < response.pricingGroupLevelGroup.length; j++) {
       console.log(`response.pricingGroupLevelGroup[${j}]: `, response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0]);
@@ -125,18 +125,13 @@ export class BookingOnePage implements OnInit {
     const body: any = {
       data: {
         "soapenv:Body": {
-          Air_SellFromRecommendation: [
-            {
-              messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }],
-              itineraryDetails: [
-                {
-                  originDestinationDetails: [{ origin: ["BOG"], destination: ["MEX"] }],
-                  message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }],
-                  segmentInformation: segmentInformation
-                }
-              ]
-            }
-          ]
+          Air_SellFromRecommendation: [{
+            messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }],
+            itineraryDetails: [{
+              originDestinationDetails: [{ origin: ["BOG"], destination: ["MEX"] }],
+              message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformation
+            }]
+          }]
         }
       },
       session: session
@@ -144,5 +139,71 @@ export class BookingOnePage implements OnInit {
     console.log('body: ', body);
     const airSellFromRecommendationResponse: any = await this.apiService.post('/travel/sell_from_recommendation', body);
     console.log('airSellFromRecommendationResponse: ', airSellFromRecommendationResponse);
+  }
+
+  /* PNRSellFromRecommendation() { */
+
+  body = {
+    "soap:Body": {
+      PNR_AddMultiElements: [{
+        pnrActions: [{ optionCode: ["0"] }],
+        travellerInfo: [{
+          elementManagementPassenger: [{ reference: [{ qualifier: ["PR"], number: ["1"] }], segmentName: ["NM"] }],
+          passengerData: [
+            {
+              travellerInformation: [{ traveller: [{ surname: ["BARBO"], quantity: ["2"] }], passenger: [{ firstName: ["BRUNO"], type: ["ADT"], infantIndicator: ["3"] }] }],
+              dateOfBirth: [{ dateAndTimeDetails: [{ date: ["04JAN84"] }] }]
+            },
+            {
+              travellerInformation: [{ traveller: [{ surname: ["ALCEDO"] }], passenger: [{ firstName: ["ANGELES"], type: ["INF"] }] }],
+              dateOfBirth: [{ dateAndTimeDetails: [{ date: ["29NOV22"] }] }]
+            }
+          ]
+        },
+        {
+          elementManagementPassenger: [{ reference: [{ qualifier: ["PR"], number: ["2"] }], segmentName: ["NM"] }],
+          passengerData: [{
+            travellerInformation: [{ traveller: [{ surname: ["RAMIRE"], quantity: ["1"] }], passenger: [{ firstName: ["CALIXTO"], type: ["CNN"] }] }],
+            dateOfBirth: [{ dateAndTimeDetails: [{ date: ["07JUL16"] }] }]
+          }]
+        }],
+        dataElementsMaster: [{
+          marker1: [""],
+          dataElementsIndiv: [{
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["1"] }], segmentName: ["AP"] }],
+            freetextData: [{ freetextDetail: [{ subjectQualifier: ["3"], type: ["6"] }], longFreetext: ["5769420 + ()"] }]
+          },
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["2"] }], segmentName: ["AP"] }],
+            freetextData: [{ freetextDetail: [{ subjectQualifier: ["3"], type: ["P02"] }], longFreetext: ["BRUNO_1AWS_TEST@TAYRONA.LATAM.CO"] }]
+          },
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["3"] }], segmentName: ["SSR"] }],
+            serviceRequest: [{ ssr: [{ type: ["FOID"], status: ["HK"], quantity: ["1"], companyId: ["AM"], freetext: ["NI19393920"] }] }],
+            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["1"] }] }]
+          },
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["4"] }], segmentName: ["SSR"] }],
+            serviceRequest: [{ ssr: [{ type: ["DOCS"], status: ["HK"], quantity: ["1"], companyId: ["YY"], freetext: ["P-COL-19393920-COL-04JAN84-F-28SEP28-BARBO-BRUNO"] }] }],
+            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["1"] }] }]
+          },
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["5"] }], segmentName: ["SSR"] }],
+            serviceRequest: [{ ssr: [{ type: ["DOCS"], status: ["HK"], quantity: ["1"], companyId: ["YY"], freetext: ["P-COL-44444400-COL-29NOV22-FI-28SEP28-ALCEDO-ANGELES"] }] }],
+            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["1"] }] }]
+          },
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["6"] }], segmentName: ["SSR"] }],
+            serviceRequest: [{ ssr: [{ type: ["FOID"], status: ["HK"], quantity: ["1"], companyId: ["AM"], freetext: ["NI29898960"] }] }],
+            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["2"] }] }]
+          },
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["7"] }], segmentName: ["SSR"] }],
+            serviceRequest: [{ ssr: [{ type: ["DOCS"], status: ["HK"], quantity: ["1"], companyId: ["YY"], freetext: ["P-COL-29898960-COL-07JUL16-M-28SEP28-RAMIRE-CALIXTO"] }] }],
+            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["2"] }] }]
+          }]
+        }]
+      }]
+    }
   }
 }
