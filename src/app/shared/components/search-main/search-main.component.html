@@ -73,12 +73,12 @@
       </ion-item>
     </ion-col>
     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="2,4">
-      <ion-button fill="solid" shape="round" mode="ios" (click)="searchMainService.explorar()" expand="block" *ngIf="glbService.bookingloading || glbService.iataCodes.length < 1" [disabled]="true">
+      <ion-button fill="solid" mode="ios" (click)="searchMainService.explorar()" expand="block" *ngIf="glbService.bookingloading || glbService.iataCodes.length < 1" [disabled]="true">
         <ion-text *ngIf="!glbService.bookingloading"> Buscar </ion-text>
         <ion-text *ngIf="glbService.bookingloading"> Buscando </ion-text>
         <ion-spinner name="dots" *ngIf="glbService.bookingloading" style="margin-left: 5px;"></ion-spinner>
       </ion-button>
-      <ion-button fill="solid" shape="round" mode="ios" (click)="searchMainService.explorar()" expand="block" *ngIf="!glbService.bookingloading && glbService.iataCodes.length > 0">
+      <ion-button fill="solid" mode="ios" (click)="searchMainService.explorar()" expand="block" *ngIf="!glbService.bookingloading && glbService.iataCodes.length > 0">
         <ion-text *ngIf="!glbService.bookingloading"> Buscar </ion-text>
         <ion-text *ngIf="glbService.bookingloading"> Buscando </ion-text>
         <ion-spinner name="dots" *ngIf="glbService.bookingloading" style="margin-left: 5px;"></ion-spinner>
