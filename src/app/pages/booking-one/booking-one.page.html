@@ -20,24 +20,19 @@
 
 <ion-content>
   <ion-grid fixed *ngIf="Fare_InformativePricingWithoutPNRResponse.length > 0" class="ion-no-padding">
-    <ion-chip color="primary" mode="ios">
-      <ion-text>{{Fare_InformativePricingWithoutPNRResponse.length}} resultado(s)</ion-text>
-    </ion-chip>
-    <ion-row class="ion-no-padding" style="margin-top: 15px;" >
-      <ion-col size="12" *ngFor="let item of [1,2,3,4,5]" class="ion-no-padding" style="margin-top: -40px;">
-      </ion-col>
-    </ion-row>
     <ion-row class="ion-no-padding" style="margin-top: 15px;">
-      <ion-col size="12" *ngFor="let response of Fare_InformativePricingWithoutPNRResponse" style="margin-top: -40px;"
+      <ion-col size="12" *ngFor="let response of Fare_InformativePricingWithoutPNRResponse"
         class="ion-no-padding">
         <ion-card>
           <ion-card-header>
+            <h4>Continua con tu reserva</h4>
+            <ion-card-title>{{glbService.iataToName(glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]).city}} - {{glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]}} → {{glbService.iataToName(glbService.flightSelected.ida.flightDetails[glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]).city}} - {{glbService.flightSelected.ida.flightDetails[glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]}}</ion-card-title>
+            <ion-card-title *ngIf="glbService.flightSelected.vuelta">{{glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0]).city}} - {{glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0]}} → {{glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[glbService.flightSelected.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]).city}} - {{glbService.flightSelected.vuelta.flightDetails[glbService.flightSelected.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]}}</ion-card-title>
             <!-- <ion-card-title *ngFor="let response1 of response.fareInfoGroup[0].segmentLevelGroup">{{response1.segmentInformation[0].boardPointDetails[0].trueLocationId[0]}} - {{response1.segmentInformation[0].offpointDetails
               [0].trueLocationId[0]}}</ion-card-title> -->
           </ion-card-header>
           <ion-card-content>
-            <ion-card-subtitle>{{glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]}}</ion-card-subtitle>
-            <ion-card-subtitle>{{glbService.flightSelected.ida.flightDetails[glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]}}</ion-card-subtitle>
+            <ion-card-subtitle></ion-card-subtitle>
           </ion-card-content>
         </ion-card>
       </ion-col>
