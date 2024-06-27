@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonContent, IonTitle, IonToolbar, IonButtons, IonBackButton, IonGrid, IonRow, IonProgressBar, IonCol } from "@ionic/angular/standalone";
+import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonHeader, IonContent, IonTitle, IonToolbar, IonButtons, IonBackButton, IonGrid, IonRow, IonProgressBar, IonCol } from "@ionic/angular/standalone";
 import { HeaderMainComponent } from "../../shared/components/header-main/header-main.component";
 import { GlbService } from "../../shared/services/glb/glb.service";
 import { ApiService } from "../../shared/services/api/api.service";
@@ -12,25 +12,29 @@ import { Router } from '@angular/router';
   templateUrl: './booking-one.page.html',
   styleUrls: ['./booking-one.page.scss'],
   standalone: true,
-  imports: [IonCol, IonProgressBar, IonRow, IonGrid, IonBackButton, IonButtons, IonToolbar, IonTitle, IonContent, IonHeader, CommonModule, FormsModule, HeaderMainComponent]
+  imports: [IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonCol, IonProgressBar, IonRow, IonGrid, IonBackButton, IonButtons, IonToolbar, IonTitle, IonContent, IonHeader, CommonModule, FormsModule, HeaderMainComponent]
 })
 export class BookingOnePage implements OnInit {
 
   constructor(
-    private glbService: GlbService,
+    public glbService: GlbService,
     private router: Router,
     private apiService: ApiService) {
-    this.glbService.flightSelected.length == 0 ? this.router.navigate(['/home']) : this.loadResult();;
   }
 
+  Fare_InformativePricingWithoutPNRResponse: any = [];
 
   ngOnInit() {
   }
 
-  async loadResult() {
+  ionViewWillEnter() {
+    this.glbService.flightSelected.length == 0 ? this.router.navigate(['/home']) : this.Fare_InformativePricingWithoutPNR();;
+  }
+
+  async Fare_InformativePricingWithoutPNR() {
     let passengersGroup: any = [];
     let segmentGroup: any = [];
-    console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
+    //console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
     if (this.glbService.flightSelected) {
       let contPax = 1, contItem = 0;
       for (let i = 0; i < this.glbService.flightSelected.pax.length; i++) {
@@ -99,8 +103,10 @@ export class BookingOnePage implements OnInit {
       }
     }
     const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', body);
+    this.Fare_InformativePricingWithoutPNRResponse = bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0].pricingGroupLevelGroup;
     console.log('bookingResponse: ', bookingResponse);
-    this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session);
+    console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
+    //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session);
   }
   async airSellFromRecommendation(response: any, session: any) {
     let segmentInformation: any = [], quantity = 0;
@@ -140,6 +146,33 @@ export class BookingOnePage implements OnInit {
     const airSellFromRecommendationResponse: any = await this.apiService.post('/travel/sell_from_recommendation', body);
     console.log('airSellFromRecommendationResponse: ', airSellFromRecommendationResponse);
   }
+
+  /* REVISION */
+  data = {
+    Air_SellFromRecommendation: {
+      messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }],
+      itineraryDetails: [
+        {
+          originDestinationDetails: [{ origin: ["BOG"], destination: ["FRA"] }],
+          message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }],
+          segmentInformation: [
+            { travelProductInformation: [{ flightDate: [{ departureDate: ["030424"] }], boardPointDetails: [{ trueLocationId: ["BOG"] }], offpointDetails: [{ trueLocationId: ["CDG"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["435"], bookingClass: ["R"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] },
+            { travelProductInformation: [{ flightDate: [{ departureDate: ["040424"] }], boardPointDetails: [{ trueLocationId: ["CDG"] }], offpointDetails: [{ trueLocationId: ["FRA"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["1018"], bookingClass: ["L"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] }
+          ]
+        },
+        {
+          originDestinationDetails: [{ origin: ["FRA"], destination: ["BOG"] }],
+          message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }],
+          segmentInformation: [
+            { travelProductInformation: [{ flightDate: [{ departureDate: ["180424"] }], boardPointDetails: [{ trueLocationId: ["FRA"] }], offpointDetails: [{ trueLocationId: ["CDG"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["1619"], bookingClass: ["L"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] },
+            { travelProductInformation: [{ flightDate: [{ departureDate: ["180424"] }], boardPointDetails: [{ trueLocationId: ["CDG"] }], offpointDetails: [{ trueLocationId: ["BOG"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["436"], bookingClass: ["R"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] }
+          ]
+        }
+      ]
+    }
+  }
+  /* REVISION */
+
 
   /* PNRSellFromRecommendation() { */
 
