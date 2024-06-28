@@ -23,6 +23,7 @@ export class BookingOnePage implements OnInit {
   }
 
   Fare_InformativePricingWithoutPNRResponse: any = [];
+  session: any = {};
 
   ngOnInit() {
   }
@@ -32,8 +33,7 @@ export class BookingOnePage implements OnInit {
   }
 
   async Fare_InformativePricingWithoutPNR() {
-    let passengersGroup: any = [];
-    let segmentGroup: any = [];
+    let passengersGroup: any = [], segmentGroup: any = [];
     //console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
     if (this.glbService.flightSelected) {
       let contPax = 1, contItem = 0;
@@ -105,31 +105,48 @@ export class BookingOnePage implements OnInit {
       }
     }
     const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', body);
-    this.Fare_InformativePricingWithoutPNRResponse = bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0].pricingGroupLevelGroup;
+    this.session = bookingResponse.session;
+    this.Fare_InformativePricingWithoutPNRResponse = bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup;
     console.log('bookingResponse: ', bookingResponse);
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
     //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session);
   }
-  async airSellFromRecommendation(response: any, session: any) {
-    let segmentInformationIda: any = [], quantity = 0, segmentInformationVuelta: any = [];
+  funPrueba(response: any, session: any){
     console.log('response: ', response);
+  }
+  async airSellFromRecommendation(response: any, session: any) {
+    let segmentInformationIda: any = [], quantity = 0, segmentInformationVuelta: any = [], segVuelta = false;
+    console.log('airSellFromRecommendation response: ', response);
     for (let j = 0; j < response.pricingGroupLevelGroup.length; j++) {
-      console.log(`response.pricingGroupLevelGroup[${j}]: `, response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0]);
       quantity = quantity + parseInt(response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].quantity[0]);
     }
-    console.log('quantity: ', quantity);
     if (this.glbService.flightSelected.vuelta) {
       for (let i = 0; i < response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup.length; i++) {
-        segmentInformationIda.push({
-          travelProductInformation: [{
-            flightDate: [{ departureDate: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightDate[0].departureDate[0]] }],
-            boardPointDetails: [{ trueLocationId: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].boardPointDetails[0].trueLocationId[0]] }],
-            offpointDetails: [{ trueLocationId: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].offpointDetails[0].trueLocationId[0]] }],
-            companyDetails: [{ marketingCompany: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].companyDetails[0].marketingCompany[0]] }],
-            flightIdentification: [{ flightNumber: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightIdentification[0].flightNumber[0]], bookingClass: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightIdentification[0].bookingClass[0]] }]
-          }],
-          relatedproductInformation: [{ quantity: [quantity + ""], statusCode: ["NN"] }]
-        });
+        console.log(`${response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].boardPointDetails[0].trueLocationId[0]} - ${response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].offpointDetails[0].trueLocationId[0]}`);
+        if (!segVuelta) {
+          segmentInformationIda.push({
+            travelProductInformation: [{
+              flightDate: [{ departureDate: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightDate[0].departureDate[0]] }],
+              boardPointDetails: [{ trueLocationId: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].boardPointDetails[0].trueLocationId[0]] }],
+              offpointDetails: [{ trueLocationId: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].offpointDetails[0].trueLocationId[0]] }],
+              companyDetails: [{ marketingCompany: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].companyDetails[0].marketingCompany[0]] }],
+              flightIdentification: [{ flightNumber: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightIdentification[0].flightNumber[0]], bookingClass: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightIdentification[0].bookingClass[0]] }]
+            }],
+            relatedproductInformation: [{ quantity: [quantity + ""], statusCode: ["NN"] }]
+          });
+          this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] == response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].offpointDetails[0].trueLocationId[0] ? segVuelta = true : false;
+        } else {
+          segmentInformationVuelta.push({
+            travelProductInformation: [{
+              flightDate: [{ departureDate: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightDate[0].departureDate[0]] }],
+              boardPointDetails: [{ trueLocationId: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].boardPointDetails[0].trueLocationId[0]] }],
+              offpointDetails: [{ trueLocationId: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].offpointDetails[0].trueLocationId[0]] }],
+              companyDetails: [{ marketingCompany: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].companyDetails[0].marketingCompany[0]] }],
+              flightIdentification: [{ flightNumber: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightIdentification[0].flightNumber[0]], bookingClass: [response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].flightIdentification[0].bookingClass[0]] }]
+            }],
+            relatedproductInformation: [{ quantity: [quantity + ""], statusCode: ["NN"] }]
+          });
+        }
       }
     } else {
       for (let i = 0; i < response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup.length; i++) {
@@ -145,19 +162,11 @@ export class BookingOnePage implements OnInit {
         });
       }
     }
-    const body: any = {
-      data: {
-        "soapenv:Body": {
-          Air_SellFromRecommendation: [{
-            messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }],
-            itineraryDetails: [{
-              originDestinationDetails: [{ origin: [this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]], destination: [this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]] }],
-              message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationIda
-            }]
-          }]
-        }
-      },
-      session: session
+    let body: any = { session: session }
+    if (this.glbService.flightSelected.vuelta) {
+      body.data = { "soapenv:Body": { Air_SellFromRecommendation: [ { messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }], itineraryDetails: [ { originDestinationDetails: [{ origin: this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0], destination: this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationIda }, { originDestinationDetails: [{ origin: this.glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0], destination: this.glbService.flightSelected.vuelta.flightDetails[this.glbService.flightSelected.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationVuelta }] }] } }
+    } else {
+      body.data = { "soapenv:Body": { Air_SellFromRecommendation: [ { messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }], itineraryDetails: [{ originDestinationDetails: [{ origin: this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0], destination: this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationIda }] }] } }
     }
     console.log('body: ', body);
     const airSellFromRecommendationResponse: any = await this.apiService.post('/travel/sell_from_recommendation', body);
