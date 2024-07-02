@@ -10,5 +10,9 @@ export const routes: Routes = [
   { path: 'register', loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage) },
   { path: 'restore-pass', loadComponent: () => import('./pages/restore-pass/restore-pass.page').then( m => m.RestorePassPage) },
   { path: 'profile', loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage) },
-  { path: 'booking-one', loadComponent: () => import('./pages/booking-one/booking-one.page').then( m => m.BookingOnePage) }
+  { path: 'booking-one', loadComponent: () => import('./pages/booking-one/booking-one.page').then( m => m.BookingOnePage) },
+  {
+    path: 'booking-two',
+    loadComponent: () => import('./booking-two/booking-two.page').then( m => m.BookingTwoPage)
+  }
 ];
