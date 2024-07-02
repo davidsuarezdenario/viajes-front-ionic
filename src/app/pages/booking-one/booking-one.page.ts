@@ -23,6 +23,7 @@ export class BookingOnePage implements OnInit {
   }
 
   Fare_InformativePricingWithoutPNRResponse: any = [];
+  Air_SellFromRecommendation: any = [];
   session: any = {};
 
   ngOnInit() {
@@ -111,15 +112,18 @@ export class BookingOnePage implements OnInit {
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
     //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session);
   }
-  funPrueba(response: any, session: any){
+  funPrueba(response: any, session: any) {
     console.log('response: ', response);
   }
   async airSellFromRecommendation(response: any, session: any) {
     let segmentInformationIda: any = [], quantity = 0, segmentInformationVuelta: any = [], segVuelta = false;
     console.log('airSellFromRecommendation response: ', response);
     for (let j = 0; j < response.pricingGroupLevelGroup.length; j++) {
-      quantity = quantity + parseInt(response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].quantity[0]);
+      if(response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].quantity[0] != '3'){
+        quantity = quantity + parseInt(response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]);
+      }
     }
+    console.log('quantity: ', quantity);
     if (this.glbService.flightSelected.vuelta) {
       for (let i = 0; i < response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup.length; i++) {
         console.log(`${response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].boardPointDetails[0].trueLocationId[0]} - ${response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].offpointDetails[0].trueLocationId[0]}`);
@@ -164,13 +168,24 @@ export class BookingOnePage implements OnInit {
     }
     let body: any = { session: session }
     if (this.glbService.flightSelected.vuelta) {
-      body.data = { "soapenv:Body": { Air_SellFromRecommendation: [ { messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }], itineraryDetails: [ { originDestinationDetails: [{ origin: [this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]], destination: [this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationIda }, { originDestinationDetails: [{ origin: this.glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0], destination: this.glbService.flightSelected.vuelta.flightDetails[this.glbService.flightSelected.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationVuelta }] }] } }
+      body.data = { "soapenv:Body": { Air_SellFromRecommendation: [{ messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }], itineraryDetails: [{ originDestinationDetails: [{ origin: [this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]], destination: [this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationIda }, { originDestinationDetails: [{ origin: this.glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0], destination: this.glbService.flightSelected.vuelta.flightDetails[this.glbService.flightSelected.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationVuelta }] }] } }
     } else {
-      body.data = { "soapenv:Body": { Air_SellFromRecommendation: [ { messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }], itineraryDetails: [{ originDestinationDetails: [{ origin: [this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]], destination: [this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationIda }] }] } }
+      body.data = { "soapenv:Body": { Air_SellFromRecommendation: [{ messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }], itineraryDetails: [{ originDestinationDetails: [{ origin: [this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]], destination: [this.glbService.flightSelected.ida.flightDetails[this.glbService.flightSelected.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0]] }], message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }], segmentInformation: segmentInformationIda }] }] } }
     }
     console.log('body: ', body);
     const airSellFromRecommendationResponse: any = await this.apiService.post('/travel/sell_from_recommendation', body);
     console.log('airSellFromRecommendationResponse: ', airSellFromRecommendationResponse);
+    this.Air_SellFromRecommendation = airSellFromRecommendationResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Air_SellFromRecommendationReply[0].itineraryDetails;
+    this.checkAllSeat(airSellFromRecommendationResponse.session, airSellFromRecommendationResponse.data['soapenv:Envelope']['soapenv:Body'][0].Air_SellFromRecommendationReply[0]);
+  }
+  checkAllSeat(session: any, response: any) {
+    console.log('checkAllSeat response: ', response);
+    console.log('checkAllSeat session: ', session);
+    for (let i = 0; i < response.itineraryDetails.length; i++) {
+      for(let j = 0; j < response.itineraryDetails[i].segmentInformation.length; j++){
+        console.log(response.itineraryDetails[i].segmentInformation[j].actionDetails[0]);
+      }
+    }
   }
 
   /* REVISION */

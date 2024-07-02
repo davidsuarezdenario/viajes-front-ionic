@@ -11,8 +11,5 @@ export const routes: Routes = [
   { path: 'restore-pass', loadComponent: () => import('./pages/restore-pass/restore-pass.page').then( m => m.RestorePassPage) },
   { path: 'profile', loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage) },
   { path: 'booking-one', loadComponent: () => import('./pages/booking-one/booking-one.page').then( m => m.BookingOnePage) },
-  {
-    path: 'booking-two',
-    loadComponent: () => import('./booking-two/booking-two.page').then( m => m.BookingTwoPage)
-  }
+  { path: 'booking-two', loadComponent: () => import('./booking-two/booking-two.page').then( m => m.BookingTwoPage) }
 ];
