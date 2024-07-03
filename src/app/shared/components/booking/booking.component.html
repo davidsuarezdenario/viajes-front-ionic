@@ -9,16 +9,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
-                <div>{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
-                <div>
-                  {{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}
-                  <!-- {{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'EEE dd/MM') }} -->
-                </div>
-                <div>
-                  {{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'EEE HH:mm' }}
-                  <!-- {{ formatDateTime((flight.itineraries[0].segments[0].departure.at).replace('T', ' '), 'HH:mm') }} -->
-                </div>
+                <h4 class="h-left">{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
+                <div class="h-left">{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
+                <div class="h-left">{{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
+                <div class="h-left">{{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
@@ -66,14 +60,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>→{{ flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
-                <div>{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
-                <div>
-                  {{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}
-                </div>
-                <div>
-                  {{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'EEE HH:mm' }}
-                </div>
+                <h4 class="h-right">→{{ flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
+                <div class="h-right">{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
+                <div class="h-right">{{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
+                <div class="h-right">{{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
           </ion-row>
@@ -83,14 +73,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
-                <div>{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
-                <div>
-                  {{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}
-                </div>
-                <div>
-                  {{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'EEE HH:mm' }}
-                </div>
+                <h4 class="h-left">{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
+                <div class="h-left">{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
+                <div class="h-left">{{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
+                <div class="h-left">{{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
@@ -138,14 +124,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4>→{{ flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
-                <div>{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
-                <div>
-                  {{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfArrival[0]) | date:'EEE dd/MM' }}
-                </div>
-                <div>
-                  {{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'EEE HH:mm' }}
-                </div>
+                <h4 class="h-right">→{{ flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
+                <div class="h-right">{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
+                <div class="h-right">{{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfArrival[0]) | date:'EEE dd/MM' }}</div>
+                <div class="h-right">{{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
           </ion-row>
@@ -171,9 +153,9 @@
       </ion-col>
       <ion-col size-xs="12" size-sm="3" class="price-column">
         <div class="flight-price">
-          <p>{{ flight.precio[0].amount[0] | currency:'$':'symbol':'1.0-0' }}</p>
-          <p style="font-size: 12px;">Base: {{ flight.precio[0].amount[0] - flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }}<br>Impuestos: {{ flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }}
-          </p>
+          <p class="h-right">Total:<br>{{ flight.precio[0].amount[0] | currency:'$':'symbol':'1.0-0' }}</p>
+          <div class="h-right" style="font-size: 12px;">Base: {{ flight.precio[0].amount[0] - flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }}</div>
+          <div class="h-right" style="font-size: 12px;">Impuestos: {{ flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }} </div>
           <ion-button expand="block" mode="ios" (click)="goToBookingOne(flight)">Reservar</ion-button>
         </div>
       </ion-col>
