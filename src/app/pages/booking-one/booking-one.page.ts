@@ -1,24 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonHeader, IonContent, IonTitle, IonToolbar, IonButtons, IonBackButton, IonGrid, IonRow, IonProgressBar, IonCol } from "@ionic/angular/standalone";
+import { IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonHeader, IonContent, IonTitle, IonToolbar, IonButtons, IonBackButton, IonGrid, IonRow, IonProgressBar, IonCol } from "@ionic/angular/standalone";
 import { HeaderMainComponent } from "../../shared/components/header-main/header-main.component";
 import { GlbService } from "../../shared/services/glb/glb.service";
 import { ApiService } from "../../shared/services/api/api.service";
 import { Router } from '@angular/router';
+import { AlertMainService } from '../../shared//services/alert-main/alert-main.service';
 
 @Component({
   selector: 'app-booking-one',
   templateUrl: './booking-one.page.html',
   styleUrls: ['./booking-one.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonCol, IonProgressBar, IonRow, IonGrid, IonBackButton, IonButtons, IonToolbar, IonTitle, IonContent, IonHeader, CommonModule, FormsModule, HeaderMainComponent]
+  imports: [IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonCol, IonProgressBar, IonRow, IonGrid, IonBackButton, IonButtons, IonToolbar, IonTitle, IonContent, IonHeader, CommonModule, FormsModule, HeaderMainComponent]
 })
 export class BookingOnePage implements OnInit {
 
   constructor(
     public glbService: GlbService,
     private router: Router,
+    private alertMain: AlertMainService,
     private apiService: ApiService) {
   }
 
@@ -56,7 +58,7 @@ export class BookingOnePage implements OnInit {
         }
         console.log('flightSelected: ', this.glbService.flightSelected);
       }
-      console.log('total pasajeros: ', contPax - 1);
+      console.log('flightSelected.pax: ', this.glbService.flightSelected.pax);
       for (let x = 0; x < this.glbService.flightSelected.ida.flightDetails.length; x++) {
         contItem++;
         segmentGroup.push({
@@ -65,7 +67,7 @@ export class BookingOnePage implements OnInit {
             boardPointDetails: [{ trueLocationId: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].location[0].locationId[0]] }],
             offpointDetails: [{ trueLocationId: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].location[1].locationId[0]] }],
             companyDetails: [{ marketingCompany: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].companyId[0].marketingCarrier[0]] }],
-            flightIdentification: [{ flightNumber: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glbService.flightSelected.pax[0].fareDetails[0].groupOfFares[0].productInformation[0].cabinProduct[0].rbd[0]] }],
+            flightIdentification: [{ flightNumber: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glbService.flightSelected.pax[0].fareDetails[0].groupOfFares[x].productInformation[0].cabinProduct[0].rbd[0]] }],
             flightTypeDetails: [{ flightIndicator: ["1"] }],
             itemNumber: [contItem + ""]
           }]
@@ -80,7 +82,7 @@ export class BookingOnePage implements OnInit {
               boardPointDetails: [{ trueLocationId: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].location[0].locationId[0]] }],
               offpointDetails: [{ trueLocationId: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].location[1].locationId[0]] }],
               companyDetails: [{ marketingCompany: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].companyId[0].marketingCarrier[0]] }],
-              flightIdentification: [{ flightNumber: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glbService.flightSelected.pax[0].fareDetails[0].groupOfFares[0].productInformation[0].cabinProduct[0].rbd[0]] }],
+              flightIdentification: [{ flightNumber: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glbService.flightSelected.pax[0].fareDetails[0].groupOfFares[y].productInformation[0].cabinProduct[0].rbd[0]] }],
               flightTypeDetails: [{ flightIndicator: ["2"] }],
               itemNumber: [contItem + ""]
             }]
@@ -108,13 +110,14 @@ export class BookingOnePage implements OnInit {
     const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', body);
     this.session = bookingResponse.session;
     this.Fare_InformativePricingWithoutPNRResponse = bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup;
-    for(let i = 0; i < this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup.length; i++){
+    for (let i = 0; i < this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup.length; i++) {
       this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[0].amount[0] = parseInt(this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[0].amount[0]);
       this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0] = parseInt(this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0]);
       this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].numberOfPax[0].segmentControlDetails[0].numberOfUnits[0] = parseInt(this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]);
     }
     console.log('bookingResponse: ', bookingResponse);
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
+    this.airSellFromRecommendation(this.Fare_InformativePricingWithoutPNRResponse[0], this.session);
     //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session);
   }
   calculateTotal(response: any) {
@@ -129,7 +132,7 @@ export class BookingOnePage implements OnInit {
     let segmentInformationIda: any = [], quantity = 0, segmentInformationVuelta: any = [], segVuelta = false;
     console.log('airSellFromRecommendation response: ', response);
     for (let j = 0; j < response.pricingGroupLevelGroup.length; j++) {
-      if(response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].quantity[0] != '3'){
+      if (response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].quantity[0] != '3') {
         quantity = quantity + parseInt(response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]);
       }
     }
@@ -192,38 +195,16 @@ export class BookingOnePage implements OnInit {
     console.log('checkAllSeat response: ', response);
     console.log('checkAllSeat session: ', session);
     for (let i = 0; i < response.itineraryDetails.length; i++) {
-      for(let j = 0; j < response.itineraryDetails[i].segmentInformation.length; j++){
+      for (let j = 0; j < response.itineraryDetails[i].segmentInformation.length; j++) {
         console.log(response.itineraryDetails[i].segmentInformation[j].actionDetails[0]);
+        if(response.itineraryDetails[i].segmentInformation[j].actionDetails[0].statusCode[0] != 'OK'){
+          this.Fare_InformativePricingWithoutPNRResponse = undefined;
+          this.alertMain.present('Ups', 'Este vuelo no está disponible', 'Intenta con otro vuelo.');
+          i = response.itineraryDetails.length; return;
+        }
       }
     }
   }
-
-  /* REVISION */
-  data = {
-    Air_SellFromRecommendation: {
-      messageActionDetails: [{ messageFunctionDetails: [{ messageFunction: ["183"], additionalMessageFunction: ["M1"] }] }],
-      itineraryDetails: [
-        {
-          originDestinationDetails: [{ origin: ["BOG"], destination: ["FRA"] }],
-          message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }],
-          segmentInformation: [
-            { travelProductInformation: [{ flightDate: [{ departureDate: ["030424"] }], boardPointDetails: [{ trueLocationId: ["BOG"] }], offpointDetails: [{ trueLocationId: ["CDG"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["435"], bookingClass: ["R"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] },
-            { travelProductInformation: [{ flightDate: [{ departureDate: ["040424"] }], boardPointDetails: [{ trueLocationId: ["CDG"] }], offpointDetails: [{ trueLocationId: ["FRA"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["1018"], bookingClass: ["L"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] }
-          ]
-        },
-        {
-          originDestinationDetails: [{ origin: ["FRA"], destination: ["BOG"] }],
-          message: [{ messageFunctionDetails: [{ messageFunction: ["183"] }] }],
-          segmentInformation: [
-            { travelProductInformation: [{ flightDate: [{ departureDate: ["180424"] }], boardPointDetails: [{ trueLocationId: ["FRA"] }], offpointDetails: [{ trueLocationId: ["CDG"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["1619"], bookingClass: ["L"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] },
-            { travelProductInformation: [{ flightDate: [{ departureDate: ["180424"] }], boardPointDetails: [{ trueLocationId: ["CDG"] }], offpointDetails: [{ trueLocationId: ["BOG"] }], companyDetails: [{ marketingCompany: ["AF"] }], flightIdentification: [{ flightNumber: ["436"], bookingClass: ["R"] }] }], relatedproductInformation: [{ quantity: ["3"], statusCode: ["NN"] }] }
-          ]
-        }
-      ]
-    }
-  }
-  /* REVISION */
-
 
   /* PNRSellFromRecommendation() { */
 
