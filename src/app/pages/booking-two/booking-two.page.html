@@ -31,20 +31,43 @@
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
               <h2 class="title-app">DOCUMENTOS</h2>
               <ion-grid *ngFor="let pax1 of glbService.flightSelected.pax; let i=index;">
-                <ion-row *ngFor="let pax2 of pax1.paxReference[0].traveller; let j=index;">
-                  <ion-col size-md="12" size="12">
-                    <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'ADT'">Adulto {{j+1}}</h2>
-                    <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'CNN'">Niño {{j+1}}</h2>
-                    <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'INF'">Infante {{j+1}}</h2>
-                    <ion-list>
+                <ion-chip color="success" mode="ios" style="width: 100%;">
+                  <ion-row *ngFor="let pax2 of pax1.paxReference[0].traveller; let j=index;">
+                    <ion-col size-md="12" size="12">
+                      <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'ADT'">Adulto {{j+1}}</h2>
+                      <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'CNN'">Niño {{j+1}}</h2>
+                      <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'INF'">Infante {{j+1}}</h2>
+                    </ion-col>
+                    <ion-col size-md="6" size="6">
                       <ion-item>
-                        <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j}}" labelPlacement="floating" color="dark">
-                          <div slot="label">nit-{{i}}-{{j}}</div>
+                        <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-name-{{j}}" labelPlacement="floating" color="dark">
+                          <div slot="label">Nombre</div>
                         </ion-input>
                       </ion-item>
-                    </ion-list>
-                  </ion-col>
-                </ion-row>
+                    </ion-col>
+                    <ion-col size-md="6" size="6">
+                      <ion-item>
+                        <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-surname-{{j}}" labelPlacement="floating" color="dark">
+                          <div slot="label">Apellido</div>
+                        </ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col size-md="6" size="6">
+                      <ion-item>
+                        <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-id-{{j}}" labelPlacement="floating" color="dark">
+                          <div slot="label">Documento</div>
+                        </ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col size-md="6" size="6">
+                      <ion-item>
+                        <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-birthday-{{j}}" labelPlacement="floating" color="dark">
+                          <div slot="label">Fecha</div>
+                        </ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-chip>
               </ion-grid>
               <ion-button class="add-button-form" color="success" type="submit">Agregar</ion-button>
             </form>
