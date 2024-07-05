@@ -20,7 +20,7 @@
 
 <ion-content>
   <ion-grid fixed *ngIf="Fare_InformativePricingWithoutPNRResponse" class="ion-no-padding">
-    <ion-row class="ion-no-padding" style="margin-top: 15px;" *ngIf="Fare_InformativePricingWithoutPNRResponse.length > 0 ">
+    <ion-row class="ion-no-padding" style="margin-top: 15px;" *ngIf="Air_SellFromRecommendation.length > 0">
       <!-- <ion-col size="12" *ngFor="let response of Fare_InformativePricingWithoutPNRResponse" -->
       <ion-col size="12" *ngFor="let response of Fare_InformativePricingWithoutPNRResponse" class="ion-no-padding">
         <ion-card>
@@ -57,7 +57,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-grid fixed *ngIf="Air_SellFromRecommendation.length > 0" class="ion-no-padding">
+  <!-- <ion-grid fixed *ngIf="Air_SellFromRecommendation.length > 0" class="ion-no-padding">
     <ion-row class="ion-no-padding" style="margin-top: 15px;">
       <ion-col size="12" *ngFor="let response of Fare_InformativePricingWithoutPNRResponse"
         class="ion-no-padding">
@@ -70,7 +70,7 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
   <!-- <ion-grid fixed *ngIf="Fare_InformativePricingWithoutPNRResponse.length > 0" class="ion-no-padding">
     <ion-chip color="primary" mode="ios">
       <ion-text>resultados</ion-text>

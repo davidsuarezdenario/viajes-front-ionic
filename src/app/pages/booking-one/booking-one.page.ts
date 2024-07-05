@@ -7,6 +7,7 @@ import { GlbService } from "../../shared/services/glb/glb.service";
 import { ApiService } from "../../shared/services/api/api.service";
 import { Router } from '@angular/router';
 import { AlertMainService } from '../../shared//services/alert-main/alert-main.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-booking-one',
@@ -20,6 +21,7 @@ export class BookingOnePage implements OnInit {
   constructor(
     public glbService: GlbService,
     private router: Router,
+    private location: Location,
     private alertMain: AlertMainService,
     private apiService: ApiService) {
   }
@@ -56,7 +58,6 @@ export class BookingOnePage implements OnInit {
           for (let l = 0; l < this.glbService.flightSelected.pax[i].paxReference[0].traveller.length; l++) { travellerDetails.push({ measurementValue: [(l + 1) + ''] }); }
           passengersGroup.push({ segmentRepetitionControl: [{ segmentControlDetails: [{ quantity: ["3"], numberOfUnits: [this.glbService.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], travellersID: [{ travellerDetails: travellerDetails }], discountPtc: [{ valueQualifier: ["INF"], fareDetails: [{ qualifier: ["766"] }] }] });
         }
-        console.log('flightSelected: ', this.glbService.flightSelected);
       }
       console.log('flightSelected.pax: ', this.glbService.flightSelected.pax);
       for (let x = 0; x < this.glbService.flightSelected.ida.flightDetails.length; x++) {
@@ -93,17 +94,15 @@ export class BookingOnePage implements OnInit {
     const body: any = {
       data: {
         "soapenv:Body": {
-          Fare_InformativePricingWithoutPNR: [
-            {
-              passengersGroup: passengersGroup,
-              segmentGroup: segmentGroup,
-              pricingOptionGroup: [
-                { pricingOptionKey: [{ pricingOptionKey: ["RP"] }] },
-                { pricingOptionKey: [{ pricingOptionKey: ["RLO"] }] },
-                { pricingOptionKey: [{ pricingOptionKey: ["FCO"] }], currency: [{ firstCurrencyDetails: [{ currencyQualifier: ["FCO"], currencyIsoCode: ["COP"] }] }] }
-              ]
-            }
-          ]
+          Fare_InformativePricingWithoutPNR: [{
+            passengersGroup: passengersGroup,
+            segmentGroup: segmentGroup,
+            pricingOptionGroup: [
+              { pricingOptionKey: [{ pricingOptionKey: ["RP"] }] },
+              { pricingOptionKey: [{ pricingOptionKey: ["RLO"] }] },
+              { pricingOptionKey: [{ pricingOptionKey: ["FCO"] }], currency: [{ firstCurrencyDetails: [{ currencyQualifier: ["FCO"], currencyIsoCode: ["COP"] }] }] }
+            ]
+          }]
         }
       }
     }
@@ -136,10 +135,8 @@ export class BookingOnePage implements OnInit {
         quantity = quantity + parseInt(response.pricingGroupLevelGroup[j].numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]);
       }
     }
-    console.log('quantity: ', quantity);
     if (this.glbService.flightSelected.vuelta) {
       for (let i = 0; i < response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup.length; i++) {
-        console.log(`${response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].boardPointDetails[0].trueLocationId[0]} - ${response.pricingGroupLevelGroup[0].fareInfoGroup[0].segmentLevelGroup[i].segmentInformation[0].offpointDetails[0].trueLocationId[0]}`);
         if (!segVuelta) {
           segmentInformationIda.push({
             travelProductInformation: [{
@@ -192,19 +189,19 @@ export class BookingOnePage implements OnInit {
     this.checkAllSeat(airSellFromRecommendationResponse.session, airSellFromRecommendationResponse.data['soapenv:Envelope']['soapenv:Body'][0].Air_SellFromRecommendationReply[0]);
   }
   checkAllSeat(session: any, response: any) {
-    console.log('checkAllSeat response: ', response);
-    console.log('checkAllSeat session: ', session);
     for (let i = 0; i < response.itineraryDetails.length; i++) {
       for (let j = 0; j < response.itineraryDetails[i].segmentInformation.length; j++) {
         console.log(response.itineraryDetails[i].segmentInformation[j].actionDetails[0]);
-        if(response.itineraryDetails[i].segmentInformation[j].actionDetails[0].statusCode[0] != 'OK'){
+        if (response.itineraryDetails[i].segmentInformation[j].actionDetails[0].statusCode[0] != 'OK') {
           this.Fare_InformativePricingWithoutPNRResponse = undefined;
           this.alertMain.present('Ups', 'Este vuelo no está disponible', 'Intenta con otro vuelo.');
-          i = response.itineraryDetails.length; return;
+          i = response.itineraryDetails.length; this.location.back(); return;
         }
       }
     }
   }
+
+  
 
   /* PNRSellFromRecommendation() { */
 
