@@ -38,7 +38,7 @@
                     <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'INF'">Infante {{j+1}}</h2>
                     <ion-list>
                       <ion-item>
-                        <ion-input formControlName="nit-{{i}}-{{j}}" labelPlacement="floating" color="dark">
+                        <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j}}" labelPlacement="floating" color="dark">
                           <div slot="label">nit-{{i}}-{{j}}</div>
                         </ion-input>
                       </ion-item>

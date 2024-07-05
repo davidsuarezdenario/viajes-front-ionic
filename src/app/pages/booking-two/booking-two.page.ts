@@ -30,17 +30,9 @@ export class BookingTwoPage implements OnInit {
     this.glbService.passengersData.length == 0 ? this.router.navigate(['/']) : false;
     console.log('glbService passengers', this.glbService.passengersData);
     console.log('glbService flight', this.glbService.flightSelected);
-    for(let i=0; i<this.glbService.flightSelected.pax.length; i++){
-      for(let j=0; j<this.glbService.flightSelected.pax[i].paxReference[0].traveller.length; j++){
-        this.formPax[`nit-${i}-${j}`] = '';
-        this.form.addControl(`nit-${i}-${j}`, this.formBuilder.control('', Validators.required));
-        this.formPax[`type-${i}-${j}`] = this.glbService.flightSelected.pax[i].paxReference[0].ptc[0];
-        this.formPax[`id-${i}-${j}`] = this.glbService.flightSelected.pax[i].paxReference[0].traveller[j].ref[0];
-        /* this.formPax.push({
-          index: i + '-' + j,
-          type: this.glbService.flightSelected.pax[i].paxReference[0].ptc[0],
-          id: this.glbService.flightSelected.pax[i].paxReference[0].traveller[j].ref[0]
-        }); */
+    for (let i = 0; i < this.glbService.flightSelected.pax.length; i++) {
+      for (let j = 0; j < this.glbService.flightSelected.pax[i].paxReference[0].traveller.length; j++) {
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j}`, this.formBuilder.control('', Validators.required));
       }
     }
   }
@@ -49,7 +41,7 @@ export class BookingTwoPage implements OnInit {
 
   }
 
-  buildForm() {}
+  buildForm() { }
 
   addField(fieldName: string, validators: any[] = []) {
     this.form.addControl(fieldName, this.formBuilder.control('', validators));
