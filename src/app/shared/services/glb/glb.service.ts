@@ -42,6 +42,8 @@ export class GlbService {
   flightSelected: any = [];
   session: any = {};
 
+  passengersData: any = [];
+
   constructor() {
     this.initCityFrom();
     /* this.testBookingResults(); */

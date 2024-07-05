@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonHeader, IonContent, IonTitle, IonToolbar, IonButtons, IonBackButton, IonGrid, IonRow, IonProgressBar, IonCol } from "@ionic/angular/standalone";
 import { HeaderMainComponent } from "../../shared/components/header-main/header-main.component";
 import { GlbService } from "../../shared/services/glb/glb.service";
@@ -14,7 +13,7 @@ import { Location } from '@angular/common';
   templateUrl: './booking-one.page.html',
   styleUrls: ['./booking-one.page.scss'],
   standalone: true,
-  imports: [IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonCol, IonProgressBar, IonRow, IonGrid, IonBackButton, IonButtons, IonToolbar, IonTitle, IonContent, IonHeader, CommonModule, FormsModule, HeaderMainComponent]
+  imports: [IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonChip, IonText, IonCol, IonProgressBar, IonRow, IonGrid, IonBackButton, IonButtons, IonToolbar, IonTitle, IonContent, IonHeader, CommonModule, HeaderMainComponent]
 })
 export class BookingOnePage implements OnInit {
 
@@ -34,7 +33,7 @@ export class BookingOnePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.glbService.flightSelected.length == 0 ? this.router.navigate(['/home']) : this.Fare_InformativePricingWithoutPNR();;
+    this.glbService.flightSelected.length == 0 ? this.router.navigate(['/home']) : this.Fare_InformativePricingWithoutPNR();
   }
 
   async Fare_InformativePricingWithoutPNR() {
@@ -186,22 +185,25 @@ export class BookingOnePage implements OnInit {
     const airSellFromRecommendationResponse: any = await this.apiService.post('/travel/sell_from_recommendation', body);
     console.log('airSellFromRecommendationResponse: ', airSellFromRecommendationResponse);
     this.Air_SellFromRecommendation = airSellFromRecommendationResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Air_SellFromRecommendationReply[0].itineraryDetails;
-    this.checkAllSeat(airSellFromRecommendationResponse.session, airSellFromRecommendationResponse.data['soapenv:Envelope']['soapenv:Body'][0].Air_SellFromRecommendationReply[0]);
+    this.checkAllSeat(airSellFromRecommendationResponse.data['soapenv:Envelope']['soapenv:Body'][0].Air_SellFromRecommendationReply[0]);
   }
-  checkAllSeat(session: any, response: any) {
+  checkAllSeat(response: any) {
+    let segRouter = true;
     for (let i = 0; i < response.itineraryDetails.length; i++) {
       for (let j = 0; j < response.itineraryDetails[i].segmentInformation.length; j++) {
         console.log(response.itineraryDetails[i].segmentInformation[j].actionDetails[0]);
         if (response.itineraryDetails[i].segmentInformation[j].actionDetails[0].statusCode[0] != 'OK') {
-          this.Fare_InformativePricingWithoutPNRResponse = undefined;
+          this.Fare_InformativePricingWithoutPNRResponse = undefined; segRouter = false;
           this.alertMain.present('Ups', 'Este vuelo no está disponible', 'Intenta con otro vuelo.');
           i = response.itineraryDetails.length; this.location.back(); return;
         }
       }
     }
+    segRouter ? this.glbService.passengersData = response : false;
   }
-
-  
+  goToBookingTwo(){
+    this.router.navigate(['/booking-two']); 
+  }
 
   /* PNRSellFromRecommendation() { */
 
