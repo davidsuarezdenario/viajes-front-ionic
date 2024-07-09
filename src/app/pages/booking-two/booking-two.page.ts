@@ -29,13 +29,13 @@ export class BookingTwoPage implements OnInit {
     for (let i = 0; i < this.glbService.flightSelected.pax.length; i++) {
       for (let j = 0; j < this.glbService.flightSelected.pax[i].paxReference[0].traveller.length; j++) {
         console.log(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}`);
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-type_id`, this.formBuilder.control('', Validators.required));
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-num_id`, this.formBuilder.control('', Validators.required));
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-birthday`, this.formBuilder.control('', Validators.required));
         this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-name`, this.formBuilder.control('', Validators.required));
         this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-surname`, this.formBuilder.control('', Validators.required));
         this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-email`, this.formBuilder.control('', Validators.required));
         this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-phone`, this.formBuilder.control('', Validators.required));
-        this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-type_id`, this.formBuilder.control('', Validators.required));
-        this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-num_id`, this.formBuilder.control('', Validators.required));
-        this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j+1}-birthday`, this.formBuilder.control('', Validators.required));
       }
     }
   }
