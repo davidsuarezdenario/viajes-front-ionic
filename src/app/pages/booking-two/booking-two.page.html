@@ -34,16 +34,23 @@
                     <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'CNN'">Niño {{j+1}}</h2>
                     <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'INF'">Infante {{j+1}}</h2>
                   </ion-col>
-                  <ion-col size-md="2" size="2">
-                    <ion-item>
-                      <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" labelPlacement="floating" color="dark">
+                  <ion-col size-md="4" size="4">
+                    <ion-item lines="none">
+                      <!-- <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" labelPlacement="floating" color="dark">
                         <div slot="label">Tipo</div>
-                      </ion-input>
+                      </ion-input> -->
+                      <ion-select formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" label="Tipo Doc">
+                        <ion-select-option value="CC">CC</ion-select-option>
+                        <ion-select-option value="CE">CE</ion-select-option>
+                        <ion-select-option value="Pasaporte">Pasaporte</ion-select-option>
+                        <ion-select-option value="PEP">PEP</ion-select-option>
+                        <ion-select-option value="PPT">PPT</ion-select-option>
+                      </ion-select>
                     </ion-item>
                   </ion-col>
                   <ion-col size-md="4" size="4">
                     <ion-item>
-                      <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-num_id" labelPlacement="floating" color="dark">
+                      <ion-input value="1235435" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-num_id" labelPlacement="floating" color="dark">
                         <div slot="label">Documento</div>
                       </ion-input>
                     </ion-item>
@@ -51,10 +58,10 @@
                   <!-- <ion-col size-md="6" size="6">
                     <ion-item>
                       <ion-label position="floating">Fecha Nac.</ion-label>
-                      <ion-date displayFormat="YYYY-MM-DD" formControlName="{{pax1.paxReference[0].ptc[0]}}-birthday-{{j+1}}" color="dark"></ion-date>
+                      <ion-date displayFormat="YYYY-MM-DD" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-birthday" color="dark"></ion-date>
                     </ion-item>
                   </ion-col> -->
-                  <ion-col size-md="6" size="6">
+                  <ion-col size-md="4" size="4">
                     <ion-item>
                       <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-birthday" type="date" labelPlacement="floating" color="dark">
                         <div slot="label">Fecha Nac.</div>
@@ -63,28 +70,28 @@
                   </ion-col>
                   <ion-col size-md="6" size="6">
                     <ion-item>
-                      <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-name" labelPlacement="floating" color="dark">
+                      <ion-input value="Nombre" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-name" labelPlacement="floating" color="dark">
                         <div slot="label">Nombre</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
                   <ion-col size-md="6" size="6">
                     <ion-item>
-                      <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-surname" labelPlacement="floating" color="dark">
+                      <ion-input value="Apellido" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-surname" labelPlacement="floating" color="dark">
                         <div slot="label">Apellido</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
-                  <ion-col size-md="6" size="6">
+                  <ion-col size-md="6" size="6" *ngIf="i == 0 && j == 0">
                     <ion-item>
-                      <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-email" type="email" labelPlacement="floating" color="dark">
+                      <ion-input value="Correo@correo.com" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-email" type="email" labelPlacement="floating" color="dark">
                         <div slot="label">Correo</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
-                  <ion-col size-md="6" size="6">
+                  <ion-col size-md="6" size="6" *ngIf="i == 0 && j == 0">
                     <ion-item>
-                      <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-phone" type="tel" labelPlacement="floating" color="dark">
+                      <ion-input value="Celular" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-phone" type="tel" labelPlacement="floating" color="dark">
                         <div slot="label">Celular</div>
                       </ion-input>
                     </ion-item>
