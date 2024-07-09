@@ -80,8 +80,7 @@ export class BookingTwoPage implements OnInit {
               travellerInformation: [{ traveller: [{ surname: [travellerInfoTemp[a].surname], quantity: ["1"] }], passenger: [{ firstName: [travellerInfoTemp[a].name], type: [travellerInfoTemp[a].type] }] }],
               dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(travellerInfoTemp[a].birthday)] }] }]
             }
-          ],
-          associatedInfants: []
+          ]
         });
       } else {
         inf.push(travellerInfoTemp[a]);
@@ -90,11 +89,11 @@ export class BookingTwoPage implements OnInit {
     inf.forEach((infant: any, index: any) => {
       if (travellerInfo[index]) { // Asegúrate de que existe un ADT correspondiente
         travellerInfo[index].passengerData.push({
-          travellerInformation: [{ traveller: [{ surname: [infant.surname], quantity: ["1"] }], passenger: [{ firstName: [infant.name], type: [infant.type] }] }],
+          travellerInformation: [{ traveller: [{ surname: [infant.surname] }], passenger: [{ firstName: [infant.name], type: [infant.type] }] }],
           dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(infant.birthday)] }] }]
         });
-        travellerInfo[index].elementManagementPassenger[0].reference[0].number[0] = '' + 2;
         travellerInfo[index].passengerData[0].travellerInformation[0].passenger[0].infantIndicator = ['' + 3];
+        travellerInfo[index].passengerData[0].travellerInformation[0].traveller[0].quantity[0] = '' + 2;
       }
     });
     console.log('travellerInfo: ', travellerInfo);
