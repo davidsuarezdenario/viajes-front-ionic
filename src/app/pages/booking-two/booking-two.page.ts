@@ -39,15 +39,14 @@ export class BookingTwoPage implements OnInit {
           this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j + 1}-email`, this.formBuilder.control('', Validators.required));
           this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j + 1}-phone`, this.formBuilder.control('', Validators.required));
         }
+        if((this.glbService.iataToName(this.glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).country != 'Colombia' || this.glbService.iataToName((this.glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).country != 'Colombia'){
+          this.form.addControl(`${this.glbService.flightSelected.pax[i].paxReference[0].ptc[0]}-${j + 1}-passport`, this.formBuilder.control('', Validators.required));
+        }
       }
     }
   }
 
   ngOnInit() { }
-
-  ionViewWillEnter() {
-
-  }
 
   addField(fieldName: string, validators: any[] = []) {
     this.form.addControl(fieldName, this.formBuilder.control('', validators));
@@ -69,55 +68,52 @@ export class BookingTwoPage implements OnInit {
 
   buildBody(data: any) {
     const travellerInfoTemp: any = this.agruparDatos(data);
-    let travellerInfo: any = [], inf: any = [];
+    let travellerInfo: any = [], inf: any = [], dataElementsIndiv:any = [];
     console.log('agrupados: ', travellerInfoTemp);
     for (let a = 0; a < travellerInfoTemp.length; a++) {
       if (travellerInfoTemp[a].type != 'INF') {
         travellerInfo.push({
-          elementManagementPassenger: [{ reference: [{ qualifier: ["PR"], number: [`${a + 1}`] }], segmentName: ["NM"] }],
-          passengerData: [
-            {
-              travellerInformation: [{ traveller: [{ surname: [travellerInfoTemp[a].surname], quantity: ["1"] }], passenger: [{ firstName: [travellerInfoTemp[a].name], type: [travellerInfoTemp[a].type] }] }],
-              dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(travellerInfoTemp[a].birthday)] }] }]
-            }
-          ]
+          elementManagementPassenger: [{ reference: [{ qualifier: ["PR"], number: [travellerInfoTemp[a].id + ''] }], segmentName: ["NM"] }],
+          passengerData: [ { travellerInformation: [{ traveller: [{ surname: [travellerInfoTemp[a].surname], quantity: ["1"] }], passenger: [{ firstName: [travellerInfoTemp[a].name], type: [travellerInfoTemp[a].type] }] }], dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(travellerInfoTemp[a].birthday)] }] }] } ]
         });
+        if(travellerInfoTemp[a].email){
+          dataElementsIndiv.push({ elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["1"] }], segmentName: ["AP"] }], freetextData: [{ freetextDetail: [{ subjectQualifier: ["3"], type: ["6"] }], longFreetext: [travellerInfoTemp[a].phone] }] }, { elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["2"] }], segmentName: ["AP"] }], freetextData: [{ freetextDetail: [{ subjectQualifier: ["3"], type: ["P02"] }], longFreetext: [travellerInfoTemp[a].email] }] });
+        }
+        dataElementsIndiv.push(
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: [`${a+3}`] }], segmentName: ["SSR"] }],
+            serviceRequest: [{ ssr: [{ type: ["FOID"], status: ["HK"], quantity: ["1"], companyId: ["AM"], freetext: ["NI19393920"] }] }],
+            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["1"] }] }]
+          },
+          {
+            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["4"] }], segmentName: ["SSR"] }],
+            serviceRequest: [{ ssr: [{ type: ["DOCS"], status: ["HK"], quantity: ["1"], companyId: ["YY"], freetext: ["P-COL-19393920-COL-04JAN84-F-28SEP28-BARBO-BRUNO"] }] }],
+            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["1"] }] }]
+          }
+        );
       } else {
         inf.push(travellerInfoTemp[a]);
       }
     }
     inf.forEach((infant: any, index: any) => {
-      if (travellerInfo[index]) { // Asegúrate de que existe un ADT correspondiente
+      if (travellerInfo[index]) {
         travellerInfo[index].passengerData.push({
-          travellerInformation: [{ traveller: [{ surname: [infant.surname] }], passenger: [{ firstName: [infant.name], type: [infant.type] }] }],
-          dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(infant.birthday)] }] }]
+          travellerInformation: [{ traveller: [{ surname: [infant.surname] }], passenger: [{ firstName: [infant.name], type: [infant.type] }] }], dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(infant.birthday)] }] }]
         });
-        travellerInfo[index].passengerData[0].travellerInformation[0].passenger[0].infantIndicator = ['' + 3];
-        travellerInfo[index].passengerData[0].travellerInformation[0].traveller[0].quantity[0] = '' + 2;
+        travellerInfo[index].passengerData[0].travellerInformation[0].passenger[0].infantIndicator = ['' + 3]; travellerInfo[index].passengerData[0].travellerInformation[0].traveller[0].quantity[0] = '' + 2;
       }
     });
     console.log('travellerInfo: ', travellerInfo);
     console.log('inf: ', inf);
   }
 
-  agruparDatos1(obj: any) {
-    let agrupados: any = {};
-    Object.keys(obj).forEach(clave => {
-      const [prefijo, numero, campo] = clave.split('-'), identificador = `${prefijo}-${numero}`;
-      if (!agrupados[prefijo]) { agrupados[prefijo] = {}; }
-      if (!agrupados[prefijo][identificador]) { agrupados[prefijo][identificador] = {}; }
-      agrupados[prefijo][identificador][campo] = obj[clave];
-    });
-    return agrupados;
-  }
-
   agruparDatos(input: any) {
-    let result: any = {};
+    let result: any = {}, idCounter = 1;
     Object.entries(input).forEach(([key, value]) => {
       const match = key.match(/(ADT|CNN|INF)-(\d+)-(.+)/);
       if (match) {
         const [, type, number, attribute] = match, identifier = `${type}-${number}`;
-        if (!result[identifier]) { result[identifier] = { type, number: parseInt(number, 10) }; }
+        if (!result[identifier]) { result[identifier] = { id: idCounter, type, number: parseInt(number, 10) }; idCounter++; }
         result[identifier][attribute] = value;
       }
     });

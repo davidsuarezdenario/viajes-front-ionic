@@ -40,9 +40,12 @@
                         <div slot="label">Tipo</div>
                       </ion-input> -->
                       <ion-select formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" label="Tipo Doc">
-                        <ion-select-option value="CC">CC</ion-select-option>
-                        <ion-select-option value="CE">CE</ion-select-option>
-                        <ion-select-option value="Pasaporte">Pasaporte</ion-select-option>
+                        <ion-select-option value="RC" *ngIf="pax1.paxReference[0].ptc[0] != 'ADT'">Registro civíl</ion-select-option>
+                        <ion-select-option value="TI" *ngIf="pax1.paxReference[0].ptc[0] != 'ADT'">TI</ion-select-option>
+                        <ion-select-option value="NI">NI</ion-select-option>
+                        <ion-select-option value="CC" *ngIf="pax1.paxReference[0].ptc[0] == 'ADT'">CC</ion-select-option>
+                        <ion-select-option value="CE" *ngIf="pax1.paxReference[0].ptc[0] == 'ADT'">CE</ion-select-option>
+                        <ion-select-option value="PSS">Pasaporte</ion-select-option>
                         <ion-select-option value="PEP">PEP</ion-select-option>
                         <ion-select-option value="PPT">PPT</ion-select-option>
                       </ion-select>
@@ -68,14 +71,21 @@
                       </ion-input>
                     </ion-item>
                   </ion-col>
-                  <ion-col size-md="6" size="6">
+                  <ion-col size-md="4" size="4" *ngIf="(glbService.iataToName(glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).country != 'Colombia' || (glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).country != 'Colombia'">
+                    <ion-item>
+                      <ion-input value="Celular" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-passport" type="tel" labelPlacement="floating" color="dark">
+                        <div slot="label">Pasaporte</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="4" size="4">
                     <ion-item>
                       <ion-input value="Nombre" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-name" labelPlacement="floating" color="dark">
                         <div slot="label">Nombre</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
-                  <ion-col size-md="6" size="6">
+                  <ion-col size-md="4" size="4">
                     <ion-item>
                       <ion-input value="Apellido" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-surname" labelPlacement="floating" color="dark">
                         <div slot="label">Apellido</div>
