@@ -8,6 +8,7 @@ import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 
 import { HttpClientModule } from "@angular/common/http";
+import { TitleCasePipe } from "@angular/common";
 
 if (environment.production) {
   enableProdMode();
@@ -17,6 +18,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(HttpClientModule),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    TitleCasePipe,
     provideIonicAngular(),
     provideRouter(routes),
   ],

@@ -10,18 +10,24 @@
         </div>
         <div class="space-items">
           <ion-select [(ngModel)]="glbService.clase" placeholder="Clase" interface="popover" (ionChange)="change()">
-            <ion-select-option value="M">Clase económica</ion-select-option>
-            <ion-select-option value="W">Clase premium</ion-select-option>
             <ion-select-option value="C">Business</ion-select-option>
             <ion-select-option value="F">Primera clase</ion-select-option>
+            <!-- <ion-select-option value="M">Clase económica estandar</ion-select-option> -->
+            <ion-select-option value="W">Clase premium</ion-select-option>
+            <ion-select-option value="Y">Clase económica</ion-select-option>
           </ion-select>
         </div>
         <div class="flex-item2 space-items">
           <app-select-pasajeros></app-select-pasajeros>
         </div>
-        <div class="flex-item2 space-items">
+        <!-- <div (click)="selectEquipajeComponent.presentPopover($event)" class="flex-item2 space-items">
+          <ion-icon slot="start" name="bag" color="dark" size="small" style="margin-right: 5px;"></ion-icon>
+          <ion-text> {{glbService.totalBags}} maleta(s) </ion-text>
+          <ion-icon name="chevron-expand" size="small" color="dark"></ion-icon>
+        </div> -->
+        <!-- <div class="flex-item2 space-items">
           <app-select-equipaje></app-select-equipaje>
-        </div>
+        </div> -->
       </div>
     </ion-col>
   </ion-row>
@@ -66,8 +72,13 @@
         <app-date-select label="Regreso"></app-date-select>
       </ion-item>
     </ion-col>
-    <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="2,4"> 
-      <ion-button fill="solid" shape="round" mode="ios" (click)="searchMainService.explorar()" expand="block" [disabled]="glbService.bookingloading">
+    <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="2,4">
+      <ion-button fill="solid" mode="ios" (click)="searchMainService.explorar()" expand="block" *ngIf="glbService.bookingloading || glbService.iataCodes.length < 1" [disabled]="true">
+        <ion-text *ngIf="!glbService.bookingloading"> Buscar </ion-text>
+        <ion-text *ngIf="glbService.bookingloading"> Buscando </ion-text>
+        <ion-spinner name="dots" *ngIf="glbService.bookingloading" style="margin-left: 5px;"></ion-spinner>
+      </ion-button>
+      <ion-button fill="solid" mode="ios" (click)="searchMainService.explorar()" expand="block" *ngIf="!glbService.bookingloading && glbService.iataCodes.length > 0">
         <ion-text *ngIf="!glbService.bookingloading"> Buscar </ion-text>
         <ion-text *ngIf="glbService.bookingloading"> Buscando </ion-text>
         <ion-spinner name="dots" *ngIf="glbService.bookingloading" style="margin-left: 5px;"></ion-spinner>

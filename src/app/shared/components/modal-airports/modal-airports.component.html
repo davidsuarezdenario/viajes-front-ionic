@@ -38,20 +38,20 @@
         <ion-spinner name="bubbles" color="primary"></ion-spinner>
       </div>
       <div *ngFor="let airport of airports" (click)="selectAirport(airport)">
-        <ion-item lines="none" [ngSwitch]="airport.type" [class.airport-type]="airport.type == 'airport'"
+        <ion-item lines="none" [ngSwitch]="airport.subType" [class.airport-type]="airport.subType == 'AIRPORTS'"
           class="item-popover">
-          <ion-icon
+          <ion-icon [name]="airport.subType == 'AIRPORTS' ? 'airplane-outline' : 'business-outline'" size="medium"
+            slot="start"></ion-icon>
+          <!-- <p>{{airport.subType}}</p> -->
+          <!-- 
+            {{ airport.type == 'airport' ? (airport.city.name + ', ' + (airport.city.country ? airport.city.country.name : '')) : airport.type == 'city' ? (airport.name + ', ' + (airport.country ? airport.country.name : '')) : airport.name }}<br>
+            <ion-icon
             [name]="airport.type == 'airport' ? 'airplane-outline' : airport.type == 'city' ? 'business-outline' : 'earth-outline'"
-            size="medium" slot="start"></ion-icon>
+            size="medium" slot="start"></ion-icon> -->
           <p class="p-popover">
-            {{
-            airport.type == 'airport'
-            ? (airport.city.name + ', ' + (airport.city.country ? airport.city.country.name : ''))
-            : airport.type == 'city'
-            ? (airport.name + ', ' + (airport.country ? airport.country.name : ''))
-            : airport.name
-            }}<br>
-            <small>{{airport.name}}</small>
+            {{airport.subType == 'CITY' ? ((airport.address?.cityName | titlecase) + ', ' + airport.address?.countryName) : ((airport.address?.cityName | titlecase) + ', '
+            + airport.address?.countryName)}}<br>
+            <small>{{airport.name | titlecase}}</small>
           </p>
         </ion-item>
       </div>
