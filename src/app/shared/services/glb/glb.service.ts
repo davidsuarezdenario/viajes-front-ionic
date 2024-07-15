@@ -76,6 +76,6 @@ export class GlbService {
 
   iataToName(iata: string): any {
     const airport = this.iataCodes.find((airport: any) => this.normalizeString(airport.iata) == this.normalizeString(iata));
-    return airport ? airport : [{iata: '', airport: 'Estación de tren', city: '', country: '', continent: ''}];
+    return airport ? airport : [{ iata: '', airport: 'Estación de tren', city: '', country: '', continent: '' }];
   }
 }
