@@ -6,7 +6,6 @@ import { DatePipe, CurrencyPipe } from '@angular/common';
 import { format } from 'date-fns';
 import { GlbService } from "../../services/glb/glb.service";
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-booking',

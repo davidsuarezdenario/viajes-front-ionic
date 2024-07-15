@@ -45,7 +45,7 @@ export class SearchMainService {
 
   async explorar() {
     this.totalBagsHoldToDistribute = this.glbService.bags.hold; this.totalBagsHandToDistribute = this.glbService.bags.hand;
-    const requestedSegmentRef = this.glbService.trips == 'idaVuelta' ? [{ requestedSegmentRef: [{ segRef: ["1"] }], departureLocalization: [{ departurePoint: [{ locationId: [this.glbService.selectAirportFrom.iataCode] }] }], arrivalLocalization: [{ arrivalPointDetails: [{ locationId: [this.glbService.selectAirportTo.iataCode] }] }], timeDetails: [{ firstDateTimeDetail: [{ date: [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }, { requestedSegmentRef: [{ segRef: ["2"] }], departureLocalization: [{ departurePoint: [{ locationId: [this.glbService.selectAirportTo.iataCode] }] }], arrivalLocalization: [{ arrivalPointDetails: [{ locationId: [this.glbService.selectAirportFrom.iataCode] }] }], timeDetails: [{ firstDateTimeDetail: [{ date: [format(parseISO(this.glbService.selectedDateRegresoStart), 'ddMMyy')] }] }] }] : [{ requestedSegmentRef: [{ segRef: ["1"] }], departureLocalization: [{ departurePoint: [{ locationId: [this.glbService.selectAirportFrom.iataCode] }] }], arrivalLocalization: [{ arrivalPointDetails: [{ locationId: [this.glbService.selectAirportTo.iataCode] }] }], timeDetails: [{ firstDateTimeDetail: [{ date: [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }];
+    const requestedSegmentRef = this.glbService.trips == 'idaVuelta' ? [{ requestedSegmentRef: [{ segRef: ["1"] }], departureLocalization: [{ departurePoint: [{ locationId: [this.glbService.selectAirportFrom.iata] }] }], arrivalLocalization: [{ arrivalPointDetails: [{ locationId: [this.glbService.selectAirportTo.iata] }] }], timeDetails: [{ firstDateTimeDetail: [{ date: [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }, { requestedSegmentRef: [{ segRef: ["2"] }], departureLocalization: [{ departurePoint: [{ locationId: [this.glbService.selectAirportTo.iata] }] }], arrivalLocalization: [{ arrivalPointDetails: [{ locationId: [this.glbService.selectAirportFrom.iata] }] }], timeDetails: [{ firstDateTimeDetail: [{ date: [format(parseISO(this.glbService.selectedDateRegresoStart), 'ddMMyy')] }] }] }] : [{ requestedSegmentRef: [{ segRef: ["1"] }], departureLocalization: [{ departurePoint: [{ locationId: [this.glbService.selectAirportFrom.iata] }] }], arrivalLocalization: [{ arrivalPointDetails: [{ locationId: [this.glbService.selectAirportTo.iata] }] }], timeDetails: [{ firstDateTimeDetail: [{ date: [format(parseISO(this.glbService.selectedDateSalidaStart), 'ddMMyy')] }] }] }];
     let contPax = 1;
     const paxAdt = await Array.from({ length: this.glbService.passengers.adult }, () => ({ ref: [(contPax++) + ''] })), paxCnn = await Array.from({ length: this.glbService.passengers.child }, () => ({ ref: [(contPax++) + ''] })), paxInf = await Array.from({ length: this.glbService.passengers.infant }, (_, i) => ({ ref: [(i + 1) + ''], infantIndicator: [(i + 1) + ''] }));
     let paxReference = [{ ptc: ["ADT"], traveller: paxAdt }];
@@ -146,8 +146,8 @@ export class SearchMainService {
 
   validators(): boolean {
     const conditions = [
-      { condition: !this.glbService.selectAirportFrom.iataCode, message: 'Seleccione un aeropuerto de origen' },
-      { condition: !this.glbService.selectAirportTo.iataCode, message: 'Seleccione un aeropuerto de destino' },
+      { condition: !this.glbService.selectAirportFrom.iata, message: 'Seleccione un aeropuerto de origen' },
+      { condition: !this.glbService.selectAirportTo.iata, message: 'Seleccione un aeropuerto de destino' },
       { condition: !this.glbService.dateFrom, message: 'Seleccione una fecha de salida' },
       { condition: this.glbService.totalPassengers <= 0, message: 'Seleccione al menos un pasajero' }
     ];
