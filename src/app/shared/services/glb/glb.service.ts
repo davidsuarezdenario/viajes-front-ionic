@@ -60,13 +60,13 @@ export class GlbService {
     else this.selectAirportFrom = airportsSelectedFrom[0];
     /* if (this.selectAirportFrom.subType == 'CITY') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.name)}-${this.selectAirportFrom.iataCode}`;
     if (this.selectAirportFrom.subType == 'AIRPORTS') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.city.name)}-${this.selectAirportFrom.iataCode}`; */
-    this.searchFrom = `${titlecase.transform(this.selectAirportFrom.city)}-${this.selectAirportFrom.iata}`;
+    this.searchFrom = (this.selectAirportFrom.city && this.selectAirportFrom.iata) ? `${titlecase.transform(this.selectAirportFrom.city)}-${this.selectAirportFrom.iata}` : '';
     const airportsSelectedTo = JSON.parse(localStorage.getItem('airportsSelectedTo') || '[]');
     if (airportsSelectedTo.length == 0) this.selectAirportTo = {};
     else this.selectAirportTo = airportsSelectedTo[0];
     /* if (this.selectAirportTo.subType == 'CITY') this.searchTo = `${titlecase.transform(this.selectAirportTo.name)}-${this.selectAirportTo.iataCode}`;
     if (this.selectAirportTo.subType == 'AIRPORTS') this.searchTo = `${titlecase.transform(this.selectAirportTo.city.name)}-${this.selectAirportTo.iataCode}`; */
-    this.searchTo = `${titlecase.transform(this.selectAirportTo.city)}-${this.selectAirportTo.iata}`;
+    this.searchTo = (this.selectAirportTo.city && this.selectAirportTo.iata) ? `${titlecase.transform(this.selectAirportTo.city)}-${this.selectAirportTo.iata}` : '';
   }
 
   testBookingResults() {
@@ -76,6 +76,6 @@ export class GlbService {
 
   iataToName(iata: string): any {
     const airport = this.iataCodes.find((airport: any) => this.normalizeString(airport.iata) == this.normalizeString(iata));
-    return airport ? airport : [{iata: '', airport: 'Estación de tren', city: '', country: '', continent: ''}];
+    return airport ? airport : [{ iata: '', airport: 'Estación de tren', city: '', country: '', continent: '' }];
   }
 }
