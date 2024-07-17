@@ -40,7 +40,7 @@
       <div *ngFor="let airport of airports" (click)="selectAirport(airport)">
         <ion-item lines="none" [ngSwitch]="airport.subType" [class.airport-type]="airport.subType == 'AIRPORTS'"
           class="item-popover">
-          <ion-icon [name]="airport.subType == 'AIRPORTS' ? 'airplane-outline' : 'business-outline'" size="medium"
+          <ion-icon [name]="airport.class == 'Aeropuerto' ? 'airplane-outline' : 'business-outline'" size="medium"
             slot="start"></ion-icon>
           <!-- <p>{{airport.subType}}</p> -->
           <!-- 
@@ -49,10 +49,14 @@
             [name]="airport.type == 'airport' ? 'airplane-outline' : airport.type == 'city' ? 'business-outline' : 'earth-outline'"
             size="medium" slot="start"></ion-icon> -->
           <p class="p-popover">
+            {{airport.city}}, {{airport.country}}<br>
+            <small>{{airport.airport}}</small>
+          </p>
+          <!-- <p class="p-popover">
             {{airport.subType == 'CITY' ? ((airport.address?.cityName | titlecase) + ', ' + airport.address?.countryName) : ((airport.address?.cityName | titlecase) + ', '
             + airport.address?.countryName)}}<br>
             <small>{{airport.name | titlecase}}</small>
-          </p>
+          </p> -->
         </ion-item>
       </div>
     </ion-content>

@@ -72,11 +72,12 @@ export class ModalAirportsComponent implements OnInit {
     const titlecase = new TitleCasePipe();
     const airport = this.label === 'Origen' ? this.glbService.selectAirportFrom : this.glbService.selectAirportTo;
     const searchlabel = this.label === 'Origen' ? 'searchFrom' : 'searchTo';
-    if (!airport.iataCode) {
+    if (!airport.iata) {
       this.glbService[searchlabel] = "";
     } else {
-      if(airport.subType == 'CITY') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`;
-      if(airport.subType == 'AIRPORTS') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`;
+      /* if(airport.subType == 'CITY') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`;
+      if(airport.subType == 'AIRPORTS') this.glbService[searchlabel] = `${titlecase.transform(airport.name)}-${airport.iataCode}`; */
+      this.glbService[searchlabel] = `${titlecase.transform(airport.city)}-${airport.iata}`;
     }
   }
 
@@ -114,7 +115,7 @@ export class ModalAirportsComponent implements OnInit {
     this.airports = this.getAirports(airportsProperty, storageKey, selectedAirportProperty);
   }
 
-  async searchApi(search: string) {
+  async searchApi1(search: string) {
     this.searchBusy = true;
     const normalizedSearch = this.glbService.normalizeString(search);
     console.log('normalizedSearch: ', normalizedSearch);
@@ -131,15 +132,34 @@ export class ModalAirportsComponent implements OnInit {
     }
   }
 
+  async searchApi(search: string) {
+    this.searchBusy = true;
+    const normalizedSearch = this.glbService.normalizeString(search);
+    const suggestIata = await this.updateIataCodes(normalizedSearch);
+    this.handleResponse(suggestIata);
+    console.log('suggestIata: ', suggestIata);
+    this.searchBusy = false;
+  }
+
+  async updateIataCodes(text: string) {
+    return this.glbService.iataCodes.filter((iata: any) => {
+      return (
+        iata.airport.indexOf(text) !== -1
+        || iata.city.toLowerCase().indexOf(text) !== -1
+        || iata.iata.toLowerCase().indexOf(text) !== -1
+        || !text);
+    });
+  }
+
   handleError(error: any) {
     // Handle error here
   }
 
   handleResponse(data: any) {
-    this.airports = data.data;
+    this.airports = data;
     console.log('airports: ', this.airports);
-    if(this.label === 'Origen') this.glbService.airportsFrom = data.data;
-    if(this.label === 'Destino') this.glbService.airportsTo = data.data;
+    if(this.label === 'Origen') this.glbService.airportsFrom = data;
+    if(this.label === 'Destino') this.glbService.airportsTo = data;
     /* if (this.glbService.airports.length == 0) this.dismissPopover(); */
   }
 
@@ -150,7 +170,7 @@ export class ModalAirportsComponent implements OnInit {
     const targetProperty = isFrom ? 'selectAirportFrom' : 'selectAirportTo';
     const searchProperty = isFrom ? 'searchFrom' : 'searchTo';
     /* const airportOrCityName = airport.subType === 'CITY' ? airport.address?.cityName : airport.name; */
-    const airportOrCityName = `${(titlecase.transform(airport.name))}-${airport.iataCode}`;
+    const airportOrCityName = `${(titlecase.transform(airport.city))}-${airport.iata}`;
     this.glbService[targetProperty] = airport;
     this.glbService[searchProperty] = airportOrCityName;
     /* const typeToPropertyMap:any = { 'city': 'name', 'airport': 'city?.name', 'country': 'name' };

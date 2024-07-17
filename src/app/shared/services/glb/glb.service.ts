@@ -58,13 +58,15 @@ export class GlbService {
     const titlecase = new TitleCasePipe();
     if (airportsSelectedFrom.length == 0) this.selectAirportFrom = selectAirportFromMock;
     else this.selectAirportFrom = airportsSelectedFrom[0];
-    if (this.selectAirportFrom.subType == 'CITY') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.name)}-${this.selectAirportFrom.iataCode}`;
-    if (this.selectAirportFrom.subType == 'AIRPORTS') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.city.name)}-${this.selectAirportFrom.iataCode}`;
+    /* if (this.selectAirportFrom.subType == 'CITY') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.name)}-${this.selectAirportFrom.iataCode}`;
+    if (this.selectAirportFrom.subType == 'AIRPORTS') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.city.name)}-${this.selectAirportFrom.iataCode}`; */
+    this.searchFrom = `${titlecase.transform(this.selectAirportFrom.city)}-${this.selectAirportFrom.iata}`;
     const airportsSelectedTo = JSON.parse(localStorage.getItem('airportsSelectedTo') || '[]');
     if (airportsSelectedTo.length == 0) this.selectAirportTo = {};
     else this.selectAirportTo = airportsSelectedTo[0];
-    if (this.selectAirportTo.subType == 'CITY') this.searchTo = `${titlecase.transform(this.selectAirportTo.name)}-${this.selectAirportTo.iataCode}`;
-    if (this.selectAirportTo.subType == 'AIRPORTS') this.searchTo = `${titlecase.transform(this.selectAirportTo.city.name)}-${this.selectAirportTo.iataCode}`;
+    /* if (this.selectAirportTo.subType == 'CITY') this.searchTo = `${titlecase.transform(this.selectAirportTo.name)}-${this.selectAirportTo.iataCode}`;
+    if (this.selectAirportTo.subType == 'AIRPORTS') this.searchTo = `${titlecase.transform(this.selectAirportTo.city.name)}-${this.selectAirportTo.iataCode}`; */
+    this.searchTo = `${titlecase.transform(this.selectAirportTo.city)}-${this.selectAirportTo.iata}`;
   }
 
   testBookingResults() {
