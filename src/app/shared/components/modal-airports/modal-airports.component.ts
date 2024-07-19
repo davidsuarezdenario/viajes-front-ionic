@@ -144,9 +144,9 @@ export class ModalAirportsComponent implements OnInit {
   async updateIataCodes(text: string) {
     return this.glbService.iataCodes.filter((iata: any) => {
       return (
-        iata.airport.indexOf(text) !== -1
-        || iata.city.toLowerCase().indexOf(text) !== -1
-        || iata.iata.toLowerCase().indexOf(text) !== -1
+        (this.glbService.normalizeString(iata.airport)).indexOf(text) !== -1
+        || (this.glbService.normalizeString(iata.city)).toLowerCase().indexOf(text) !== -1
+        || (this.glbService.normalizeString(iata.iata)).toLowerCase().indexOf(text) !== -1
         || !text);
     });
   }
