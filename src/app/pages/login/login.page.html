@@ -35,12 +35,12 @@
             <form [formGroup]="loginForm">
               <ion-item lines="none">
                 <ion-input 
-                  formControlName="email" 
-                  label="Correo" 
+                  formControlName="id" 
+                  label="Cedula" 
                   labelPlacement="floating" 
-                  type="email" 
+                  type="number" 
                   fill="solid"
-                  errorText={{loginFormErrors.email}}
+                  errorText={{loginFormErrors.id}}
                   required="true"
                   ></ion-input>
               </ion-item>
@@ -59,7 +59,7 @@
                 <ion-spinner name="dots" *ngIf="enSpinner"></ion-spinner>
               </ion-button>
             </form>
-            <ion-button expand="block" color="secondary" [routerLink]="['/register']">Registrarse</ion-button>
+            <!-- <ion-button expand="block" color="secondary" [routerLink]="['/register']">Registrarse</ion-button> -->
             <div class="ion-text-right">
               <ion-button fill="clear" shape="round" [routerLink]="['/restore-pass']"> Olvidé mi contraseña </ion-button>
             </div>
