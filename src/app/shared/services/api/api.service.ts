@@ -25,16 +25,9 @@ export class ApiService {
   async verifySesion(): Promise<boolean> {
     const session = localStorage.getItem('wanderlustpay-sesion');
     if (!session) return false;
-    const { idCliente } = JSON.parse(session);
-    if(idCliente){
-      this.glbService.idCliente = idCliente;
-      return true;
-    } else {
-      return false;
-    }
-    /* console.log('idCliente: ', idCliente);
-    this.glbService.idCliente = idCliente; */
-    /* try {
+    const { jwt, idCliente } = JSON.parse(session);
+    this.jwt = jwt;
+    try {
       const res: any = await this.get('/auth/sesion');
       if (!res.Error) {
         this.glbService.idCliente = idCliente;
@@ -46,8 +39,8 @@ export class ApiService {
       if (err.status === 403) {
         localStorage.removeItem('wanderlustpay-sesion');
       }
-    } */
-    //return false;
+    }
+    return false;
   }
 
   async get(url: string) {
