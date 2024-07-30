@@ -81,6 +81,7 @@ export class BookingComponent implements OnInit {
   }
 
   goToBookingOne(flight: any) {
+    console.log('flight: ', flight);
     this.glb.flightSelected = flight;
     this.router.navigate(['/booking-one']);
   }

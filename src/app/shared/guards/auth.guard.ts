@@ -4,13 +4,15 @@ import { inject } from '@angular/core';
 
 export const authGuard: CanActivateFn = async (route, state) => {
 
-  let authService = new AuthService()
-  let router = inject(Router)
+  let authService = inject(AuthService);
+  let router = inject(Router);
   
+  console.log(`authGuard: ${authService.isLoggedIn()}`)
   if (authService.isLoggedIn()) {
-    return true;
-  } else {
+    /* router.navigate([state.url]); */
     router.navigate(['/home']);
     return false;
+  } else {
+    return true;
   }
 };

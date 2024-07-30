@@ -23,24 +23,66 @@
         <ion-card>
           <ion-card-header>
             <ion-card-title>
-              <ion-text color="primary" class="ion-text-center"> <h1>Registrarse</h1> </ion-text>
+              <ion-text color="primary" class="ion-text-center">
+                <h1>Registrarse</h1>
+              </ion-text>
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-item>
-              <ion-input label="Nombre" labelPlacement="floating" type="text" required></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input label="Correo" labelPlacement="floating" type="email" required></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input label="Contraseña" labelPlacement="floating" type="password" required></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input label="Confirmar contraseña" labelPlacement="floating" type="password" required></ion-input>
-            </ion-item>
-            <ion-button expand="block" color="primary">Registrarse</ion-button>
-            <ion-button expand="block" color="secondary">Iniciar sesión</ion-button>
+            <form [formGroup]="signinForm">
+              <ion-item lines="none">
+                <ion-input
+                formControlName="name"
+                label="Nombre"
+                labelPlacement="floating"
+                type="text"
+                fill="solid"
+                errorText="{{signinFormErrors.name}}"
+                required></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-input
+                formControlName="email"
+                label="Correo"
+                labelPlacement="floating"
+                type="email"
+                fill="solid"
+                errorText="{{signinFormErrors.email}}"
+                required></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-input
+                formControlName="phone"
+                label="Teléfono"
+                labelPlacement="floating"
+                type="number"
+                fill="solid"
+                errorText="{{signinFormErrors.phone}}"
+                required></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-input
+                formControlName="pass1"
+                label="Contraseña"
+                labelPlacement="floating"
+                type="password"
+                fill="solid"
+                errorText="{{signinFormErrors.pass1}}"
+                required></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-input
+                formControlName="pass2"
+                label="Confirmar contraseña"
+                labelPlacement="floating"
+                type="password"
+                fill="solid"
+                errorText="{{signinFormErrors.pass2}}"
+                required></ion-input>
+              </ion-item>
+              <ion-button expand="block" color="primary">Registrarse</ion-button>
+              <ion-button expand="block" color="secondary">Iniciar sesión</ion-button>
+            </form>
           </ion-card-content>
         </ion-card>
       </ion-col>

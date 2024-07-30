@@ -7,10 +7,12 @@ export const canLeaveAuthGuard: CanActivateFn = (route, state) => {
   let authService = inject(AuthService);
   let router = inject(Router);
 
-  if (!authService.isLoggedIn()) {
+  console.log(`canLeaveAuthGuard: ${authService.isLoggedIn()}`)
+  if (authService.isLoggedIn()) {
+    /* router.navigate([state.url]); */
     return true;
   } else {
-    router.navigate(['/auth']);
+    router.navigate(['/login']);
     return false;
   }
 }

@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private glbService: GlbService,
-    private alertMain: AlertMainService,
+    private alertMain: AlertMainService
   ) { }
 
   ngOnInit() {

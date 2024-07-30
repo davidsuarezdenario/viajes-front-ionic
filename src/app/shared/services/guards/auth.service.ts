@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
+import { GlbService } from '../glb/glb.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(public glb: GlbService) { }
 
-  login() {
+  /* login() {
     localStorage.setItem('access', 'true');
   }
 
   logout() {
     localStorage.removeItem('access');
-  }
+  } */
 
   isLoggedIn() {
-    return localStorage.getItem('access') === 'true';
+    return localStorage.getItem('wanderlustpay-sesion') ? true : false;
+    /* return localStorage.getItem('access') === 'true'; */
   }
 }

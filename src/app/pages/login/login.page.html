@@ -41,8 +41,7 @@
                   type="email" 
                   fill="solid"
                   errorText={{loginFormErrors.email}}
-                  required="true"
-                  ></ion-input>
+                  required="true"></ion-input>
               </ion-item>
               <ion-item lines="none">
                 <ion-input 
@@ -51,8 +50,7 @@
                   labelPlacement="floating"
                   type="password"
                   errorText={{loginFormErrors.password}}
-                  required="true"
-                  ></ion-input>
+                  required="true"></ion-input>
               </ion-item>
               <ion-button expand="block" color="primary" (click)="login()" [disabled]="enSpinner">
                 Iniciar sesión
