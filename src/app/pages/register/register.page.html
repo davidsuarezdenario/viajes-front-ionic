@@ -32,12 +32,35 @@
             <form [formGroup]="signinForm">
               <ion-item lines="none">
                 <ion-input
+                formControlName="document"
+                label="Documento"
+                labelPlacement="floating"
+                type="text"
+                fill="solid"
+                errorText="{{signinFormErrors.document}}"
+                (keydown.enter)="register()"
+                required></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-input
                 formControlName="name"
                 label="Nombre"
                 labelPlacement="floating"
                 type="text"
                 fill="solid"
                 errorText="{{signinFormErrors.name}}"
+                (keydown.enter)="register()"
+                required></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-input
+                formControlName="lastname"
+                label="Apellidos"
+                labelPlacement="floating"
+                type="text"
+                fill="solid"
+                errorText="{{signinFormErrors.lastname}}"
+                (keydown.enter)="register()"
                 required></ion-input>
               </ion-item>
               <ion-item lines="none">
@@ -48,6 +71,7 @@
                 type="email"
                 fill="solid"
                 errorText="{{signinFormErrors.email}}"
+                (keydown.enter)="register()"
                 required></ion-input>
               </ion-item>
               <ion-item lines="none">
@@ -58,6 +82,7 @@
                 type="number"
                 fill="solid"
                 errorText="{{signinFormErrors.phone}}"
+                (keydown.enter)="register()"
                 required></ion-input>
               </ion-item>
               <ion-item lines="none">
@@ -68,6 +93,7 @@
                 type="password"
                 fill="solid"
                 errorText="{{signinFormErrors.pass1}}"
+                (keydown.enter)="register()"
                 required></ion-input>
               </ion-item>
               <ion-item lines="none">
@@ -78,9 +104,10 @@
                 type="password"
                 fill="solid"
                 errorText="{{signinFormErrors.pass2}}"
+                (keydown.enter)="register()"
                 required></ion-input>
               </ion-item>
-              <ion-button expand="block" color="primary">Registrarse</ion-button>
+              <ion-button expand="block" color="primary" (click)="register()" [disabled]="enSpinner">Registrarse <ion-spinner name="dots" *ngIf="enSpinner"></ion-spinner></ion-button>
               <ion-button expand="block" color="secondary">Iniciar sesión</ion-button>
             </form>
           </ion-card-content>

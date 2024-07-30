@@ -5,7 +5,7 @@ import { HeaderMainComponent } from "../../shared/components/header-main/header-
 import { GlbService } from "../../shared/services/glb/glb.service";
 import { ApiService } from "../../shared/services/api/api.service";
 import { Router } from '@angular/router';
-import { AlertMainService } from '../../shared//services/alert-main/alert-main.service';
+import { AlertMainService } from '../../shared/services/alert-main/alert-main.service';
 import { Location } from '@angular/common';
 
 @Component({
