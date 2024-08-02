@@ -85,7 +85,6 @@ export class SearchMainService {
       const bookingResponse: any = await this.apiService.post('/travel/master_pricer_travel_board_search', body);
       /* this.glbService.session = bookingResponse.session; */
       console.log('bookingResponse: ', bookingResponse);
-      //console.log('bookingResponse: ', bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0]['Fare_MasterPricerTravelBoardSearchReply'][0]);
       if (bookingResponse.error) {
         /* this.alertMain.present('Error', 'Al consultar vuelos', bookingResponse.data.error); return; */
         this.alertMain.present(bookingResponse.data.title1, bookingResponse.data.title2, bookingResponse.data.title3); return;
