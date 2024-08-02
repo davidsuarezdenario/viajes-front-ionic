@@ -9,10 +9,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-left">{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
-                <div class="h-left">{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
-                <div class="h-left">{{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-left">{{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-left">{{ (glb.iataToName(flight.ida[0].iataFrom)).city }}-{{ flight.ida[0].iataFrom }}→</h4>
+                <div class="h-left">{{ (glb.iataToName(flight.ida[0].iataFrom)).airport }}</div>
+                <div class="h-left">{{ convertToDate(flight.ida[0].dateFrom) | date:'EEE dd/MM' }}</div>
+                <div class="h-left">{{ convertToTime(flight.ida[0].timeFrom) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
@@ -60,10 +60,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-right">→{{ flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
-                <div class="h-right">{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
-                <div class="h-right">{{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-right">{{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-right">→{{ flight.ida[flight.ida.length - 1].iataTo }}-{{ (glb.iataToName(flight.ida[flight.ida.length - 1].iataTo)).city }}</h4>
+                <div class="h-right">{{ (glb.iataToName(flight.ida[flight.ida.length - 1].iataTo)).airport }}</div>
+                <div class="h-right">{{ convertToDate(flight.ida[0].dateTo) | date:'EEE dd/MM' }}</div>
+                <div class="h-right">{{ convertToTime(flight.ida[0].timeTo) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
           </ion-row>
@@ -73,10 +73,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-left">{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
-                <div class="h-left">{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
-                <div class="h-left">{{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-left">{{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-left">{{ (glb.iataToName(flight.vuelta[0].iataFrom)).city }}-{{ flight.vuelta[0].iataFrom }}→</h4>
+                <div class="h-left">{{ (glb.iataToName(flight.vuelta[0].iataFrom)).airport }}</div>
+                <div class="h-left">{{ convertToDate(flight.vuelta[0].dateFrom) | date:'EEE dd/MM' }}</div>
+                <div class="h-left">{{ convertToTime(flight.vuelta[0].timeFrom) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
@@ -124,10 +124,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-right">→{{ flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
-                <div class="h-right">{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
-                <div class="h-right">{{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfArrival[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-right">{{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-right">→{{ flight.vuelta[flight.vuelta.length - 1].iataTo }}-{{ (glb.iataToName(flight.vuelta[flight.vuelta.length - 1].iataTo)).city }}</h4>
+                <div class="h-right">{{ (glb.iataToName(flight.vuelta[flight.vuelta.length - 1].iataTo)).airport }}</div>
+                <div class="h-right">{{ convertToDate(flight.vuelta[flight.vuelta.length - 1].dateTo) | date:'EEE dd/MM' }}</div>
+                <div class="h-right">{{ convertToTime(flight.vuelta[flight.vuelta.length - 1].timeTo) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
           </ion-row>
