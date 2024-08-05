@@ -41,28 +41,6 @@ export class BookingComponent implements OnInit {
     return `${hours}H${minutes}M`;
   }
 
-  getScales(type: string): number {
-    const returnType = type === 'outbound' ? 0 : 1;
-    return this.flight.itineraries[returnType].segments.length - 1;
-  }
-
-  getStops(array: any): string {
-    if (array.length > 0) {
-      let stops = '';
-      for (let i = 0; i < array.length; i++) { if (i == 0) { stops = `${array[i].iataCode} (${(array[i].duration).split('PT')[1]})`; } else { stops += ` - ${array[i].iataCode} (${(array[i].duration).split('PT')[1]})`; } }
-      return `via ${stops}`;
-    } else {
-      return '';
-    }
-  }
-
-  getScalesTime(date1: string, date2: string): string {
-    const diff = new Date(date2).getTime() - new Date(date1).getTime();
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours}H${minutes}M (${hours > 4 ? 'escala larga' : 'escala corta'})`;
-  }
-
   getSegmentTime(returnType: number, segmentType: 'local_departure' | 'local_arrival', formatType: 'EEE dd/MM' | 'HH:mm'): string {
     const segments = returnType === 0 ? this.outboundSegments : this.returnSegments;
     if (segments.length === 0) {
@@ -75,7 +53,7 @@ export class BookingComponent implements OnInit {
 
   getAirlineArray(arraySegment: any): string[] {
     let airline = [];
-    for (let i = 0; i < arraySegment.length; i++) { airline.push(arraySegment[i].carrierCode); }
+    for (let i = 0; i < arraySegment.length; i++) { airline.push(arraySegment[i].operatingCarrier); }
     return [...new Set(airline)];
     /* return [...new Set(segments.map((segment: any) => segment.airline))]; */
   }

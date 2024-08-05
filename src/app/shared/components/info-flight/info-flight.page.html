@@ -1,0 +1,38 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Info vuelo {{glb.infoFlightArray[0].iataFrom}} - {{glb.infoFlightArray[glb.infoFlightArray.length - 1].iataTo}}</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row class="noPadding">
+      <ion-col size="12">
+        <div *ngFor="let segment of glb.infoFlightArray; let ind = index;">
+          <!-- <h6 *ngIf="ind != 0" style="text-align: center;">
+            Escala {{getScalesTime(flight.itineraries[0].segments[ind-1].arrival.at, flight.itineraries[0].segments[ind].departure.at)}}
+          </h6> -->
+          <ion-content class="ion-padding">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="1">
+                  <img class="airline-logo" title={{segment.operatingCarrier}} alt={{segment.operatingCarrier}}
+                    src="https://images.kiwi.com/airlines/32x32/{{segment.operatingCarrier}}.png">
+                </ion-col>
+                <ion-col size="11">
+                  {{glb.iataToName(segment.iataFrom).airport}} ({{segment.iataFrom}}) - {{glb.iataToName(segment.iataTo).airport}} ({{segment.iataTo}})
+                  <div *ngIf="segment.technicalStop != null">Via {{segment.technicalStop.iataCode}}</div>
+                  <!-- {{getStops(segment.stops ? segment.stops : [])}} --><br>
+                  Vuelo: {{segment.operatingCarrier}}{{segment.numberTrip}}<br>
+                  <!-- Duración: {{getScalesTime(segment.dateFrom, segment.timeFrom, segment.dateTo, segment.timeTo)}}<br> -->
+                  Aeronave: {{segment.aircraft}}<br>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+ </ion-content>
+ 

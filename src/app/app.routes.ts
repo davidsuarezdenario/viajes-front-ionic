@@ -13,5 +13,6 @@ export const routes: Routes = [
   { path: 'restore-pass', loadComponent: () => import('./pages/restore-pass/restore-pass.page').then(m => m.RestorePassPage), canActivate: [authGuard] },
   { path: 'profile', loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage), canActivate: [canLeaveAuthGuard] },
   { path: 'booking-one', loadComponent: () => import('./pages/booking-one/booking-one.page').then(m => m.BookingOnePage), canActivate: [canLeaveAuthGuard] },
-  { path: 'booking-two', loadComponent: () => import('./pages/booking-two/booking-two.page').then(m => m.BookingTwoPage), canActivate: [canLeaveAuthGuard] }
+  { path: 'booking-two', loadComponent: () => import('./pages/booking-two/booking-two.page').then(m => m.BookingTwoPage), canActivate: [canLeaveAuthGuard] },
+  { path: 'info-flight', loadComponent: () => import('./shared/components/info-flight/info-flight.page').then( m => m.InfoFlightPage) }
 ];
