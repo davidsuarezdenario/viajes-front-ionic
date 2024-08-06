@@ -37,89 +37,18 @@ export class BookingOnePage implements OnInit {
   }
 
   async Fare_InformativePricingWithoutPNR() {
-    let passengersGroup: any = [], segmentGroup: any = [];
-    //console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
-    if (this.glbService.flightSelected) {
-      let contPax = 1, contItem = 0;
-      for (let i = 0; i < this.glbService.flightSelected.pax.length; i++) {
-        if (this.glbService.flightSelected.pax[i].paxReference[0].ptc[0] == 'ADT') {
-          let travellerDetails = [];
-          for (let j = 0; j < this.glbService.flightSelected.pax[i].paxReference[0].traveller.length; j++) { travellerDetails.push({ measurementValue: [(contPax++) + ''] }); }
-          passengersGroup.push({ segmentRepetitionControl: [{ segmentControlDetails: [{ quantity: ["1"], numberOfUnits: [this.glbService.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], travellersID: [{ travellerDetails: travellerDetails }], discountPtc: [{ valueQualifier: ["ADT"] }] });
-        }
-        if (this.glbService.flightSelected.pax[i].paxReference[0].ptc[0] == 'CNN') {
-          let travellerDetails = [];
-          for (let k = 0; k < this.glbService.flightSelected.pax[i].paxReference[0].traveller.length; k++) { travellerDetails.push({ measurementValue: [(contPax++) + ''] }); }
-          passengersGroup.push({ segmentRepetitionControl: [{ segmentControlDetails: [{ quantity: ["2"], numberOfUnits: [this.glbService.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], travellersID: [{ travellerDetails: travellerDetails }], discountPtc: [{ valueQualifier: ["CH"] }] });
-        }
-        if (this.glbService.flightSelected.pax[i].paxReference[0].ptc[0] == 'INF') {
-          let travellerDetails = [];
-          for (let l = 0; l < this.glbService.flightSelected.pax[i].paxReference[0].traveller.length; l++) { travellerDetails.push({ measurementValue: [(l + 1) + ''] }); }
-          passengersGroup.push({ segmentRepetitionControl: [{ segmentControlDetails: [{ quantity: ["3"], numberOfUnits: [this.glbService.flightSelected.pax[i].paxReference[0].traveller.length + ''] }] }], travellersID: [{ travellerDetails: travellerDetails }], discountPtc: [{ valueQualifier: ["INF"], fareDetails: [{ qualifier: ["766"] }] }] });
-        }
-      }
-      console.log('flightSelected.pax: ', this.glbService.flightSelected.pax);
-      for (let x = 0; x < this.glbService.flightSelected.ida.flightDetails.length; x++) {
-        contItem++;
-        segmentGroup.push({
-          segmentInformation: [{
-            flightDate: [{ departureDate: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].productDateTime[0].dateOfDeparture[0]], departureTime: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].productDateTime[0].timeOfDeparture[0]] }],
-            boardPointDetails: [{ trueLocationId: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].location[0].locationId[0]] }],
-            offpointDetails: [{ trueLocationId: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].location[1].locationId[0]] }],
-            companyDetails: [{ marketingCompany: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].companyId[0].marketingCarrier[0]] }],
-            flightIdentification: [{ flightNumber: [this.glbService.flightSelected.ida.flightDetails[x].flightInformation[0].flightOrtrainNumber[0]], bookingClass: [this.glbService.flightSelected.pax[0].fareDetails[0].groupOfFares[0].productInformation[0].cabinProduct[0].rbd[0]] }],
-            flightTypeDetails: [{ flightIndicator: ["1"] }],
-            itemNumber: [contItem + ""]
-          }]
-        });
-      }
-      if (this.glbService.flightSelected.vuelta) {
-        for (let y = 0; y < this.glbService.flightSelected.vuelta.flightDetails.length; y++) {
-          contItem++;
-          segmentGroup.push({
-            segmentInformation: [{
-              flightDate: [{ departureDate: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].productDateTime[0].dateOfDeparture[0]], departureTime: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].productDateTime[0].timeOfDeparture[0]] }],
-              boardPointDetails: [{ trueLocationId: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].location[0].locationId[0]] }],
-              offpointDetails: [{ trueLocationId: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].location[1].locationId[0]] }],
-              companyDetails: [{ marketingCompany: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].companyId[0].marketingCarrier[0]] }],
-              flightIdentification: [{ 
-                flightNumber: [this.glbService.flightSelected.vuelta.flightDetails[y].flightInformation[0].flightOrtrainNumber[0]], 
-                bookingClass: [this.glbService.flightSelected.pax[0].fareDetails[0].groupOfFares[0].productInformation[0].cabinProduct[0].rbd[0]]
-              }],
-              flightTypeDetails: [{ flightIndicator: ["2"] }],
-              itemNumber: [contItem + ""]
-            }]
-          });
-        }
-      }
-    }
-    const body: any = {
-      data: {
-        "soapenv:Body": {
-          Fare_InformativePricingWithoutPNR: [{
-            passengersGroup: passengersGroup,
-            segmentGroup: segmentGroup,
-            pricingOptionGroup: [
-              { pricingOptionKey: [{ pricingOptionKey: ["RP"] }] },
-              { pricingOptionKey: [{ pricingOptionKey: ["RLO"] }] },
-              { pricingOptionKey: [{ pricingOptionKey: ["FCO"] }], currency: [{ firstCurrencyDetails: [{ currencyQualifier: ["FCO"], currencyIsoCode: ["COP"] }] }] }
-            ]
-          }]
-        }
-      }
-    }
-    const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', body);
+    console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
+    const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', this.glbService.flightSelected);
     this.session = bookingResponse.session;
-    this.Fare_InformativePricingWithoutPNRResponse = bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup;
-    for (let i = 0; i < this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup.length; i++) {
+    /* for (let i = 0; i < this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup.length; i++) {
       this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[0].amount[0] = parseInt(this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[0].amount[0]);
       this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0] = parseInt(this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0]);
       this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].numberOfPax[0].segmentControlDetails[0].numberOfUnits[0] = parseInt(this.Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup[i].numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]);
-    }
+    } */
     console.log('bookingResponse: ', bookingResponse);
-    console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
-    this.airSellFromRecommendation(this.Fare_InformativePricingWithoutPNRResponse[0], this.session);
-    //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session);
+    /* console.log('this.glbService.flightSelected: ', this.glbService.flightSelected); */
+    /* this.airSellFromRecommendation(this.Fare_InformativePricingWithoutPNRResponse[0], this.session); */
+    //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session); No tocar
   }
   calculateTotal(response: any) {
     let total = 0;

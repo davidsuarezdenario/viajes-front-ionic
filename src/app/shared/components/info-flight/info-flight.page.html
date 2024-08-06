@@ -20,9 +20,9 @@
                     src="https://images.kiwi.com/airlines/32x32/{{segment.operatingCarrier}}.png">
                 </ion-col>
                 <ion-col size="11">
-                  {{glb.iataToName(segment.iataFrom).airport}} ({{segment.iataFrom}}) - {{glb.iataToName(segment.iataTo).airport}} ({{segment.iataTo}})
-                  <div *ngIf="segment.technicalStop != null">Via {{segment.technicalStop.iataCode}}</div>
-                  <!-- {{getStops(segment.stops ? segment.stops : [])}} --><br>
+                  {{glb.iataToName(segment.iataFrom).airport}} ({{segment.iataFrom}}) - {{glb.iataToName(segment.iataTo).airport}} ({{segment.iataTo}})<br>
+                  <div *ngIf="segment.technicalStop != null">Via {{segment.technicalStop.iataCode}}<br></div>
+                  <!-- {{getStops(segment.stops ? segment.stops : [])}} -->
                   Vuelo: {{segment.operatingCarrier}}{{segment.numberTrip}}<br>
                   <!-- Duración: {{getScalesTime(segment.dateFrom, segment.timeFrom, segment.dateTo, segment.timeTo)}}<br> -->
                   Aeronave: {{segment.aircraft}}<br>
