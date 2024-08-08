@@ -40,39 +40,38 @@ export class BookingOnePage implements OnInit {
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
     const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', this.glbService.flightSelected);
     this.session = bookingResponse.session;
-    this.Fare_InformativePricingWithoutPNRResponse = bookingResponse.fare;
-    console.log('Fare_InformativePricingWithoutPNRResponse: ', this.Fare_InformativePricingWithoutPNRResponse);
-    console.log('bookingResponse: ', bookingResponse);
-    this.checkAllSeat(bookingResponse.data['soapenv:Envelope']['soapenv:Body'][0].Air_SellFromRecommendationReply[0]);
+    this.Fare_InformativePricingWithoutPNRResponse = bookingResponse;
+    this.checkAllSeat(this.Fare_InformativePricingWithoutPNRResponse);
     //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session); No tocar
   }
   calculateTotal(response: any) {
     let total = 0;
-    response.pricingGroupLevelGroup.forEach((traveller: any) => {
-      const amount = traveller.fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0], units = traveller.numberOfPax[0].segmentControlDetails[0].numberOfUnits[0];
-      total += amount * units;
-    });
+    total = response.ADT ? (total + (response.ADT.quantity * response.ADT.total)) : total + 0;
+    total = response.CNN ? (total + (response.CNN.quantity * response.CNN.total)) : total + 0;
+    total = response.INF ? (total + (response.INF.quantity * response.INF.total)) : total + 0;
     return total;
   }
-/*   async airSellFromRecommendation(response: any, session: any) {
-    this.checkAllSeat(airSellFromRecommendationResponse.data['soapenv:Envelope']['soapenv:Body'][0].Air_SellFromRecommendationReply[0]);
-  } */
+  /*   async airSellFromRecommendation(response: any, session: any) {
+      this.checkAllSeat(airSellFromRecommendationResponse.data['soapenv:Envelope']['soapenv:Body'][0].Air_SellFromRecommendationReply[0]);
+    } */
   checkAllSeat(response: any) {
+    console.log(response);
     let segRouter = true;
-    for (let i = 0; i < response.itineraryDetails.length; i++) {
-      for (let j = 0; j < response.itineraryDetails[i].segmentInformation.length; j++) {
-        console.log(response.itineraryDetails[i].segmentInformation[j].actionDetails[0]);
-        if (response.itineraryDetails[i].segmentInformation[j].actionDetails[0].statusCode[0] != 'OK') {
+    for (let x = 0; x < response.data.seats.length; x++) {
+      for (let y = 0; y < response.data.seats[x].details.length; y++) {
+        if (response.data.seats[x].details[y].state != 'OK') {
           this.Fare_InformativePricingWithoutPNRResponse = undefined; segRouter = false;
           this.alertMain.present('Ups', 'Este vuelo no está disponible', 'Intenta con otro vuelo.');
-          i = response.itineraryDetails.length; this.location.back(); return;
+          x = response.data.seats.length; this.location.back(); return;
         }
       }
     }
     segRouter ? this.glbService.passengersData = response : false;
+    this.glbService.flightSelected.fare = response.fare;
+    this.glbService.flightSelected.seats = response.data.seats;
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
   }
-  goToBookingTwo(){
-    this.router.navigate(['/booking-two']); 
+  goToBookingTwo() {
+    this.router.navigate(['/booking-two']);
   }
 }

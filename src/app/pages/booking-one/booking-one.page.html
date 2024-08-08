@@ -19,50 +19,43 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid fixed *ngIf="Fare_InformativePricingWithoutPNRResponse" class="ion-no-padding">
-    <ion-row class="ion-no-padding" style="margin-top: 15px;" *ngIf="Air_SellFromRecommendation.length > 0">
-      <!-- <ion-col size="12" *ngFor="let response of Fare_InformativePricingWithoutPNRResponse" -->
-      <ion-col size="12" *ngFor="let response of Fare_InformativePricingWithoutPNRResponse" class="ion-no-padding">
+  <ion-grid fixed *ngIf="this.glbService.flightSelected.fare" class="ion-no-padding">
+    <ion-row class="ion-no-padding" style="margin-top: 15px;" >
+      <ion-col size="12" class="ion-no-padding">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{glbService.iataToName(glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]).city}}
-              →
-              {{glbService.iataToName(glbService.flightSelected.ida.flightDetails[glbService.flightSelected.ida.flightDetails.length
-              - 1].flightInformation[0].location[1].locationId[0]).city}}</ion-card-title>
+            <ion-card-title>
+              {{glbService.iataToName(glbService.flightSelected.ida[0].iataFrom).city}} →
+              {{glbService.iataToName(glbService.flightSelected.ida[glbService.flightSelected.ida.length - 1].iataTo).city}}
+            </ion-card-title>
             <h6>
-              {{glbService.iataToName(glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]).airport}}
-              ({{glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0]}}) →
-              {{glbService.iataToName(glbService.flightSelected.ida.flightDetails[glbService.flightSelected.ida.flightDetails.length
-              - 1].flightInformation[0].location[1].locationId[0]).airport}}
-              ({{glbService.flightSelected.ida.flightDetails[glbService.flightSelected.ida.flightDetails.length -
-              1].flightInformation[0].location[1].locationId[0]}})</h6>
-            <ion-card-title
-              *ngIf="glbService.flightSelected.vuelta">{{glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0]).city}}
-              →
-              {{glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[glbService.flightSelected.vuelta.flightDetails.length
-              - 1].flightInformation[0].location[1].locationId[0]).city}}</ion-card-title>
+              {{glbService.iataToName(glbService.flightSelected.ida[0].iataFrom).airport}}
+              ({{glbService.flightSelected.ida[0].iataFrom}}) →
+              {{glbService.iataToName(glbService.flightSelected.ida[glbService.flightSelected.ida.length - 1].iataTo).airport}}
+              ({{glbService.flightSelected.ida[glbService.flightSelected.ida.length - 1].iataTo}})
+            </h6>
+            <ion-card-title *ngIf="glbService.flightSelected.vuelta">
+              {{glbService.iataToName(glbService.flightSelected.vuelta[0].iataFrom).city}} →
+              {{glbService.iataToName(glbService.flightSelected.vuelta[glbService.flightSelected.vuelta.length - 1].iataTo).city}}
+            </ion-card-title>
             <h6 *ngIf="glbService.flightSelected.vuelta">
-              {{glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0]).airport}}
-              ({{glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0]}}) →
-              {{glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[glbService.flightSelected.vuelta.flightDetails.length
-              - 1].flightInformation[0].location[1].locationId[0]).airport}}
-              ({{glbService.flightSelected.vuelta.flightDetails[glbService.flightSelected.vuelta.flightDetails.length -
-              1].flightInformation[0].location[1].locationId[0]}})</h6>
+              {{glbService.iataToName(glbService.flightSelected.vuelta[0].iataFrom).airport}}
+              ({{glbService.flightSelected.vuelta[0].iataFrom}}) →
+              {{glbService.iataToName(glbService.flightSelected.vuelta[glbService.flightSelected.vuelta.length - 1].iataTo).airport}}
+              ({{glbService.flightSelected.vuelta[glbService.flightSelected.vuelta.length - 1].iataTo}})
+            </h6>
             <!-- <ion-card-title color="success">$ {{response.fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[0].amount[0] | number:'1.0-0'}}</ion-card-title> -->
           </ion-card-header>
           <ion-card-content>
-            <ion-card-subtitle
-              *ngFor="let traveller of Fare_InformativePricingWithoutPNRResponse[0].pricingGroupLevelGroup"
-              style="width: 100%;">
+            <ion-card-subtitle *ngIf="glbService.flightSelected.fare.ADT" style="width: 100%;">
               <ion-chip color="primary" mode="ios" style="width: 100%;">
-                <ion-text
-                  *ngIf="traveller.numberOfPax[0].segmentControlDetails[0].quantity[0] == 1">Adultos:<br>{{traveller.fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0]
-                  | currency:'$ ':'symbol':'1.0-0'}} x
-                  {{traveller.numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]}}<br>
-                  Total: {{(traveller.fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0] *
-                  traveller.numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]) | currency:'$ ':'symbol':'1.0-0'}}
+                <ion-text>
+                  Adultos:<br>
+                  {{glbService.flightSelected.fare.ADT.total | currency:'$ ':'symbol':'1.0-0'}} x
+                  {{glbService.flightSelected.fare.ADT.quantity}}<br>
+                  Total: {{(glbService.flightSelected.fare.ADT.total * glbService.flightSelected.fare.ADT.quantity) | currency:'$ ':'symbol':'1.0-0'}}
                 </ion-text>
-                <ion-text
+                <!-- <ion-text
                   *ngIf="traveller.numberOfPax[0].segmentControlDetails[0].quantity[0] == 2">Niños:<br>{{traveller.fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0]
                   | currency:'$ ':'symbol':'1.0-0'}} x
                   {{traveller.numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]}}<br>
@@ -75,12 +68,32 @@
                   {{traveller.numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]}}<br>
                   Total: {{(traveller.fareInfoGroup[0].fareAmount[0].otherMonetaryDetails[1].amount[0] *
                   traveller.numberOfPax[0].segmentControlDetails[0].numberOfUnits[0]) | currency:'$ ':'symbol':'1.0-0'}}
+                </ion-text> -->
+              </ion-chip>
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="glbService.flightSelected.fare.CNN" style="width: 100%;">
+              <ion-chip color="primary" mode="ios" style="width: 100%;">
+                <ion-text>
+                  Niños:<br>
+                  {{glbService.flightSelected.fare.CNN.total | currency:'$ ':'symbol':'1.0-0'}} x
+                  {{glbService.flightSelected.fare.CNN.quantity}}<br>
+                  Total: {{(glbService.flightSelected.fare.CNN.total * glbService.flightSelected.fare.CNN.quantity) | currency:'$ ':'symbol':'1.0-0'}}
+                </ion-text>
+              </ion-chip>
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="glbService.flightSelected.fare.INF" style="width: 100%;">
+              <ion-chip color="primary" mode="ios" style="width: 100%;">
+                <ion-text>
+                  Infantes:<br>
+                  {{glbService.flightSelected.fare.INF.total | currency:'$ ':'symbol':'1.0-0'}} x
+                  {{glbService.flightSelected.fare.INF.quantity}}<br>
+                  Total: {{(glbService.flightSelected.fare.INF.total * glbService.flightSelected.fare.INF.quantity) | currency:'$ ':'symbol':'1.0-0'}}
                 </ion-text>
               </ion-chip>
             </ion-card-subtitle>
             <ion-chip color="success" mode="ios" style="width: 100%;">
-              <!-- <ion-text>Total: {{calculateTotal(Fare_InformativePricingWithoutPNRResponse[0]) | currency:'$
-                ':'symbol':'1.0-0'}}</ion-text> -->
+              <ion-text>Total: {{calculateTotal(glbService.flightSelected.fare) | currency:'$
+                ':'symbol':'1.0-0'}}</ion-text>
             </ion-chip>
             <ion-button fill="solid" (click)="goToBookingTwo()">
               <ion-text>Reservar</ion-text>
