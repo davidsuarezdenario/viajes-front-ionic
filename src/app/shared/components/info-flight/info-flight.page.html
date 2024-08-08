@@ -23,7 +23,7 @@
                   {{glb.iataToName(segment.iataFrom).airport}} ({{segment.iataFrom}}) - {{glb.iataToName(segment.iataTo).airport}} ({{segment.iataTo}})<br>
                   <div *ngIf="segment.technicalStop != null">Via {{segment.technicalStop.iataCode}}<br></div>
                   <!-- {{getStops(segment.stops ? segment.stops : [])}} -->
-                  Vuelo: {{segment.operatingCarrier}}{{segment.numberTrip}}<br>
+                  Vuelo: {{segment.marketingCarrier}}{{segment.numberTrip}}<br>
                   <!-- Duración: {{getScalesTime(segment.dateFrom, segment.timeFrom, segment.dateTo, segment.timeTo)}}<br> -->
                   Aeronave: {{segment.aircraft}}<br>
                 </ion-col>
