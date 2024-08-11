@@ -9,23 +9,22 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-left">{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
-                <div class="h-left">{{ (glb.iataToName(flight.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
-                <div class="h-left">{{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-left">{{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-left">{{ (glb.iataToName(flight.ida[0].iataFrom)).city }}-{{ flight.ida[0].iataFrom }}→</h4>
+                <div class="h-left">{{ (glb.iataToName(flight.ida[0].iataFrom)).airport }}</div>
+                <div class="h-left">{{ convertToDate(flight.ida[0].dateFrom) | date:'EEE dd/MM' }}</div>
+                <div class="h-left">{{ convertToTime(flight.ida[0].timeFrom) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
-              <!-- <div id="itinerary-departure-{{flight.id}}" class="column-fly-data"> -->
-              <div class="column-fly-data">
+              <div class="column-fly-data" (click)="glb.infoFlightPopover(flight.ida)">
                 <div class="segment-info">
-                  <!-- <ion-text class="chip chip ion-text-center"
-                    [ngClass]="{'chip-primay': getScales('outbound') === 0, 'chip-light': getScales('outbound') !== 0}">
-                    {{ getScales('outbound') === 0 ? 'Directo' : getScales('outbound') + (getScales('outbound') === 1 ?
+                  <ion-text class="chip chip ion-text-center"
+                    [ngClass]="{'chip-primay': flight.ida.length == 1, 'chip-light': flight.ida.length > 1}">
+                    {{ flight.ida.length == 1 ? 'Directo' : (flight.ida.length -1) + (flight.ida.length == 2 ?
                     ' escala' : ' escalas') }}
-                  </ion-text> -->
-                  <!-- <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[0].segments)"
-                    title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png"> -->
+                  </ion-text>
+                  <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.ida)"
+                    title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
                 </div>
                 <div>
                   <!-- {{ (flight.itineraries[0].duration).split('PT')[1] }} -->
@@ -60,10 +59,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-right">→{{ flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
-                <div class="h-right">{{ (glb.iataToName(flight.ida.flightDetails[flight.ida.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
-                <div class="h-right">{{ convertToDate(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-right">{{ convertToTime(flight.ida.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-right">→{{ flight.ida[flight.ida.length - 1].iataTo }}-{{ (glb.iataToName(flight.ida[flight.ida.length - 1].iataTo)).city }}</h4>
+                <div class="h-right">{{ (glb.iataToName(flight.ida[flight.ida.length - 1].iataTo)).airport }}</div>
+                <div class="h-right">{{ convertToDate(flight.ida[flight.ida.length - 1].dateTo) | date:'EEE dd/MM' }}</div>
+                <div class="h-right">{{ convertToTime(flight.ida[flight.ida.length - 1].timeTo) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
           </ion-row>
@@ -73,24 +72,23 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-left">{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).city }}-{{ flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0] }}→</h4>
-                <div class="h-left">{{ (glb.iataToName(flight.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).airport }}</div>
-                <div class="h-left">{{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfDeparture[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-left">{{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfDeparture[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-left">{{ (glb.iataToName(flight.vuelta[0].iataFrom)).city }}-{{ flight.vuelta[0].iataFrom }}→</h4>
+                <div class="h-left">{{ (glb.iataToName(flight.vuelta[0].iataFrom)).airport }}</div>
+                <div class="h-left">{{ convertToDate(flight.vuelta[0].dateFrom) | date:'EEE dd/MM' }}</div>
+                <div class="h-left">{{ convertToTime(flight.vuelta[0].timeFrom) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
             <ion-col size="4">
               <div>
-                <!-- <div id="itinerary-arrival-{{flight.id}}" class="column-fly-data"> -->
-                <div class="column-fly-data">
+                <div class="column-fly-data" (click)="glb.infoFlightPopover(flight.vuelta)">
                   <div class="segment-info">
-                    <!-- <ion-text class="chip ion-text-center"
-                      [ngClass]="{'chip-primay': getScales('return') === 0, 'chip-light': getScales('return') !== 0}">
-                      {{ getScales('return') === 0 ? 'Directo' : getScales('return') + (getScales('return') === 1 ? '
+                    <ion-text class="chip ion-text-center" 
+                    [ngClass]="{'chip-primay': flight.vuelta.length == 1, 'chip-light': flight.vuelta.length > 1}">
+                      {{ flight.vuelta.length == 1 ? 'Directo' : (flight.vuelta.length - 1) + (flight.vuelta.length == 2 ? '
                       escala' : ' escalas') }}
-                    </ion-text> -->
-                    <!-- <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.itineraries[1].segments)"
-                      title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png"> -->
+                    </ion-text>
+                    <img class="airline-logo" *ngFor="let logo of getAirlineArray(flight.vuelta)"
+                      title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
                   </div>
                   <div>
                     <!-- {{ (flight.itineraries[1].duration).split('PT')[1] }} -->
@@ -124,10 +122,10 @@
             </ion-col>
             <ion-col size="4">
               <div class="column-fly-data">
-                <h4 class="h-right">→{{ flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0] }}-{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).city }}</h4>
-                <div class="h-right">{{ (glb.iataToName(flight.vuelta.flightDetails[flight.vuelta.flightDetails.length - 1].flightInformation[0].location[1].locationId[0])).airport }}</div>
-                <div class="h-right">{{ convertToDate(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].dateOfArrival[0]) | date:'EEE dd/MM' }}</div>
-                <div class="h-right">{{ convertToTime(flight.vuelta.flightDetails[0].flightInformation[0].productDateTime[0].timeOfArrival[0]) | date:'HH:mm' }}</div>
+                <h4 class="h-right">→{{ flight.vuelta[flight.vuelta.length - 1].iataTo }}-{{ (glb.iataToName(flight.vuelta[flight.vuelta.length - 1].iataTo)).city }}</h4>
+                <div class="h-right">{{ (glb.iataToName(flight.vuelta[flight.vuelta.length - 1].iataTo)).airport }}</div>
+                <div class="h-right">{{ convertToDate(flight.vuelta[flight.vuelta.length - 1].dateTo) | date:'EEE dd/MM' }}</div>
+                <div class="h-right">{{ convertToTime(flight.vuelta[flight.vuelta.length - 1].timeTo) | date:'HH:mm' }}</div>
               </div>
             </ion-col>
           </ion-row>
@@ -153,9 +151,9 @@
       </ion-col>
       <ion-col size-xs="12" size-sm="3" class="price-column">
         <div class="flight-price">
-          <p class="h-right">Total:<br>{{ flight.precio[0].amount[0] | currency:'$':'symbol':'1.0-0' }}</p>
-          <div class="h-right" style="font-size: 12px;">Base: {{ flight.precio[0].amount[0] - flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }}</div>
-          <div class="h-right" style="font-size: 12px;">Impuestos: {{ flight.precio[1].amount[0] | currency:'$':'symbol':'1.0-0' }} </div>
+          <p class="h-right">Total:<br>{{ flight.precio.total | currency:'$':'symbol':'1.0-0' }}</p>
+          <div class="h-right" style="font-size: 12px;">Base: {{ flight.precio.total - flight.precio.fee | currency:'$':'symbol':'1.0-0' }}</div>
+          <div class="h-right" style="font-size: 12px;">Impuestos: {{ flight.precio.fee | currency:'$':'symbol':'1.0-0' }} </div>
           <ion-button expand="block" mode="ios" (click)="goToBookingOne(flight)">Reservar</ion-button>
         </div>
       </ion-col>

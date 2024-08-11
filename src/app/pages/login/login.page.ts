@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, } from '@angular/forms';
-import { IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonCol, IonCard, IonText, IonButtons, IonButton, IonBackButton, IonItem, IonCardHeader, IonCardContent, IonCardTitle, IonInput, IonIcon, IonSpinner, } from '@ionic/angular/standalone';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonCol, IonCard, IonText, IonButtons, IonButton, IonBackButton, IonItem, IonCardHeader, IonCardContent, IonCardTitle, IonInput, IonIcon, IonSpinner } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../shared/services/api/api.service';
 import { GlbService } from '../../shared/services/glb/glb.service';
@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private glbService: GlbService,
-    private alertMain: AlertMainService,
+    private alertMain: AlertMainService
   ) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class LoginPage implements OnInit {
   initReactiveForm() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -49,10 +49,7 @@ export class LoginPage implements OnInit {
 
   async loginApi(values: any) {
     console.log('loginApi: ', values);
-    const body = {
-      username: values.email,
-      password: values.password,
-    };
+    const body = { username: values.email, password: values.password };
     this.enSpinner = true;
     try {
       const response: any = await this.apiService.post('/auth/login', body);
@@ -78,14 +75,8 @@ export class LoginPage implements OnInit {
     this.apiService.jwt = response.Token;
     this.glbService.idCliente = response.Documento;
     this.glbService.sesion = true;
-    const toLocalStorage = {
-      jwt: response.Token,
-      idCliente: response.Documento,
-    };
-    localStorage.setItem(
-      'wanderlustpay-sesion',
-      JSON.stringify(toLocalStorage)
-    );
+    const toLocalStorage = { jwt: response.Token, idCliente: response.Documento };
+    localStorage.setItem('wanderlustpay-sesion', JSON.stringify(toLocalStorage));
     this.loginForm.reset();
     this.router.navigate(['/home']);
     window.location.reload();
@@ -99,14 +90,8 @@ export class LoginPage implements OnInit {
   handleLoginErrors() {
     this.loginForm.markAllAsTouched();
     const errorMessages: any = {
-      email: {
-        required: 'El correo es requerido.',
-        email: 'Por favor, introduce un correo electrónico válido.',
-      },
-      password: {
-        required: 'La contraseña es requerida.',
-        minlength: 'La contraseña debe tener al menos 8 caracteres.',
-      },
+      email: { required: 'El correo es requerido.', email: 'Por favor, introduce un correo electrónico válido.' },
+      password: { required: 'La contraseña es requerida.', minlength: 'La contraseña debe tener al menos 8 caracteres.' }
     };
 
     Object.keys(this.loginForm.controls).forEach((field) => {
@@ -118,5 +103,25 @@ export class LoginPage implements OnInit {
         });
       }
     });
+  }
+
+  getLocalDenario() {
+    const storedData = localStorage.getItem('LoginAppMovDenario');
+    console.log('Datos almacenados: ', storedData);
+    // Verificar si hay datos almacenados
+    if (storedData) {
+      // Parsear los datos JSON
+      const sessionData = JSON.parse(storedData);
+
+      // Acceder a los valores
+      const jwt = sessionData.jwt;
+      const idCliente = sessionData.idCliente;
+
+      console.log('JWT:', jwt);
+      console.log('ID Cliente:', idCliente);
+    } else {
+      console.log('No hay datos de sesión almacenados.');
+    }
+    
   }
 }
