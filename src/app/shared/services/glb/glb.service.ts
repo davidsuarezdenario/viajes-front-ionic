@@ -36,6 +36,7 @@ export class GlbService {
   get totalBags() { return this.bags.hand + this.bags.hold; }
   trips: string = "idaVuelta";
   clase: string = "Y";
+  nonStop: boolean = false;
   dateFrom: string = this.today;
   dateTo: string = this.today;
 
