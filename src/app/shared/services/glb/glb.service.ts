@@ -3,6 +3,8 @@ import { format } from 'date-fns';
 import { TitleCasePipe } from '@angular/common';
 import { selectAirportFromMock } from "../api/mocks/mocks-origin-search";
 import { testBookingResults } from "../api/mocks/mock-result-search";
+import { PopoverController } from '@ionic/angular';
+import { InfoFlightPage } from '../../components/info-flight/info-flight.page';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class GlbService {
   idCliente: string = "";
   userData: any = {};
   iataCodes: any = [];
+  infoFlightArray: any = [];
 
   searchFrom: string = "";
   searchTo: string = "";
@@ -44,7 +47,7 @@ export class GlbService {
 
   passengersData: any = [];
 
-  constructor() {
+  constructor(private popoverController: PopoverController) {
     this.initCityFrom();
     /* this.testBookingResults(); */
   }
@@ -58,14 +61,10 @@ export class GlbService {
     const titlecase = new TitleCasePipe();
     if (airportsSelectedFrom.length == 0) this.selectAirportFrom = selectAirportFromMock;
     else this.selectAirportFrom = airportsSelectedFrom[0];
-    /* if (this.selectAirportFrom.subType == 'CITY') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.name)}-${this.selectAirportFrom.iataCode}`;
-    if (this.selectAirportFrom.subType == 'AIRPORTS') this.searchFrom = `${titlecase.transform(this.selectAirportFrom.city.name)}-${this.selectAirportFrom.iataCode}`; */
     this.searchFrom = (this.selectAirportFrom.city && this.selectAirportFrom.iata) ? `${titlecase.transform(this.selectAirportFrom.city)}-${this.selectAirportFrom.iata}` : '';
     const airportsSelectedTo = JSON.parse(localStorage.getItem('airportsSelectedTo') || '[]');
     if (airportsSelectedTo.length == 0) this.selectAirportTo = {};
     else this.selectAirportTo = airportsSelectedTo[0];
-    /* if (this.selectAirportTo.subType == 'CITY') this.searchTo = `${titlecase.transform(this.selectAirportTo.name)}-${this.selectAirportTo.iataCode}`;
-    if (this.selectAirportTo.subType == 'AIRPORTS') this.searchTo = `${titlecase.transform(this.selectAirportTo.city.name)}-${this.selectAirportTo.iataCode}`; */
     this.searchTo = (this.selectAirportTo.city && this.selectAirportTo.iata) ? `${titlecase.transform(this.selectAirportTo.city)}-${this.selectAirportTo.iata}` : '';
   }
 
@@ -77,5 +76,19 @@ export class GlbService {
   iataToName(iata: string): any {
     const airport = this.iataCodes.find((airport: any) => this.normalizeString(airport.iata) == this.normalizeString(iata));
     return airport ? airport : [{ iata: '', airport: 'Estación de tren', city: '', country: '', continent: '' }];
+  }
+
+  async infoFlightPopover(array: []) {
+    console.log('array: ', array);
+    this.infoFlightArray = array;
+    const popover = await this.popoverController.create({
+      component: InfoFlightPage,
+      cssClass: 'popoverStyle',
+      //event: ev,
+      translucent: true,
+      componentProps: {},
+      mode: 'ios'
+    });
+    return await popover.present();
   }
 }
