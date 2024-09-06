@@ -28,23 +28,23 @@
           <ion-card-content>
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
               <ion-grid *ngFor="let pax1 of glbService.flightSelected.pax; let i=index;">
-                <ion-row class="bill" *ngFor="let pax2 of pax1.paxReference[0].traveller; let j=index;">
+                <ion-row class="bill" *ngFor="let pax2 of pax1.ref; let j=index;">
                   <ion-col size-md="12" size="12">
-                    <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'ADT'">Adulto {{j+1}}</h2>
-                    <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'CNN'">Niño {{j+1}}</h2>
-                    <h2 class="title-app" *ngIf="pax1.paxReference[0].ptc[0] == 'INF'">Infante {{j+1}}</h2>
+                    <h2 class="title-app" *ngIf="pax1.ptc == 'ADT'">Adulto {{j+1}}</h2>
+                    <h2 class="title-app" *ngIf="pax1.ptc == 'CNN'">Niño {{j+1}}</h2>
+                    <h2 class="title-app" *ngIf="pax1.ptc == 'INF'">Infante {{j+1}}</h2>
                   </ion-col>
                   <ion-col size-md="4" size="4">
                     <ion-item lines="none">
                       <!-- <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" labelPlacement="floating" color="dark">
                         <div slot="label">Tipo</div>
                       </ion-input> -->
-                      <ion-select formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" label="Tipo Doc">
-                        <ion-select-option value="RC" *ngIf="pax1.paxReference[0].ptc[0] != 'ADT'">Registro civíl</ion-select-option>
-                        <ion-select-option value="TI" *ngIf="pax1.paxReference[0].ptc[0] != 'ADT'">TI</ion-select-option>
+                      <ion-select formControlName="{{pax1.ptc}}-{{j+1}}-type_id" label="Tipo Doc">
+                        <ion-select-option value="RC" *ngIf="pax1.ptc != 'ADT'">Registro civíl</ion-select-option>
+                        <ion-select-option value="TI" *ngIf="pax1.ptc != 'ADT'">TI</ion-select-option>
                         <ion-select-option value="NI">NI</ion-select-option>
-                        <ion-select-option value="CC" *ngIf="pax1.paxReference[0].ptc[0] == 'ADT'">CC</ion-select-option>
-                        <ion-select-option value="CE" *ngIf="pax1.paxReference[0].ptc[0] == 'ADT'">CE</ion-select-option>
+                        <ion-select-option value="CC" *ngIf="pax1.ptc == 'ADT'">CC</ion-select-option>
+                        <ion-select-option value="CE" *ngIf="pax1.ptc == 'ADT'">CE</ion-select-option>
                         <ion-select-option value="PSS">Pasaporte</ion-select-option>
                         <ion-select-option value="PEP">PEP</ion-select-option>
                         <ion-select-option value="PPT">PPT</ion-select-option>
@@ -53,7 +53,8 @@
                   </ion-col>
                   <ion-col size-md="4" size="4">
                     <ion-item>
-                      <ion-input value="1235435" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-num_id" labelPlacement="floating" color="dark">
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-num_id" labelPlacement="floating" type="number"
+                        color="dark">
                         <div slot="label">Documento</div>
                       </ion-input>
                     </ion-item>
@@ -66,42 +67,56 @@
                   </ion-col> -->
                   <ion-col size-md="4" size="4">
                     <ion-item>
-                      <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-birthday" type="date" labelPlacement="floating" color="dark">
+                      <ion-input style="display: none" formControlName="{{pax1.ptc}}-{{j+1}}-birthday" type="date" labelPlacement="floating"
+                        color="dark">
                         <div slot="label">Fecha Nac.</div>
                       </ion-input>
+                      <ion-datetime-button datetime="{{pax1.ptc}}-{{j+1}}-datepicker"></ion-datetime-button>
+                      <ion-modal [keepContentsMounted]="true">
+                        <ng-template>
+                          <ion-datetime id="{{pax1.ptc}}-{{j+1}}-datepicker" presentation="date"
+                            (ionChange)="onDateChange($event, pax1.ptc+'-'+(j+1)+'-birthday')"></ion-datetime>
+                        </ng-template>
+                      </ion-modal>
                     </ion-item>
                   </ion-col>
-                  <ion-col size-md="4" size="4" *ngIf="(glbService.iataToName(glbService.flightSelected.ida.flightDetails[0].flightInformation[0].location[0].locationId[0])).country != 'Colombia' || (glbService.iataToName(glbService.flightSelected.vuelta.flightDetails[0].flightInformation[0].location[0].locationId[0])).country != 'Colombia'">
+                  <ion-col size-md="4" size="4"
+                    *ngIf="(glbService.iataToName(glbService.flightSelected.ida[0].iataFrom)).country != 'Colombia' || (glbService.iataToName(glbService.flightSelected.vuelta[0].iataFrom)).country != 'Colombia'">
                     <ion-item>
-                      <ion-input value="Celular" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-passport" type="tel" labelPlacement="floating" color="dark">
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-passport" type="text"
+                        labelPlacement="floating" color="dark">
                         <div slot="label">Pasaporte</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
                   <ion-col size-md="4" size="4">
                     <ion-item>
-                      <ion-input value="Nombre" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-name" labelPlacement="floating" color="dark">
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-name" labelPlacement="floating" type="text"
+                        color="dark">
                         <div slot="label">Nombre</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
                   <ion-col size-md="4" size="4">
                     <ion-item>
-                      <ion-input value="Apellido" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-surname" labelPlacement="floating" color="dark">
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-surname" type="text"
+                        labelPlacement="floating" color="dark">
                         <div slot="label">Apellido</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
                   <ion-col size-md="6" size="6" *ngIf="i == 0 && j == 0">
                     <ion-item>
-                      <ion-input value="Correo@correo.com" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-email" type="email" labelPlacement="floating" color="dark">
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-email" type="email"
+                        labelPlacement="floating" color="dark">
                         <div slot="label">Correo</div>
                       </ion-input>
                     </ion-item>
                   </ion-col>
                   <ion-col size-md="6" size="6" *ngIf="i == 0 && j == 0">
                     <ion-item>
-                      <ion-input value="Celular" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-phone" type="tel" labelPlacement="floating" color="dark">
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-phone" type="number"
+                        labelPlacement="floating" color="dark">
                         <div slot="label">Celular</div>
                       </ion-input>
                     </ion-item>
