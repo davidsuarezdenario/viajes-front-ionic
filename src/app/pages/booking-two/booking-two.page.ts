@@ -33,18 +33,20 @@ export class BookingTwoPage implements OnInit {
     for (let i = 0; i < this.glbService.flightSelected.pax.length; i++) {
       for (let j = 0; j < this.glbService.flightSelected.pax[i].ref.length; j++) {
         console.log(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}`);
-        this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-type_id`, this.formBuilder.control('', Validators.required));
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-documentType`, this.formBuilder.control('', Validators.required));
         this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-num_id`, this.formBuilder.control('', Validators.required));
-        this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-birthday`, this.formBuilder.control('', Validators.required));
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-gender`, this.formBuilder.control('', Validators.required));
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-nationality`, this.formBuilder.control('', Validators.required));
+        this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-dateOfBirth`, this.formBuilder.control('', Validators.required));
         this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-name`, this.formBuilder.control('', Validators.required));
         this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-surname`, this.formBuilder.control('', Validators.required));
         if (i == 0 && j == 0) {
-          this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-email`, this.formBuilder.control('', [Validators.required, Validators.email]));
-          this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-phone`, this.formBuilder.control('', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]));
+          this.form.addControl(`data-contact-email`, this.formBuilder.control('', [Validators.required, Validators.email]));
+          this.form.addControl(`data-contact-phone`, this.formBuilder.control('', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]));
         }
-        if(this.glbService.iataToName(this.glbService.flightSelected.ida[0].iataFrom) != 'Colombia' || this.glbService.iataToName(this.glbService.flightSelected.vuelta[0].iataFrom).country != 'Colombia'){
+        /* if (this.glbService.iataToName(this.glbService.flightSelected.ida[0].iataFrom) != 'Colombia' || this.glbService.iataToName(this.glbService.flightSelected.vuelta[0].iataFrom).country != 'Colombia') {
           this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-passport`, this.formBuilder.control('', Validators.required));
-        }
+        } */
       }
     }
   }
@@ -73,6 +75,7 @@ export class BookingTwoPage implements OnInit {
     const travellerInfoTemp: any = this.agruparDatos(data);
     /* let travellerInfo: any = [], inf: any = [], dataElementsIndiv:any = []; */
     console.log('agrupados: ', travellerInfoTemp);
+    travellerInfoTemp.airline = this.glbService.flightSelected.vc;
     const PNR_AddMultiElements: any = await this.apiService.post('/travel/add_multi_elements', travellerInfoTemp);
     console.log('PNR_AddMultiElements: ', PNR_AddMultiElements);
     /* for (let a = 0; a < travellerInfoTemp.length; a++) {
@@ -122,7 +125,8 @@ export class BookingTwoPage implements OnInit {
         result[identifier][attribute] = value;
       }
     });
-    return Object.values(result);
+    return { passengers: Object.values(result), contact: { phone: input['data-contact-phone'], email: input['data-contact-email'] } };
+    /* return result; */
   }
 
   onDateChange(event: any, controlName: string) {

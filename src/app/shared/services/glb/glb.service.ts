@@ -26,9 +26,9 @@ export class GlbService {
   airportsTo: any = [];
   today = format(new Date(), 'yyyy-MM-dd');
   selectedDateSalidaStart: string = this.today;
-  selectedDateSalidaEnd: string = this.today;
+  /* selectedDateSalidaEnd: string = this.today; */
   selectedDateRegresoStart: string = this.today;
-  selectedDateRegresoEnd: string = this.today;
+  /* selectedDateRegresoEnd: string = this.today; */
 
   passengers: any = { adult: 1, child: 0, infant: 0 }
   get totalPassengers() { return this.passengers.adult + this.passengers.child + this.passengers.infant; }
