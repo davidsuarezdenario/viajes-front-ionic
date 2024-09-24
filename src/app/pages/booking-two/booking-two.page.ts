@@ -76,7 +76,10 @@ export class BookingTwoPage implements OnInit {
     /* let travellerInfo: any = [], inf: any = [], dataElementsIndiv:any = []; */
     console.log('agrupados: ', travellerInfoTemp);
     travellerInfoTemp.airline = this.glbService.flightSelected.vc;
-    const PNR_AddMultiElements: any = await this.apiService.post('/travel/add_multi_elements', travellerInfoTemp);
+    travellerInfoTemp.itinerary = { from: this.glbService.iataToName(this.glbService.flightSelected.ida[0].iataFrom).city, to: this.glbService.iataToName(this.glbService.flightSelected.ida[0].iataTo).city, oneWay: this.glbService.trips }
+    travellerInfoTemp.airline
+    console.log('glbService.session: ', this.glbService.session);
+    const PNR_AddMultiElements: any = await this.apiService.post('/travel/add_multi_elements', { data: travellerInfoTemp, session: this.glbService.session });
     console.log('PNR_AddMultiElements: ', PNR_AddMultiElements);
     /* for (let a = 0; a < travellerInfoTemp.length; a++) {
       if (travellerInfoTemp[a].type != 'INF') {
@@ -130,8 +133,6 @@ export class BookingTwoPage implements OnInit {
   }
 
   onDateChange(event: any, controlName: string) {
-    console.log('event', event);
-    console.log('controlName', controlName);
     this.form.get(controlName)?.setValue((event.detail.value).split('T')[0]);
     /* this.closeModal(); */
   }
