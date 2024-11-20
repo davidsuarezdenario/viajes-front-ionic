@@ -83,39 +83,164 @@ export class BookingTwoPage implements OnInit {
     console.log('PNR_AddMultiElements: ', PNR_AddMultiElements);
     /* for (let a = 0; a < travellerInfoTemp.length; a++) {
       if (travellerInfoTemp[a].type != 'INF') {
+  buildBody(data: any) {
+    const travellerInfoTemp: any[] = this.agruparDatos(data);
+    let travellerInfo: any[] = [];
+    let dataElementsIndiv: any[] = [];
+    let otCounter = 1;
+  
+    console.log('agrupados: ', travellerInfoTemp);
+  
+    travellerInfoTemp.forEach((traveller: any, index: number) => {
+      const isInfant = traveller.type === 'INF';
+      const parentIndex = isInfant ? index - 1 : index;
+      const travellerNumber = parentIndex + 1;
+  
+      if (!isInfant) {
         travellerInfo.push({
-          elementManagementPassenger: [{ reference: [{ qualifier: ["PR"], number: [travellerInfoTemp[a].id + ''] }], segmentName: ["NM"] }],
-          passengerData: [ { travellerInformation: [{ traveller: [{ surname: [travellerInfoTemp[a].surname], quantity: ["1"] }], passenger: [{ firstName: [travellerInfoTemp[a].name], type: [travellerInfoTemp[a].type] }] }], dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(travellerInfoTemp[a].birthday)] }] }] } ]
+          elementManagementPassenger: [{
+            reference: [{ qualifier: ["PR"], number: [travellerNumber.toString()] }],
+            segmentName: ["NM"]
+          }],
+          passengerData: [{
+            travellerInformation: [{
+              traveller: [{ 
+                surname: [traveller.surname],
+                quantity: ["1"]
+              }],
+              passenger: [{
+                firstName: [traveller.name],
+                type: [traveller.type]
+              }]
+            }],
+            dateOfBirth: [{
+              dateAndTimeDetails: [{
+                date: [this.convertToDate(traveller.birthday)]
+              }]
+            }]
+          }]
         });
-        if(travellerInfoTemp[a].email){
-          dataElementsIndiv.push({ elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["1"] }], segmentName: ["AP"] }], freetextData: [{ freetextDetail: [{ subjectQualifier: ["3"], type: ["6"] }], longFreetext: [travellerInfoTemp[a].phone] }] }, { elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["2"] }], segmentName: ["AP"] }], freetextData: [{ freetextDetail: [{ subjectQualifier: ["3"], type: ["P02"] }], longFreetext: [travellerInfoTemp[a].email] }] });
+  
+        // Add contact information for the first adult passenger
+        if (index === 0) {
+          dataElementsIndiv.push(
+            {
+              elementManagementData: [{ 
+                reference: [{ qualifier: ["OT"], number: [otCounter++] }], 
+                segmentName: ["AP"] 
+              }],
+              freetextData: [{ 
+                freetextDetail: [{ subjectQualifier: ["3"], type: ["6"] }], 
+                longFreetext: [traveller.phone] 
+              }]
+            },
+            {
+              elementManagementData: [{ 
+                reference: [{ qualifier: ["OT"], number: [otCounter++] }], 
+                segmentName: ["AP"] 
+              }],
+              freetextData: [{ 
+                freetextDetail: [{ subjectQualifier: ["3"], type: ["P02"] }], 
+                longFreetext: [traveller.email] 
+              }]
+            }
+          );
         }
+  
+        // Add FOID and DOCS for each passenger
         dataElementsIndiv.push(
           {
-            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: [`${a+3}`] }], segmentName: ["SSR"] }],
-            serviceRequest: [{ ssr: [{ type: ["FOID"], status: ["HK"], quantity: ["1"], companyId: ["AM"], freetext: ["NI19393920"] }] }],
-            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["1"] }] }]
+            elementManagementData: [{ 
+              reference: [{ qualifier: ["OT"], number: [otCounter++] }], 
+              segmentName: ["SSR"] 
+            }],
+            serviceRequest: [{ 
+              ssr: [{ 
+                type: ["FOID"], 
+                status: ["HK"], 
+                quantity: ["1"], 
+                companyId: ["AM"], 
+                freetext: [`NI${traveller.num_id}`] 
+              }] 
+            }],
+            referenceForDataElement: [{ 
+              reference: [{ qualifier: ["PR"], number: [travellerNumber.toString()] }] 
+            }]
           },
           {
-            elementManagementData: [{ reference: [{ qualifier: ["OT"], number: ["4"] }], segmentName: ["SSR"] }],
-            serviceRequest: [{ ssr: [{ type: ["DOCS"], status: ["HK"], quantity: ["1"], companyId: ["YY"], freetext: ["P-COL-19393920-COL-04JAN84-F-28SEP28-BARBO-BRUNO"] }] }],
-            referenceForDataElement: [{ reference: [{ qualifier: ["PR"], number: ["1"] }] }]
+            elementManagementData: [{ 
+              reference: [{ qualifier: ["OT"], number: [otCounter++] }], 
+              segmentName: ["SSR"] 
+            }],
+            serviceRequest: [{ 
+              ssr: [{ 
+                type: ["DOCS"], 
+                status: ["HK"], 
+                quantity: ["1"], 
+                companyId: ["YY"], 
+                freetext: [`P-COL-${traveller.num_id}-COL-${this.convertToDate(traveller.birthday)}-${traveller.type === 'ADT' ? 'M' : 'F'}-28SEP28-${traveller.surname}-${traveller.name}`] 
+              }] 
+            }],
+            referenceForDataElement: [{ 
+              reference: [{ qualifier: ["PR"], number: [travellerNumber.toString()] }] 
+            }]
           }
         );
       } else {
-        inf.push(travellerInfoTemp[a]);
-      }
-    }
-    inf.forEach((infant: any, index: any) => {
-      if (travellerInfo[index]) {
-        travellerInfo[index].passengerData.push({
-          travellerInformation: [{ traveller: [{ surname: [infant.surname] }], passenger: [{ firstName: [infant.name], type: [infant.type] }] }], dateOfBirth: [{ dateAndTimeDetails: [{ date: [this.convertToDate(infant.birthday)] }] }]
-        });
-        travellerInfo[index].passengerData[0].travellerInformation[0].passenger[0].infantIndicator = ['' + 3]; travellerInfo[index].passengerData[0].travellerInformation[0].traveller[0].quantity[0] = '' + 2;
+        // Add infant to the parent's passengerData
+        if (travellerInfo[parentIndex]) {
+          travellerInfo[parentIndex].passengerData.push({
+            travellerInformation: [{
+              traveller: [{ surname: [traveller.surname] }],
+              passenger: [{ firstName: [traveller.name], type: [traveller.type] }]
+            }],
+            dateOfBirth: [{
+              dateAndTimeDetails: [{ date: [this.convertToDate(traveller.birthday)] }]
+            }]
+          });
+          travellerInfo[parentIndex].passengerData[0].travellerInformation[0].passenger[0].infantIndicator = ['3'];
+          travellerInfo[parentIndex].passengerData[0].travellerInformation[0].traveller[0].quantity[0] = '2';
+  
+          // Add DOCS for infant
+          dataElementsIndiv.push({
+            elementManagementData: [{ 
+              reference: [{ qualifier: ["OT"], number: [otCounter++] }], 
+              segmentName: ["SSR"] 
+            }],
+            serviceRequest: [{ 
+              ssr: [{ 
+                type: ["DOCS"], 
+                status: ["HK"], 
+                quantity: ["1"], 
+                companyId: ["YY"], 
+                freetext: [`P-COL-${traveller.num_id}-COL-${this.convertToDate(traveller.birthday)}-FI-28SEP28-${traveller.surname}-${traveller.name}`] 
+              }] 
+            }],
+            referenceForDataElement: [{ 
+              reference: [{ qualifier: ["PR"], number: [travellerNumber.toString()] }] 
+            }]
+          });
+        }
       }
     });
     console.log('travellerInfo: ', travellerInfo);
     console.log('inf: ', inf); */
+  
+    /* const result = {
+      "soap:Body": {
+        PNR_AddMultiElements: [{
+          pnrActions: [{ optionCode: ["0"] }],
+          travellerInfo: travellerInfo,
+          dataElementsMaster: [{
+            marker1: [""],
+            dataElementsIndiv: dataElementsIndiv
+          }]
+        }]
+      }
+    }; */
+  
+    console.log('PNR_AddMultiElements result:', result);
+    return result;
   }
 
   agruparDatos(input: any) {
