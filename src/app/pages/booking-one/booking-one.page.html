@@ -75,7 +75,7 @@
               <ion-chip color="primary" mode="ios" style="width: 100%;">
                 <ion-text>
                   Niños:<br>
-                  {{glbService.flightSelected.fare.CNN.total1 ? glbService.flightSelected.fare.CNN.total1: glbService.flightSelected.fare.CNN.total | currency:'$ ':'symbol':'1.0-0'}} x
+                  {{glbService.flightSelected.fare.CNN.total | currency:'$ ':'symbol':'1.0-0'}} x
                   {{glbService.flightSelected.fare.CNN.quantity}}<br>
                   Total: {{(glbService.flightSelected.fare.CNN.total * glbService.flightSelected.fare.CNN.quantity) | currency:'$ ':'symbol':'1.0-0'}}
                 </ion-text>
@@ -85,7 +85,7 @@
               <ion-chip color="primary" mode="ios" style="width: 100%;">
                 <ion-text>
                   Infantes:<br>
-                  {{glbService.flightSelected.fare.INF.total1 ? glbService.flightSelected.fare.INF.total1 : glbService.flightSelected.fare.INF.total | currency:'$ ':'symbol':'1.0-0'}} x
+                  {{glbService.flightSelected.fare.INF.total | currency:'$ ':'symbol':'1.0-0'}} x
                   {{glbService.flightSelected.fare.INF.quantity}}<br>
                   Total: {{(glbService.flightSelected.fare.INF.total * glbService.flightSelected.fare.INF.quantity) | currency:'$ ':'symbol':'1.0-0'}}
                 </ion-text>

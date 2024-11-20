@@ -76,7 +76,7 @@ export class SearchMainService {
       adult: this.glbService.passengers.adult,
       child: this.glbService.passengers.child,
       infant: this.glbService.passengers.infant,
-      nonStop: false
+      nonStop: this.glbService.nonStop
     };
     if (!this.validators()) return;
     this.glbService.bookingResults = [];

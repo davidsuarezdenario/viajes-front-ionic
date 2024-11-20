@@ -20,10 +20,10 @@ export class DateSelectComponent implements OnInit {
   @ViewChild('modal') modal!: IonModal;
   /* dateStart = new Date().toISOString();
   dateEnd = new Date().toISOString(); */
-  dateStart = this.glb.today;
+  /* dateStart = this.glb.today;
   dateEnd = this.glb.today;
   dateStartString = format(parseISO(this.dateStart), 'yyyy-MM-dd');
-  dateEndString = format(parseISO(this.dateEnd), 'yyyy-MM-dd');
+  dateEndString = format(parseISO(this.dateEnd), 'yyyy-MM-dd'); */
   isModalOpen = false;
 
   constructor(
@@ -37,25 +37,32 @@ export class DateSelectComponent implements OnInit {
   }
 
   presentModal(isOpen: boolean) {
-    this.dateStart = this.label == "Salida" ? formatISO(parseISO(this.glb.selectedDateSalidaStart)) : formatISO(parseISO(this.glb.selectedDateRegresoStart));
-    this.dateEnd = this.label == "Salida" ? formatISO(parseISO(this.glb.selectedDateSalidaEnd)) : formatISO(parseISO(this.glb.selectedDateRegresoEnd));
+    /* this.dateStart = this.label == "Salida" ? formatISO(parseISO(this.glb.selectedDateSalidaStart)) : formatISO(parseISO(this.glb.selectedDateRegresoStart));
+    this.dateEnd = this.label == "Salida" ? formatISO(parseISO(this.glb.selectedDateSalidaEnd)) : formatISO(parseISO(this.glb.selectedDateRegresoEnd)); */
+    /* this.dateStart = formatISO(parseISO(this.glb.selectedDateSalidaStart));
+    this.dateEnd = formatISO(parseISO(this.glb.selectedDateRegresoStart)); */
     this.isModalOpen = isOpen;
   }
 
   changeDate() {
-    if (this.dateEnd < this.dateStart) {
-      this.dateEnd = this.dateStart;
+    if (this.glb.selectedDateRegresoStart < this.glb.selectedDateSalidaStart) {
+      this.glb.selectedDateRegresoStart = this.glb.selectedDateSalidaStart;
     }
-    this.dateStartString = format(parseISO(this.dateStart), 'yyyy-MM-dd');
-    this.dateEndString = format(parseISO(this.dateEnd), 'yyyy-MM-dd');
+    console.log('dateStartString: ', this.glb.selectedDateSalidaStart);
+    console.log('dateEndString: ', this.glb.selectedDateRegresoStart);
+    /* if (this.dateEnd < this.dateStart) {
+      this.dateEnd = this.dateStart;
+    } */
+    /* this.dateStartString = format(parseISO(this.dateStart), 'yyyy-MM-dd');
+    this.dateEndString = format(parseISO(this.dateEnd), 'yyyy-MM-dd'); */
     /* this.dateStartString = format(parseISO(this.dateStart), 'ddMMyy');
     this.dateEndString = format(parseISO(this.dateEnd), 'ddMMyy'); */
-    console.log('dateStartString: ', this.dateStartString);
-    console.log('dateEndString: ', this.dateEndString);
+    /* console.log('dateStartString: ', this.dateStartString);
+    console.log('dateEndString: ', this.dateEndString); */
   }
 
   accept() {
-    if (this.label == "Salida") {
+    /* if (this.label == "Salida") {
       this.glb.selectedDateSalidaStart = this.dateStartString;
       this.glb.selectedDateSalidaEnd = this.dateEndString;
     } else {
@@ -65,6 +72,11 @@ export class DateSelectComponent implements OnInit {
     if (this.glb.selectedDateSalidaEnd > this.glb.selectedDateRegresoStart) {
       this.glb.selectedDateRegresoStart = this.glb.selectedDateSalidaEnd;
       this.glb.selectedDateRegresoEnd = this.glb.selectedDateSalidaEnd;
+    } */
+    /* this.glb.selectedDateSalidaStart = this.dateStartString;
+    this.glb.selectedDateRegresoStart = this.dateEndString; */
+    if (this.glb.selectedDateSalidaStart > this.glb.selectedDateRegresoStart) {
+      this.glb.selectedDateRegresoStart = this.glb.selectedDateRegresoStart;
     }
     this.isModalOpen = false;
     if (!this.glb.firstSearch) {
@@ -73,15 +85,21 @@ export class DateSelectComponent implements OnInit {
   }
 
   get selectedDateRangeLabel() {
-    let startDate, endDate;
+    let startDate;
     if (this.label === 'Salida') {
+      startDate = this.glb.selectedDateSalidaStart;
+    } else if (this.label === 'Regreso') {
+      startDate = this.glb.selectedDateRegresoStart;
+    }
+    /* if (this.label === 'Salida') {
       startDate = this.glb.selectedDateSalidaStart;
       endDate = this.glb.selectedDateSalidaEnd;
     } else if (this.label === 'Regreso') {
       startDate = this.glb.selectedDateRegresoStart;
       endDate = this.glb.selectedDateRegresoEnd;
-    }
-    return startDate === endDate ? startDate : `${startDate} al ${endDate}`;
+    } */
+    return startDate;
+    /* return startDate === endDate ? startDate : `${startDate} al ${endDate}`; */
   }
 
 }

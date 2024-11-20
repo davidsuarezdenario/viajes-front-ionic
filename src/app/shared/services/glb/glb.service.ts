@@ -26,9 +26,9 @@ export class GlbService {
   airportsTo: any = [];
   today = format(new Date(), 'yyyy-MM-dd');
   selectedDateSalidaStart: string = this.today;
-  selectedDateSalidaEnd: string = this.today;
+  /* selectedDateSalidaEnd: string = this.today; */
   selectedDateRegresoStart: string = this.today;
-  selectedDateRegresoEnd: string = this.today;
+  /* selectedDateRegresoEnd: string = this.today; */
 
   passengers: any = { adult: 1, child: 0, infant: 0 }
   get totalPassengers() { return this.passengers.adult + this.passengers.child + this.passengers.infant; }
@@ -36,6 +36,7 @@ export class GlbService {
   get totalBags() { return this.bags.hand + this.bags.hold; }
   trips: string = "idaVuelta";
   clase: string = "Y";
+  nonStop: boolean = false;
   dateFrom: string = this.today;
   dateTo: string = this.today;
 

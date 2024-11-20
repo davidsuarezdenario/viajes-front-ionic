@@ -27,7 +27,6 @@ export class BookingOnePage implements OnInit {
 
   Fare_InformativePricingWithoutPNRResponse: any = [];
   Air_SellFromRecommendation: any = [];
-  session: any = {};
 
   ngOnInit() {
   }
@@ -39,7 +38,8 @@ export class BookingOnePage implements OnInit {
   async Fare_InformativePricingWithoutPNR() {
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
     const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', this.glbService.flightSelected);
-    this.session = bookingResponse.session;
+    console.log('bookingResponse: ', bookingResponse);
+    this.glbService.session = bookingResponse.session;
     this.Fare_InformativePricingWithoutPNRResponse = bookingResponse;
     this.checkAllSeat(this.Fare_InformativePricingWithoutPNRResponse);
     //this.airSellFromRecommendation(bookingResponse.data["soapenv:Envelope"]["soapenv:Body"][0].Fare_InformativePricingWithoutPNRReply[0].mainGroup[0], bookingResponse.session); No tocar
