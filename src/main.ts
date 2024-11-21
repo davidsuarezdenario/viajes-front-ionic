@@ -14,6 +14,7 @@ import { PopoverController } from '@ionic/angular';
 
 if (environment.production) {
   enableProdMode();
+  window.console.log = () => { };
 }
 
 bootstrapApplication(AppComponent, {
