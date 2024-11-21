@@ -239,8 +239,8 @@ export class BookingTwoPage implements OnInit {
       }
     }; */
   
-    console.log('PNR_AddMultiElements result:', result);
-    return result;
+    /* console.log('PNR_AddMultiElements result:', result);
+    return result; */
   }
 
   agruparDatos(input: any) {
