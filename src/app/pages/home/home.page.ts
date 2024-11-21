@@ -34,11 +34,13 @@ export class HomePage implements OnInit {
     this.lettersBanner2 = this.mainBanner2.split("");
   }
 
-  ngOnInit() {
-    this.getDatosInit();
+  async ngOnInit() {
+    await this.getDatosInit();
+    this.getIataCodes();
   }
 
   async getDatosInit() {
+    this.glbService.bookingloading = true;
     try {
       if (await this.apiService.verifySesion()) {
         const res: any = await this.apiService.post('/users/init-data', { idCliente: this.glbService.idCliente });
@@ -46,17 +48,32 @@ export class HomePage implements OnInit {
           if (res.Data){
             this.glbService.userData = res.Data;
             console.log('userData: ', this.glbService.userData);
+            this.glbService.bookingloading = false;
             this.processDataInit(this.glbService.userData);
             return;
           }else{
-            this.alertMain.present('Error', 'Error al obtener los datos iniciales', 'No se encontraron datos');
+            this.glbService.bookingloading = false;
+            this.alertMain.present('Error', 'Error al obtener los datos iniciales, Cod: 1', 'No se encontraron datos');
           }
         }
-        this.alertMain.present('Error', 'Error al obtener los datos iniciales', res.Message);
+        this.glbService.bookingloading = false;
+        this.alertMain.present('Error', 'Error al obtener los datos iniciales, Cod: 2', res.Message);
       }
     } catch (error: any) {
       console.error('Error al obtener los datos iniciales: ', error);
-      this.alertMain.present('Error', 'Error al obtener los datos iniciales', error?.Message);
+      this.glbService.bookingloading = false;
+      this.alertMain.present('Error', 'Error al obtener los datos iniciales, Cod: 3', error?.Message);
+    }
+    this.glbService.bookingloading = false;
+  }
+
+  async getIataCodes() {
+    try {
+      const res: any = await this.apiService.get('/travel/iata_codes');
+      !res.error ? this.glbService.iataCodes = res.data : this.alertMain.present('Error', 'Error al obtener los códigos IATA, Cod: 1');
+      console.log('res: ', this.glbService.iataCodes);
+    } catch (error: any) {
+      this.alertMain.present('Error', 'Error al obtener los datos iniciales, Cod: 2', error?.Message);
     }
   }
 

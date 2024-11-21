@@ -15,5 +15,5 @@ const local = {
 
 export const environment = {
   production: true,
-  api: prod
+  api: dev
 };

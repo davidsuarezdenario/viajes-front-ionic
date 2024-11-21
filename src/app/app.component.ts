@@ -6,8 +6,8 @@ import { MenuMainComponent } from "./shared/components/menu-main/menu-main.compo
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [IonApp, IonRouterOutlet, MenuMainComponent],
+  imports: [IonApp, IonRouterOutlet, MenuMainComponent]
 })
 export class AppComponent {
-  constructor() {}
+  constructor() { }
 }

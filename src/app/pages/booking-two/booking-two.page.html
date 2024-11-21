@@ -1,0 +1,165 @@
+<ion-header>
+  <app-header-main></app-header-main>
+</ion-header>
+<ion-header mode="ios">
+  <ion-toolbar class="ion-no-padding">
+    <ion-grid fixed class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12">
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-back-button defaultHref="/"></ion-back-button>
+            </ion-buttons>
+            <ion-title>Booking-two</ion-title>
+          </ion-toolbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-grid fixed class="ion-no-padding">
+    <ion-row class="ion-no-padding" style="margin-top: 15px;">
+      <ion-col size="12" class="ion-no-padding">
+        <ion-card style="cursor: pointer;">
+          <ion-card-header></ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <ion-grid>
+                <ion-row class="bill">
+                  <ion-col size-md="12" size="12">
+                    <h2 class="title-app">Datos de contacto</h2>
+                  </ion-col>
+                  <ion-col size-md="6" size="6">
+                    <ion-item>
+                      <ion-input formControlName="data-contact-email" type="email" labelPlacement="floating"
+                        color="dark">
+                        <div slot="label">Correo</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="6" size="6">
+                    <ion-item>
+                      <ion-input formControlName="data-contact-phone" type="number" labelPlacement="floating"
+                        color="dark">
+                        <div slot="label">Celular</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid *ngFor="let pax1 of glbService.flightSelected.pax; let i=index;">
+                <ion-row class="bill" *ngFor="let pax2 of pax1.ref; let j=index;">
+                  <ion-col size-md="12" size="12">
+                    <h2 class="title-app" *ngIf="pax1.ptc == 'ADT'">Adulto {{j+1}}</h2>
+                    <h2 class="title-app" *ngIf="pax1.ptc == 'CNN'">Niño {{j+1}}</h2>
+                    <h2 class="title-app" *ngIf="pax1.ptc == 'INF'">Infante {{j+1}}</h2>
+                  </ion-col>
+                  <ion-col size-md="4" size="4">
+                    <ion-item lines="none">
+                      <!-- <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" labelPlacement="floating" color="dark">
+                        <div slot="label">Tipo</div>
+                      </ion-input> -->
+                      <ion-select formControlName="{{pax1.ptc}}-{{j+1}}-gender" label="Sexo">
+                        <ion-select-option value="M">Masculino</ion-select-option>
+                        <ion-select-option value="F">Femenino</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="4" size="4">
+                    <ion-item lines="none">
+                      <!-- <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" labelPlacement="floating" color="dark">
+                        <div slot="label">Tipo</div>
+                      </ion-input> -->
+                      <ion-select formControlName="{{pax1.ptc}}-{{j+1}}-nationality" label="Nacionalidad">
+                        <ion-select-option value="COL">Colombia</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="4" size="4">
+                    <ion-item>
+                      <ion-input style="display: none" formControlName="{{pax1.ptc}}-{{j+1}}-dateOfBirth" type="date"
+                        labelPlacement="floating" color="dark">
+                        <div slot="label">Fecha Nac.</div>
+                      </ion-input>
+                      <ion-datetime-button datetime="{{pax1.ptc}}-{{j+1}}-datepicker"></ion-datetime-button>
+                      <ion-modal [keepContentsMounted]="true">
+                        <ng-template>
+                          <ion-datetime id="{{pax1.ptc}}-{{j+1}}-datepicker" presentation="date"
+                            (ionChange)="onDateChange($event, pax1.ptc+'-'+(j+1)+'-dateOfBirth')"></ion-datetime>
+                        </ng-template>
+                      </ion-modal>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="6" size="6">
+                    <ion-item lines="none">
+                      <!-- <ion-input formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-type_id" labelPlacement="floating" color="dark">
+                        <div slot="label">Tipo</div>
+                      </ion-input> -->
+                      <ion-select formControlName="{{pax1.ptc}}-{{j+1}}-documentType" label="Tipo Doc">
+                        <ion-select-option value="P">Pasaporte</ion-select-option>
+                        <ion-select-option value="C">CC</ion-select-option>
+                        <ion-select-option value="V">Visa</ion-select-option>
+                        <ion-select-option value="I">Certificado de Identificación</ion-select-option>
+                        <ion-select-option value="T">Título de Viaje</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="6" size="6">
+                    <ion-item>
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-num_id" labelPlacement="floating" type="text"
+                        color="dark">
+                        <div slot="label">Documento</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <!-- <ion-col size-md="6" size="6">
+                    <ion-item>
+                      <ion-label position="floating">Fecha Nac.</ion-label>
+                      <ion-date displayFormat="YYYY-MM-DD" formControlName="{{pax1.paxReference[0].ptc[0]}}-{{j+1}}-birthday" color="dark"></ion-date>
+                    </ion-item>
+                  </ion-col> -->
+                  <ion-col size-md="6" size="6">
+                    <ion-item>
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-name" labelPlacement="floating" type="text"
+                        color="dark">
+                        <div slot="label">Nombre</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="6" size="6">
+                    <ion-item>
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-surname" type="text" labelPlacement="floating"
+                        color="dark">
+                        <div slot="label">Apellido</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <!-- <ion-col size-md="6" size="6" *ngIf="i == 0 && j == 0">
+                    <ion-item>
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-email" type="email"
+                        labelPlacement="floating" color="dark">
+                        <div slot="label">Correo</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="6" size="6" *ngIf="i == 0 && j == 0">
+                    <ion-item>
+                      <ion-input formControlName="{{pax1.ptc}}-{{j+1}}-phone" type="number"
+                        labelPlacement="floating" color="dark">
+                        <div slot="label">Celular</div>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col> -->
+                </ion-row>
+              </ion-grid>
+              <ion-button class="add-button-form" color="success" type="submit">Agregar</ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

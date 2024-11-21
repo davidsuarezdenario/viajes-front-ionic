@@ -24,6 +24,7 @@ export class ApiService {
 
   async verifySesion(): Promise<boolean> {
     const session = localStorage.getItem('wanderlustpay-sesion');
+    console.log('session: ', session);
     if (!session) return false;
     const { jwt, idCliente } = JSON.parse(session);
     this.jwt = jwt;
@@ -36,9 +37,10 @@ export class ApiService {
       }
     } catch (err: any) {
       console.log('error verificación de sesión: ', err);
-      if (err.status === 403) {
+      localStorage.removeItem('wanderlustpay-sesion');
+      /* if (err.status === 403) {
         localStorage.removeItem('wanderlustpay-sesion');
-      }
+      } */
     }
     return false;
   }

@@ -9,19 +9,23 @@
     <div class="ion-text-center">
       <p>
         <ion-text color="primary"><strong>{{label}}</strong></ion-text><br>
-        Elige una fecha específica o define un intervalo de fechas de {{label}}.<br><br>
-        <strong>{{dateEndString == dateStartString ? dateStartString : dateStartString + ' al ' + dateEndString}}</strong>
+        <!-- Elige una fecha específica o define un intervalo de fechas de {{label}}.<br><br> -->
+        Elige una fecha específica.<br><br>
+        <strong>{{label == 'Salida' ? glb.selectedDateSalidaStart : glb.selectedDateRegresoStart}}</strong>
+        <!-- <strong>{{dateEndString == dateStartString ? dateStartString : dateStartString + ' al ' + dateEndString}}</strong> -->
       </p>
     </div>
     <div class="content-datetimes">
       <div class="ion-text-center datetime-box">
         <ion-text color="primary">Inicio</ion-text>
-        <ion-datetime presentation="date" [(ngModel)]="dateStart" (ionChange)="changeDate()" [min]="label == 'Salida' ? glb.today : glb.selectedDateSalidaEnd" mode="ios"></ion-datetime>
+        <!-- <ion-datetime presentation="date" [(ngModel)]="dateStart" (ionChange)="changeDate()" [min]="label == 'Salida' ? glb.today : glb.selectedDateSalidaStart" mode="ios"></ion-datetime> -->
+        <ion-datetime *ngIf="label == 'Salida'" presentation="date" [(ngModel)]="glb.selectedDateSalidaStart" (ionChange)="changeDate()" [min]="glb.today" mode="ios"></ion-datetime>
+        <ion-datetime *ngIf="label == 'Regreso'" presentation="date" [(ngModel)]="glb.selectedDateRegresoStart" (ionChange)="changeDate()" [min]="glb.selectedDateSalidaStart" mode="ios"></ion-datetime>
       </div>
-      <div class="ion-text-center datetime-box">
+      <!-- <div class="ion-text-center datetime-box">
         <ion-text color="primary">Fin</ion-text>
         <ion-datetime presentation="date" [(ngModel)]="dateEnd" (ionChange)="changeDate()" [min]="label == 'Salida' ? glb.selectedDateSalidaStart : glb.selectedDateRegresoStart" mode="ios"></ion-datetime>
-      </div>
+      </div> -->
     </div>
     <div class="button-box">
       <ion-button (click)="isModalOpen=false" color="medium">Cancelar</ion-button>

@@ -32,3 +32,13 @@ ion-content {
 .toolbar-no-border {
     --border-color: transparent;
 }
+
+.popoverStyle {
+    /* --width: get-vw(72px);
+    border-radius: 20px;
+    min-width: 360px !important; */
+    --width: auto;
+    border-radius: 20px;
+    max-width: 90vw;
+    width: auto;
+}

@@ -8,6 +8,9 @@ import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 
 import { HttpClientModule } from "@angular/common/http";
+import { TitleCasePipe } from "@angular/common";
+
+import { PopoverController } from '@ionic/angular';
 
 if (environment.production) {
   enableProdMode();
@@ -17,7 +20,9 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(HttpClientModule),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    TitleCasePipe,
     provideIonicAngular(),
     provideRouter(routes),
+    PopoverController
   ],
 });
