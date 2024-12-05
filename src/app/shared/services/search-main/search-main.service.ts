@@ -82,7 +82,7 @@ export class SearchMainService {
     this.glbService.bookingResults = [];
     try {
       this.glbService.bookingloading = true;
-      const bookingResponse: any = await this.apiService.post('/travel/master_pricer_travel_board_search', body);
+      const bookingResponse: any = await this.apiService.post('/travel/fare_search', body);
       /* this.glbService.session = bookingResponse.session; */
       console.log('bookingResponse: ', bookingResponse);
       if (bookingResponse.error) {
