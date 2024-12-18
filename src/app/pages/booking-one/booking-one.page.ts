@@ -37,7 +37,7 @@ export class BookingOnePage implements OnInit {
 
   async Fare_InformativePricingWithoutPNR() {
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
-    const bookingResponse: any = await this.apiService.post('/travel/informative_pricing_without_pnr', this.glbService.flightSelected);
+    const bookingResponse: any = await this.apiService.post('/travel/air_sell', { flight: this.glbService.flightSelected, pax: this.glbService.passengers });
     console.log('bookingResponse: ', bookingResponse);
     this.glbService.session = bookingResponse.session;
     this.Fare_InformativePricingWithoutPNRResponse = bookingResponse;
@@ -59,7 +59,8 @@ export class BookingOnePage implements OnInit {
     let segRouter = true;
     for (let x = 0; x < response.data.seats.length; x++) {
       for (let y = 0; y < response.data.seats[x].details.length; y++) {
-        if (response.data.seats[x].details[y].state != 'OK') {
+        console.log('response.data.seats[x].details[y].state: ', response.data.seats[x].details[y].state);
+        if (response.data.seats[x].details[y].state != 'UNS') {
           this.Fare_InformativePricingWithoutPNRResponse = undefined; segRouter = false;
           this.alertMain.present('Ups', 'Este vuelo no está disponible', 'Intenta con otro vuelo.');
           x = response.data.seats.length; this.location.back(); return;
@@ -67,9 +68,10 @@ export class BookingOnePage implements OnInit {
       }
     }
     segRouter ? this.glbService.passengersData = response : false;
-    this.glbService.flightSelected.fare = response.fare;
+    /* this.glbService.flightSelected.fare = response.fare; */
     this.glbService.flightSelected.seats = response.data.seats;
     console.log('this.glbService.flightSelected: ', this.glbService.flightSelected);
+    console.log('this.glbService.passengersData: ', this.glbService.passengersData);
   }
   goToBookingTwo() {
     this.router.navigate(['/booking-two']);
