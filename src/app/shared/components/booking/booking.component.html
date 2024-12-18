@@ -70,17 +70,17 @@
             <ion-col size="12">
               <ion-text> <strong>Regreso</strong> </ion-text>
             </ion-col>
-            <ion-col size="4">
+            <!-- <ion-col size="4">
               <div class="column-fly-data">
                 <h4 class="h-left">{{ (glb.iataToName(flight.vuelta[0].iataFrom)).city }}-{{ flight.vuelta[0].iataFrom }}→</h4>
                 <div class="h-left">{{ (glb.iataToName(flight.vuelta[0].iataFrom)).airport }}</div>
                 <div class="h-left">{{ convertToDate(flight.vuelta[0].dateFrom) | date:'EEE dd/MM' }}</div>
                 <div class="h-left">{{ convertToTime(flight.vuelta[0].timeFrom) | date:'HH:mm' }}</div>
               </div>
-            </ion-col>
+            </ion-col> -->
             <ion-col size="4">
               <div>
-                <div class="column-fly-data" (click)="glb.infoFlightPopover(flight.vuelta)">
+                <!-- <div class="column-fly-data" (click)="glb.infoFlightPopover(flight.vuelta)">
                   <div class="segment-info">
                     <ion-text class="chip ion-text-center" 
                     [ngClass]="{'chip-primay': flight.vuelta.length == 1, 'chip-light': flight.vuelta.length > 1}">
@@ -91,9 +91,9 @@
                       title={{logo}} alt={{logo}} src="https://images.kiwi.com/airlines/32x32/{{logo}}.png">
                   </div>
                   <div>
-                    <!-- {{ (flight.itineraries[1].duration).split('PT')[1] }} -->
+                    {{ (flight.itineraries[1].duration).split('PT')[1] }}
                   </div>
-                </div>
+                </div> -->
                 <!-- <ion-popover trigger="itinerary-arrival-{{flight.id}}" triggerAction="click">
                   <ng-template>
                     <div *ngFor="let segment of flight.itineraries[0].segments; let ind = index;">
@@ -120,14 +120,14 @@
                 </ion-popover> -->
               </div>
             </ion-col>
-            <ion-col size="4">
+            <!-- <ion-col size="4">
               <div class="column-fly-data">
                 <h4 class="h-right">→{{ flight.vuelta[flight.vuelta.length - 1].iataTo }}-{{ (glb.iataToName(flight.vuelta[flight.vuelta.length - 1].iataTo)).city }}</h4>
                 <div class="h-right">{{ (glb.iataToName(flight.vuelta[flight.vuelta.length - 1].iataTo)).airport }}</div>
                 <div class="h-right">{{ convertToDate(flight.vuelta[flight.vuelta.length - 1].dateTo) | date:'EEE dd/MM' }}</div>
                 <div class="h-right">{{ convertToTime(flight.vuelta[flight.vuelta.length - 1].timeTo) | date:'HH:mm' }}</div>
               </div>
-            </ion-col>
+            </ion-col> -->
           </ion-row>
           <ion-row class="info">
             <ion-col class="ion-text-center">
