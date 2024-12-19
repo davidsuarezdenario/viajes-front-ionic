@@ -4,7 +4,7 @@ import { authGuard } from "./shared/guards/auth.guard";
 import { canLeaveAuthGuard } from "./shared/guards/can-leave-auth.guard";
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full', },
+  { path: '', redirectTo: '/home', pathMatch: 'full', },
   { path: '', loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage) },
   { path: 'home', loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage) },
   { path: 'payment', loadComponent: () => import('./pages/payment/payment.page').then((m) => m.PaymentPage) },

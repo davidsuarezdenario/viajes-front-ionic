@@ -5,14 +5,14 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
-import { environment } from './environments/environment';
+import { environment } from './environments/environment.prod';
 
 import { HttpClientModule } from "@angular/common/http";
 import { TitleCasePipe } from "@angular/common";
 
 import { PopoverController } from '@ionic/angular';
 
-if (environment.production) {
+if (environment.api.production) {
   enableProdMode();
   window.console.log = () => { };
 }
