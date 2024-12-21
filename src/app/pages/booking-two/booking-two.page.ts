@@ -27,7 +27,8 @@ export class BookingTwoPage implements OnInit {
     public apiService: ApiService
   ) {
     this.form = this.formBuilder.group({});
-    this.glbService.passengersData.length == 0 ? this.router.navigate(['/']) : false;
+    this.form.addControl('textBody', this.formBuilder.control('', Validators.required));
+    /* this.glbService.passengersData.length == 0 ? this.router.navigate(['/']) : false;
     console.log('glbService passengers', this.glbService.passengersData);
     console.log('glbService flight', this.glbService.flightSelected);
     for (let i = 0; i < this.glbService.flightSelected.pax.length; i++) {
@@ -44,21 +45,28 @@ export class BookingTwoPage implements OnInit {
           this.form.addControl(`data-contact-email`, this.formBuilder.control('', [Validators.required, Validators.email]));
           this.form.addControl(`data-contact-phone`, this.formBuilder.control('', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]));
         }
-        /* if (this.glbService.iataToName(this.glbService.flightSelected.ida[0].iataFrom) != 'Colombia' || this.glbService.iataToName(this.glbService.flightSelected.vuelta[0].iataFrom).country != 'Colombia') {
-          this.form.addControl(`${this.glbService.flightSelected.pax[i].ptc}-${j + 1}-passport`, this.formBuilder.control('', Validators.required));
-        } */
       }
-    }
+    } */
   }
 
   ngOnInit() { }
 
   addField(fieldName: string, validators: any[] = []) {
-    this.form.addControl(fieldName, this.formBuilder.control('', validators));
+    /* this.form.addControl(fieldName, this.formBuilder.control('', validators)); */
   }
 
   onSubmit(): void {
     if (this.form.valid) {
+      // {"data":"hola"}
+      const texto = (this.form.value.textBody).trim();
+      const jsonOk = JSON.parse(texto);
+      this.apiService.post('/travel/pnr_ame', jsonOk).then((response: any) => {
+        console.log('response: ', response);
+      }).catch((error: any) => {
+        console.log('error: ', error);
+      });
+    }
+    /* if (this.form.valid) { Comeentareado
       console.log('Formulario enviado', this.form.value);
       this.buildBody(this.form.value);
     } else {
@@ -67,20 +75,20 @@ export class BookingTwoPage implements OnInit {
       Object.keys(this.form.controls).forEach(key => {
         const control = this.form.get(key); if (control && !control.valid) { invalidFields.push(key); }
       });
-      /* console.log('Campos inválidos:', invalidFields.join(', ')); */
-    }
+      //console.log('Campos inválidos:', invalidFields.join(', '));
+    } */
   }
 
   async buildBody(data: any) {
-    const travellerInfoTemp: any = this.agruparDatos(data);
-    /* let travellerInfo: any = [], inf: any = [], dataElementsIndiv:any = []; */
+    /* const travellerInfoTemp: any = this.agruparDatos(data); Comentareado
+    // let travellerInfo: any = [], inf: any = [], dataElementsIndiv:any = [];
     console.log('agrupados: ', travellerInfoTemp);
     travellerInfoTemp.airline = this.glbService.flightSelected.vc;
     travellerInfoTemp.itinerary = { from: this.glbService.iataToName(this.glbService.flightSelected.ida[0].iataFrom).city, to: this.glbService.iataToName(this.glbService.flightSelected.ida[0].iataTo).city, oneWay: this.glbService.trips }
     travellerInfoTemp.airline
     console.log('glbService.session: ', this.glbService.session);
     const PNR_AddMultiElements: any = await this.apiService.post('/travel/add_multi_elements', { data: travellerInfoTemp, session: this.glbService.session });
-    console.log('PNR_AddMultiElements: ', PNR_AddMultiElements);
+    console.log('PNR_AddMultiElements: ', PNR_AddMultiElements); */
     /* for (let a = 0; a < travellerInfoTemp.length; a++) {
       if (travellerInfoTemp[a].type != 'INF') {
   buildBody(data: any) {
@@ -225,7 +233,7 @@ export class BookingTwoPage implements OnInit {
     });
     console.log('travellerInfo: ', travellerInfo);
     console.log('inf: ', inf); */
-  
+
     /* const result = {
       "soap:Body": {
         PNR_AddMultiElements: [{
@@ -238,12 +246,12 @@ export class BookingTwoPage implements OnInit {
         }]
       }
     }; */
-  
+
     /* console.log('PNR_AddMultiElements result:', result);
     return result; */
   }
 
-  agruparDatos(input: any) {
+  /* agruparDatos(input: any) { Comentareado
     let result: any = {}, idCounter = 1;
     Object.entries(input).forEach(([key, value]) => {
       const match = key.match(/(ADT|CNN|INF)-(\d+)-(.+)/);
@@ -254,15 +262,15 @@ export class BookingTwoPage implements OnInit {
       }
     });
     return { passengers: Object.values(result), contact: { phone: input['data-contact-phone'], email: input['data-contact-email'] } };
-    /* return result; */
-  }
+    // return result;
+  } */
 
-  onDateChange(event: any, controlName: string) {
+  /* onDateChange(event: any, controlName: string) { Comentareado
     this.form.get(controlName)?.setValue((event.detail.value).split('T')[0]);
-    /* this.closeModal(); */
-  }
+    // this.closeModal();
+  } */
 
-  body = {
+  /* body = { Comentareado
     "soap:Body": {
       PNR_AddMultiElements: [{
         pnrActions: [{ optionCode: ["0"] }],
@@ -324,12 +332,16 @@ export class BookingTwoPage implements OnInit {
         }]
       }]
     }
-  }
+  } */
 
-  convertToDate(dateString: any) {
+  /* convertToDate(dateString: any) { Comentareado
     let date = new Date(), day = dateString.substring(0, 2), month = dateString.substring(2, 4) - 1, year = dateString.substring(4, 6);
     date.setDate(day), date.setMonth(month), date.setFullYear(2000 + parseInt(year));
     return date;
+  } */
+
+  sendBodyFromText() {
+
   }
 
   /* elementManagementData>reference>qualifier:
