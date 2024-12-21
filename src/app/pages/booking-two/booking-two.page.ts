@@ -62,6 +62,8 @@ export class BookingTwoPage implements OnInit {
       const jsonOk = JSON.parse(texto);
       this.apiService.post('/travel/pnr_ame', jsonOk).then((response: any) => {
         console.log('response: ', response);
+      }).catch((error: any) => {
+        console.log('error: ', error);
       });
     }
     /* if (this.form.valid) { Comeentareado
